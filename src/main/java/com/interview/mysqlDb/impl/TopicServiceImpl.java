@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.interview.constants.Query;
 import com.interview.extractor.TopicExtractor;
 import com.interview.mysqlDb.TopicService;
 import com.interview.pojo.Topics;
@@ -22,7 +23,7 @@ public class TopicServiceImpl implements TopicService {
 	public String addTopics(Topics topic) throws SQLException {
 
 		if (!isExist(topic)) {
-			String sql = " INSERT INTO TOPICS VALUES (LAST_INSERT_ID(), ?) ";
+			String sql = Query.addTopic;
 			List<String> args = new ArrayList<>();
 			if (topic.getTopic_name() != null) {
 				args.add(topic.getTopic_name());
@@ -50,7 +51,7 @@ public class TopicServiceImpl implements TopicService {
 	public List<Topics> getTopic() throws SQLException {
 
 		List<Topics> listTopic = new ArrayList<Topics>();
-		String sql = " SELECT * FROM TOPICS ";
+		String sql = Query.getTopic;
 
 		try {
 			List<Topics> response = jdbcTemplate.query(sql, new TopicExtractor());
@@ -66,7 +67,7 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	public Topics getTopicByName(String name) throws SQLException {
 
-		String sql = " SELECT * FROM TOPICS WHERE topic_name = ? ";
+		String sql = Query.getTopicByName;
 		List<String> args = new ArrayList<>();
 		args.add(name);
 		try {
@@ -83,7 +84,7 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	public Topics modifyByTopicName(String oldName, String newName) throws SQLException {
 
-		String sql = " UPDATE TOPICS SET topic_name = ? WHERE topic_name = ? ";
+		String sql = Query.modifyByTopicName;
 		List<String> args = new ArrayList<>();
 		args.add(newName);
 		args.add(oldName);
@@ -102,7 +103,7 @@ public class TopicServiceImpl implements TopicService {
 
 	private boolean isExist(Topics topic) {
 
-		String sql = " SELECT * FROM TOPICS WHERE  LOWER(topic_name) = ? ";
+		String sql = Query.isExist;
 		List<String> args = new ArrayList<>();
 		args.add(topic.getTopic_name());
 		try {
