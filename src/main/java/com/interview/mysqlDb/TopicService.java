@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.interview.pojo.Topics;
 
-public interface MysqlDbService {
+public interface TopicService {
 
 	public String addTopics(Topics topic) throws SQLException;
 

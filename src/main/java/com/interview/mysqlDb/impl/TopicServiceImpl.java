@@ -4,21 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.interview.extractor.TopicExtractor;
-import com.interview.mysqlDb.MysqlDbService;
+import com.interview.mysqlDb.TopicService;
 import com.interview.pojo.Topics;
 
 @Component
-public class MySqlDbServiceImpl implements MysqlDbService {
+public class TopicServiceImpl implements TopicService {
 
-	@Autowired
-	private DataSource dataSource;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 

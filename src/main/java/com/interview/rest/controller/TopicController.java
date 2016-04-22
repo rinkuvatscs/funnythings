@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.interview.mysqlDb.MysqlDbService;
+import com.interview.mysqlDb.TopicService;
 import com.interview.pojo.Topics;
 import com.interview.validator.TopicValidator;
 
@@ -20,7 +20,7 @@ public class TopicController {
 	@Autowired
 	private TopicValidator topicValidator;
 	@Autowired
-	private MysqlDbService mysqlDbService;
+	private TopicService mysqlDbService;
 
 	@RequestMapping(value = "/addtopic", method = RequestMethod.PUT)
 	public String addTopics(@RequestBody Topics topic) throws SQLException {
