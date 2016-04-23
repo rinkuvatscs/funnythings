@@ -1,0 +1,76 @@
+mysql> create database sabha;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> use sabha;
+Database changed
+mysql> 
+mysql> CREATE TABLE `sabha`.`topics` (
+    ->   `topic_id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    ->   `topic_name` VARCHAR(45) NOT NULL,
+    ->   PRIMARY KEY (`topic_id`)
+    -> );
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> desc topics;
++------------+------------------+------+-----+---------+----------------+
+| Field      | Type             | Null | Key | Default | Extra          |
++------------+------------------+------+-----+---------+----------------+
+| topic_id   | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| topic_name | varchar(45)      | NO   |     |         |                |
++------------+------------------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+mysql> insert into topics (topic_name) values ('aviral');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from topics;
++----------+------------+
+| topic_id | topic_name |
++----------+------------+
+|        1 | aviral     |
++----------+------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE `sabha`.`user_details` (
+    ->   `user_id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    ->   `first_name` VARCHAR(45) NOT NULL,
+    ->   `last_name` VARCHAR(45) NOT NULL,
+    ->   `email` VARCHAR(45) NOT NULL,
+    ->   `mobile_number` BigInt UNSIGNED NOT NULL,
+    ->   `status` VARCHAR(45) NOT NULL DEFAULT 'A' COMMENT 'A or D',
+    ->   PRIMARY KEY (`user_id`)
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc user_details;
++---------------+---------------------+------+-----+---------+----------------+
+| Field         | Type                | Null | Key | Default | Extra          |
++---------------+---------------------+------+-----+---------+----------------+
+| user_id       | int(10) unsigned    | NO   | PRI | NULL    | auto_increment |
+| first_name    | varchar(45)         | NO   |     |         |                |
+| last_name     | varchar(45)         | NO   |     |         |                |
+| email         | varchar(45)         | NO   |     |         |                |
+| mobile_number | bigint(20) unsigned | NO   |     |         |                |
+| status        | varchar(1)          | NO   |     | A       |                |
++---------------+---------------------+------+-----+---------+----------------+
+6 rows in set (0.01 sec)
+
+mysql> insert into user_details (first_name,last_name,email,mobile_name) values 
+
+('Aviral','Mittal','aviralmittal2012@gmail.com',8527701990);
+ERROR 1054 (42S22): Unknown column 'mobile_name' in 'field list'
+mysql> insert into user_details (first_name,last_name,email,mobile_number) values 
+
+('Aviral','Mittal','aviralmittal2012@gmail.com',8527701990);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from user_details;
++---------+------------+-----------+----------------------------+---------------+--------+
+| user_id | first_name | last_name | email                      | mobile_number | status |
++---------+------------+-----------+----------------------------+---------------+--------+
+|       1 | Aviral     | Mittal    | aviralmittal2012@gmail.com |    8527701990 | A      |
++---------+------------+-----------+----------------------------+---------------+--------+
+1 row in set (0.00 sec)
+
+mysql> tee close;
