@@ -26,7 +26,7 @@ public class TopicServiceImpl implements TopicService {
 			String sql = Query.addTopic;
 			List<String> args = new ArrayList<>();
 			if (topic.getTopic_name() != null) {
-				args.add(topic.getTopic_name());
+				args.add(topic.getTopic_name().toLowerCase());
 			}
 			try {
 				int response = jdbcTemplate.update(sql, args.toArray());
@@ -69,7 +69,7 @@ public class TopicServiceImpl implements TopicService {
 
 		String sql = Query.getTopicByName;
 		List<String> args = new ArrayList<>();
-		args.add(name);
+		args.add(name.toLowerCase());
 		try {
 			List<Topics> response = jdbcTemplate.query(sql, args.toArray(), new TopicExtractor());
 			if (response.get(0) != null) {
@@ -86,8 +86,8 @@ public class TopicServiceImpl implements TopicService {
 
 		String sql = Query.modifyByTopicName;
 		List<String> args = new ArrayList<>();
-		args.add(newName);
-		args.add(oldName);
+		args.add(newName.toLowerCase());
+		args.add(oldName.toLowerCase());
 		try {
 			int response = jdbcTemplate.update(sql, args.toArray());
 			if (response != 0) {
