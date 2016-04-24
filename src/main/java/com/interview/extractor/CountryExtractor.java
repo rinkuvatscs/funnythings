@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.interview.pojo.Country;
 
-public class CountryNameExtractor implements ResultSetExtractor<Object> {
+public class CountryExtractor implements ResultSetExtractor<Object> {
 
 	@Override
 	public Country extractData(ResultSet rs) throws SQLException, DataAccessException {

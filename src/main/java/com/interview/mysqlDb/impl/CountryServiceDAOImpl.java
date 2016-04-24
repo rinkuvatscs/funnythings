@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.interview.extractor.CountryNameExtractor;
+import com.interview.extractor.CountryExtractor;
 import com.interview.mysqlDb.CountryServiceDAO;
 import com.interview.pojo.Country;
 
@@ -43,7 +43,7 @@ public class CountryServiceDAOImpl implements CountryServiceDAO {
 		String sql = "select * from country where id = ?";
 		List<Integer> intList = new ArrayList<Integer>();
 		intList.add(contryCode);
-		Country country = (Country) jdbcTemplate.query(sql,intList.toArray(), new CountryNameExtractor());
+		Country country = (Country) jdbcTemplate.query(sql,intList.toArray(), new CountryExtractor());
 		String countryName  = country.getCountryName();
 		return countryName;
 	}
