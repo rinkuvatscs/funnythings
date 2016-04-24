@@ -14,34 +14,34 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.interview.mysqlDb.UserDetailService;
-import com.interview.pojo.User_Details;
+import com.interview.pojo.UserDetails;
 
 @RestController
-public class UserController {
+public class UserDetailServiceController {
 
 	@Autowired
 	private UserDetailService userDetailService;
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<User_Details> addUserDetails(@RequestBody User_Details user_Details)
+	public @ResponseBody ResponseEntity<UserDetails> addUserDetails(@RequestBody UserDetails user_Details)
 			throws SQLException {
-		User_Details userDetails = null;
+		UserDetails userDetails = null;
 		userDetails = userDetailService.addUser(user_Details);
-		return new ResponseEntity<User_Details>(userDetails, HttpStatus.OK);
+		return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getUserDetails", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Map<Integer, User_Details>> getUserDetails() throws SQLException {
-		Map<Integer, User_Details> userDetails = userDetailService.getUserDetails();
-		return new ResponseEntity<Map<Integer, User_Details>>(userDetails, HttpStatus.OK);
+	public @ResponseBody ResponseEntity<Map<Integer, UserDetails>> getUserDetails() throws SQLException {
+		Map<Integer, UserDetails> userDetails = userDetailService.getUserDetails();
+		return new ResponseEntity<Map<Integer, UserDetails>>(userDetails, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/modifyByEmail", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<User_Details> modifyByEmail(@RequestBody User_Details user_Details)
+	public @ResponseBody ResponseEntity<UserDetails> modifyByEmail(@RequestBody UserDetails user_Details)
 			throws SQLException {
-		User_Details userDetails = null;
+		UserDetails userDetails = null;
 		userDetails = userDetailService.modifyByEmail(user_Details);
-		return new ResponseEntity<User_Details>(userDetails, HttpStatus.OK);
+		return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/activateDeactivateUser", method = RequestMethod.PUT)

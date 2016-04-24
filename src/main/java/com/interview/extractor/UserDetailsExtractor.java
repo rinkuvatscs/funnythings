@@ -8,17 +8,17 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import com.interview.pojo.User_Details;
+import com.interview.pojo.UserDetails;
 
-public class UserDetailsExtractor implements ResultSetExtractor<List<User_Details>> {
+public class UserDetailsExtractor implements ResultSetExtractor<List<UserDetails>> {
 
 	@Override
-	public List<User_Details> extractData(ResultSet rs) throws SQLException, DataAccessException {
+	public List<UserDetails> extractData(ResultSet rs) throws SQLException, DataAccessException {
 
-		List<User_Details> userDetailsList = new ArrayList<User_Details>();
-		User_Details user_Details = null;
+		List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
+		UserDetails user_Details = null;
 		while (rs.next()) {
-			user_Details = new User_Details();
+			user_Details = new UserDetails();
 			user_Details.setUser_id(rs.getInt("user_id"));
 			user_Details.setFirst_name(rs.getString("first_name"));
 			user_Details.setLast_name(rs.getString("last_name"));

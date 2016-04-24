@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.interview.constants.Query;
+import com.interview.constants.QueryConstants;
 import com.interview.extractor.TopicExtractor;
 import com.interview.mysqlDb.TopicService;
-import com.interview.pojo.Topics;
+import com.interview.pojo.Topic;
 
 @Component
 public class TopicServiceImpl implements TopicService {
@@ -20,10 +20,10 @@ public class TopicServiceImpl implements TopicService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public String addTopics(Topics topic) throws SQLException {
+	public String addTopics(Topic topic) throws SQLException {
 
 		if (!isExist(topic)) {
-			String sql = Query.addTopic;
+			String sql = QueryConstants.addTopic;
 			List<String> args = new ArrayList<>();
 			if (topic.getTopic_name() != null) {
 				args.add(topic.getTopic_name().toLowerCase());
@@ -31,7 +31,7 @@ public class TopicServiceImpl implements TopicService {
 			try {
 				int response = jdbcTemplate.update(sql, args.toArray());
 				if (response > 0) {
-					Topics topics = getTopicByName(topic.getTopic_name());
+					Topic topics = getTopicByName(topic.getTopic_name());
 					return "Successfully Added topic id : " + topics.getTopic_id() + " topic name : "
 							+ topics.getTopic_name();
 				}
@@ -40,7 +40,7 @@ public class TopicServiceImpl implements TopicService {
 			}
 			return "Successfully Added topic id : " + topic.getTopic_id() + " topic name : " + topic.getTopic_name();
 		} else {
-			Topics tempTopic = getTopicByName(topic.getTopic_name());
+			Topic tempTopic = getTopicByName(topic.getTopic_name());
 			return "Topic Already Exist topic id : " + tempTopic.getTopic_id() + " topic name : "
 					+ tempTopic.getTopic_name();
 		}
@@ -48,13 +48,13 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public List<Topics> getTopic() throws SQLException {
+	public List<Topic> getTopic() throws SQLException {
 
-		List<Topics> listTopic = new ArrayList<Topics>();
-		String sql = Query.getTopic;
+		List<Topic> listTopic = new ArrayList<Topic>();
+		String sql = QueryConstants.getTopic;
 
 		try {
-			List<Topics> response = jdbcTemplate.query(sql, new TopicExtractor());
+			List<Topic> response = jdbcTemplate.query(sql, new TopicExtractor());
 			if (response.get(0) != null) {
 				return response;
 			}
@@ -65,13 +65,13 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public Topics getTopicByName(String name) throws SQLException {
+	public Topic getTopicByName(String name) throws SQLException {
 
-		String sql = Query.getTopicByName;
+		String sql = QueryConstants.getTopicByName;
 		List<String> args = new ArrayList<>();
 		args.add(name.toLowerCase());
 		try {
-			List<Topics> response = jdbcTemplate.query(sql, args.toArray(), new TopicExtractor());
+			List<Topic> response = jdbcTemplate.query(sql, args.toArray(), new TopicExtractor());
 			if (response.get(0) != null) {
 				return response.get(0);
 			}
@@ -82,16 +82,16 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public Topics modifyByTopicName(String oldName, String newName) throws SQLException {
+	public Topic modifyByTopicName(String oldName, String newName) throws SQLException {
 
-		String sql = Query.modifyByTopicName;
+		String sql = QueryConstants.modifyByTopicName;
 		List<String> args = new ArrayList<>();
 		args.add(newName.toLowerCase());
 		args.add(oldName.toLowerCase());
 		try {
 			int response = jdbcTemplate.update(sql, args.toArray());
 			if (response != 0) {
-				Topics topic = getTopicByName(newName);
+				Topic topic = getTopicByName(newName);
 				return topic;
 			}
 		} catch (Exception e) {
@@ -101,13 +101,13 @@ public class TopicServiceImpl implements TopicService {
 		return null;
 	}
 
-	private boolean isExist(Topics topic) {
+	private boolean isExist(Topic topic) {
 
-		String sql = Query.isExist;
+		String sql = QueryConstants.isExist;
 		List<String> args = new ArrayList<>();
 		args.add(topic.getTopic_name());
 		try {
-			List<Topics> response = jdbcTemplate.query(sql, args.toArray(), new TopicExtractor());
+			List<Topic> response = jdbcTemplate.query(sql, args.toArray(), new TopicExtractor());
 			if (response != null && !response.isEmpty()) {
 				return true;
 			}

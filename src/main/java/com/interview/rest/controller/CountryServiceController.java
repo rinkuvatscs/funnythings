@@ -13,7 +13,7 @@ import com.interview.validateException.ValidationException;
 import com.interview.validator.Validation;
 
 @RestController
-public class Controller {
+public class CountryServiceController {
 
 	@Autowired
 	private CountryService countryService;

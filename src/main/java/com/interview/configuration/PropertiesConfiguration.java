@@ -12,11 +12,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-public class ApplicationConfiguration {
+public class PropertiesConfiguration {
 
-	@Value("${ClassName}")
+	@Value("${className}")
 	private String className;
-	@Value("${Url}")
+	@Value("${url}")
 	private String url;
 	@Value("${usrname}")
 	private String username;

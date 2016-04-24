@@ -3,15 +3,15 @@ package com.interview.mysqlDb;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.interview.pojo.Topics;
+import com.interview.pojo.Topic;
 
 public interface TopicService {
 
-	public String addTopics(Topics topic) throws SQLException;
+	public String addTopics(Topic topic) throws SQLException;
 
-	public List<Topics> getTopic() throws SQLException;
+	public List<Topic> getTopic() throws SQLException;
 
-	public Topics getTopicByName(String name) throws SQLException;
+	public Topic getTopicByName(String name) throws SQLException;
 
-	public Topics modifyByTopicName(String oldName, String newName) throws SQLException;
+	public Topic modifyByTopicName(String oldName, String newName) throws SQLException;
 }

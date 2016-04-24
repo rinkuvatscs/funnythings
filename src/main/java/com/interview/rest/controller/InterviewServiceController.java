@@ -19,7 +19,7 @@ import com.interview.pojo.UserDetail;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @RestController
-public class InterviewRestController {
+public class InterviewServiceController {
 
 	HashMap<String, List<UserDetail>> cache = new HashMap<String, List<UserDetail>>();
 

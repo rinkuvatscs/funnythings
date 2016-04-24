@@ -1,6 +1,6 @@
 package com.interview.pojo;
 
-public class User_Details {
+public class UserDetails {
 
 	private int user_id;
 	private String first_name;
@@ -9,7 +9,7 @@ public class User_Details {
 	private long mobile_number;
 	private String status;
 
-	public User_Details(int user_id, String first_name, String last_name, String email, long mobile_number,
+	public UserDetails(int user_id, String first_name, String last_name, String email, long mobile_number,
 			String status) {
 		super();
 		this.user_id = user_id;
@@ -20,7 +20,7 @@ public class User_Details {
 		this.status = status;
 	}
 
-	public User_Details() {
+	public UserDetails() {
 		super();
 	}
 

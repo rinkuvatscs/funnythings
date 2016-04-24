@@ -11,10 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.interview.constants.Query;
+import com.interview.constants.QueryConstants;
 import com.interview.extractor.UserDetailsExtractor;
 import com.interview.mysqlDb.UserDetailService;
-import com.interview.pojo.User_Details;
+import com.interview.pojo.UserDetails;
 
 @Component
 public class UserDetailImpl implements UserDetailService {
@@ -23,13 +23,13 @@ public class UserDetailImpl implements UserDetailService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public User_Details addUser(User_Details user_Details) throws SQLException {
+	public UserDetails addUser(UserDetails user_Details) throws SQLException {
 
-		User_Details doExist = isUserExist(user_Details);
+		UserDetails doExist = isUserExist(user_Details);
 		if (doExist != null && doExist.getUser_id() > 0) {
 			return doExist;
 		}
-		String sql = Query.addUserDetails;
+		String sql = QueryConstants.addUserDetails;
 		List<String> args = new ArrayList<>();
 		args.add(user_Details.getFirst_name());
 		args.add(user_Details.getLast_name());
@@ -43,7 +43,7 @@ public class UserDetailImpl implements UserDetailService {
 		try {
 			int response = jdbcTemplate.update(sql, args.toArray());
 			if (response != 0) {
-				User_Details details = getUserByEmail(user_Details.getEmail());
+				UserDetails details = getUserByEmail(user_Details.getEmail());
 				return details;
 			}
 		} catch (Exception e) {
@@ -54,13 +54,13 @@ public class UserDetailImpl implements UserDetailService {
 	}
 
 	@Override
-	public Map<Integer, User_Details> getUserDetails() throws SQLException {
+	public Map<Integer, UserDetails> getUserDetails() throws SQLException {
 
-		String sql = Query.getUserDetails;
+		String sql = QueryConstants.getUserDetails;
 		try {
-			List<User_Details> response = jdbcTemplate.query(sql, new UserDetailsExtractor());
+			List<UserDetails> response = jdbcTemplate.query(sql, new UserDetailsExtractor());
 			if (response != null && !response.isEmpty()) {
-				Map<Integer, User_Details> map = new HashMap<>();
+				Map<Integer, UserDetails> map = new HashMap<>();
 				for (int i = 0; i < response.size(); i++) {
 					map.put(response.get(i).getUser_id(), response.get(i));
 				}
@@ -73,9 +73,9 @@ public class UserDetailImpl implements UserDetailService {
 	}
 
 	@Override
-	public User_Details getUserByEmail(String name) throws SQLException {
+	public UserDetails getUserByEmail(String name) throws SQLException {
 
-		String sql = Query.getUserByEmail;
+		String sql = QueryConstants.getUserByEmail;
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(name)) {
@@ -83,7 +83,7 @@ public class UserDetailImpl implements UserDetailService {
 			args.add(name);
 		}
 		try {
-			List<User_Details> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailsExtractor());
+			List<UserDetails> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailsExtractor());
 			if (response != null && !response.isEmpty()) {
 				return response.get(0);
 			}
@@ -94,7 +94,7 @@ public class UserDetailImpl implements UserDetailService {
 	}
 
 	@Override
-	public User_Details modifyByEmail(User_Details user_Details) throws SQLException {
+	public UserDetails modifyByEmail(UserDetails user_Details) throws SQLException {
 
 		StringBuffer str = new StringBuffer(" UPDATE USER_DETAILS ");
 		List<String> args = new ArrayList<>();
@@ -122,7 +122,7 @@ public class UserDetailImpl implements UserDetailService {
 				try {
 					int response = jdbcTemplate.update(str.toString(), args.toArray());
 					if (response > 0) {
-						User_Details user = getUserByEmail(user_Details.getEmail());
+						UserDetails user = getUserByEmail(user_Details.getEmail());
 						return user;
 					}
 				} catch (Exception e) {
@@ -136,8 +136,8 @@ public class UserDetailImpl implements UserDetailService {
 	@Override
 	public String activateDeactivateUser(String email, String status) throws SQLException {
 
-		String sqlDeactive = Query.deactivateUser;
-		String sqlActive = Query.activateUser;
+		String sqlDeactive = QueryConstants.deactivateUser;
+		String sqlActive = QueryConstants.activateUser;
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(email)) {
 			args.add(email);
@@ -164,9 +164,9 @@ public class UserDetailImpl implements UserDetailService {
 		return null;
 	}
 
-	private User_Details isUserExist(User_Details user_Details) {
+	private UserDetails isUserExist(UserDetails user_Details) {
 
-		String sql = Query.getUserByEmail;
+		String sql = QueryConstants.getUserByEmail;
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(user_Details.getEmail())) {
@@ -178,9 +178,9 @@ public class UserDetailImpl implements UserDetailService {
 			}
 		}
 		try {
-			List<User_Details> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailsExtractor());
+			List<UserDetails> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailsExtractor());
 			if (response != null && !response.isEmpty()) {
-				User_Details details = response.get(0);
+				UserDetails details = response.get(0);
 				return details;
 			}
 		} catch (Exception e) {

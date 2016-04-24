@@ -8,17 +8,17 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import com.interview.pojo.Topics;
+import com.interview.pojo.Topic;
 
-public class TopicExtractor implements ResultSetExtractor<List<Topics>> {
+public class TopicExtractor implements ResultSetExtractor<List<Topic>> {
 
 	@Override
-	public List<Topics> extractData(ResultSet rs) throws SQLException, DataAccessException {
+	public List<Topic> extractData(ResultSet rs) throws SQLException, DataAccessException {
 
-		List<Topics> topicList = new ArrayList<Topics>();
-		Topics topics = null;
+		List<Topic> topicList = new ArrayList<Topic>();
+		Topic topics = null;
 		while(rs.next()){
-			topics = new Topics();
+			topics = new Topic();
 			topics.setTopic_id(rs.getInt("topic_id"));
 			topics.setTopic_name(rs.getString("topic_name"));
 			topicList.add(topics);

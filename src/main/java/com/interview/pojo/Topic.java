@@ -1,15 +1,15 @@
 package com.interview.pojo;
 
-public class Topics {
+public class Topic {
 
 	private int topic_id;
 	private String topic_name;
 
-	public Topics() {
+	public Topic() {
 		super();
 	}
 
-	public Topics(int topic_id, String topic_name) {
+	public Topic(int topic_id, String topic_name) {
 		super();
 		this.topic_id = topic_id;
 		this.topic_name = topic_name;

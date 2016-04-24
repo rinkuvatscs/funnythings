@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.interview.mysqlDb.TopicService;
-import com.interview.pojo.Topics;
+import com.interview.pojo.Topic;
 import com.interview.validator.TopicValidator;
 
 @RestController
-public class TopicController {
+public class TopicServiceController {
 
 	@Autowired
 	private TopicValidator topicValidator;
@@ -23,7 +23,7 @@ public class TopicController {
 	private TopicService mysqlDbService;
 
 	@RequestMapping(value = "/addtopic", method = RequestMethod.PUT)
-	public String addTopics(@RequestBody Topics topic) throws SQLException {
+	public String addTopics(@RequestBody Topic topic) throws SQLException {
 		String message = null;
 		message = topicValidator.topicValidNew(topic);
 		if (message == null) {
@@ -34,27 +34,27 @@ public class TopicController {
 	}
 
 	@RequestMapping(value = "/getTopic", method = RequestMethod.GET)
-	public List<Topics> getTopics() throws SQLException {
-		List<Topics> listTopic = mysqlDbService.getTopic();
+	public List<Topic> getTopics() throws SQLException {
+		List<Topic> listTopic = mysqlDbService.getTopic();
 		return listTopic;
 	}
 
 	@RequestMapping(value = "/getTopicByName", method = RequestMethod.PUT)
-	public Topics getTopicByName(@RequestParam String name) throws SQLException {
+	public Topic getTopicByName(@RequestParam String name) throws SQLException {
 		String topic_name = topicValidator.getTopicsByName(name);
 		if (topic_name != null) {
-			Topics topics = mysqlDbService.getTopicByName(topic_name);
+			Topic topics = mysqlDbService.getTopicByName(topic_name);
 			return topics;
 		}
 		return null;
 	}
 
 	@RequestMapping(value = "/modifyByTopicName", method = RequestMethod.PUT)
-	public Topics modifyByTopicName(@RequestParam String oldValue, @RequestParam String newValue) throws SQLException {
+	public Topic modifyByTopicName(@RequestParam String oldValue, @RequestParam String newValue) throws SQLException {
 		String oldName = topicValidator.getTopicsByName(oldValue);
 		String newName = topicValidator.getTopicsByName(newValue);
 		if (oldName != null && newName != null) {
-			Topics topics = mysqlDbService.modifyByTopicName(oldName, newName);
+			Topic topics = mysqlDbService.modifyByTopicName(oldName, newName);
 			return topics;
 		}
 		return null;

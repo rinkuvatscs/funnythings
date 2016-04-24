@@ -1,6 +1,6 @@
 package com.interview.constants;
 
-public class Query {
+public class QueryConstants {
 
 	public static final String addTopic = " INSERT INTO TOPICS VALUES (LAST_INSERT_ID(), ?) ";
 	public static final String getTopic = " SELECT * FROM TOPICS ";
