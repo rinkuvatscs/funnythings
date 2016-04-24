@@ -17,7 +17,7 @@ import com.interview.mysqlDb.UserDetailService;
 import com.interview.pojo.UserDetails;
 
 @Component
-public class UserDetailImpl implements UserDetailService {
+public class UserDetailServiceImpl implements UserDetailService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

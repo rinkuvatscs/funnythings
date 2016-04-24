@@ -40,8 +40,8 @@ public class TopicServiceController {
 	}
 
 	@RequestMapping(value = "/getTopicByName", method = RequestMethod.PUT)
-	public Topic getTopicByName(@RequestParam String name) throws SQLException {
-		String topic_name = topicValidator.getTopicsByName(name);
+	public Topic getTopicByName(@RequestParam String topicName) throws SQLException {
+		String topic_name = topicValidator.getTopicsByName(topicName);
 		if (topic_name != null) {
 			Topic topics = mysqlDbService.getTopicByName(topic_name);
 			return topics;
@@ -49,10 +49,10 @@ public class TopicServiceController {
 		return null;
 	}
 
-	@RequestMapping(value = "/modifyByTopicName", method = RequestMethod.PUT)
-	public Topic modifyByTopicName(@RequestParam String oldValue, @RequestParam String newValue) throws SQLException {
-		String oldName = topicValidator.getTopicsByName(oldValue);
-		String newName = topicValidator.getTopicsByName(newValue);
+	@RequestMapping(value = "/modifyTopicByName", method = RequestMethod.PUT)
+	public Topic modifyByTopicName(@RequestParam String oldTopicName, @RequestParam String newTopicName) throws SQLException {
+		String oldName = topicValidator.getTopicsByName(oldTopicName);
+		String newName = topicValidator.getTopicsByName(newTopicName);
 		if (oldName != null && newName != null) {
 			Topic topics = mysqlDbService.modifyByTopicName(oldName, newName);
 			return topics;

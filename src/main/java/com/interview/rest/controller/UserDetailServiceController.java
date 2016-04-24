@@ -22,7 +22,7 @@ public class UserDetailServiceController {
 	@Autowired
 	private UserDetailService userDetailService;
 
-	@RequestMapping(value = "/addUser", method = RequestMethod.PUT)
+	@RequestMapping(value = "/addUserDetail", method = RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<UserDetails> addUserDetails(@RequestBody UserDetails user_Details)
 			throws SQLException {
 		UserDetails userDetails = null;
@@ -30,13 +30,13 @@ public class UserDetailServiceController {
 		return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getUserDetails", method = RequestMethod.GET)
+	@RequestMapping(value = "/getUserDetail", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Map<Integer, UserDetails>> getUserDetails() throws SQLException {
 		Map<Integer, UserDetails> userDetails = userDetailService.getUserDetails();
 		return new ResponseEntity<Map<Integer, UserDetails>>(userDetails, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/modifyByEmail", method = RequestMethod.PUT)
+	@RequestMapping(value = "/modifyUserDetailByEmail", method = RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<UserDetails> modifyByEmail(@RequestBody UserDetails user_Details)
 			throws SQLException {
 		UserDetails userDetails = null;
