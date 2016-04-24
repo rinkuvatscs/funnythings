@@ -23,7 +23,7 @@ public class TopicServiceImpl implements TopicService {
 	public String addTopics(Topic topic) throws SQLException {
 
 		if (!isExist(topic)) {
-			String sql = QueryConstants.addTopic;
+			String sql = QueryConstants.ADDTOPIC;
 			List<String> args = new ArrayList<>();
 			if (topic.getTopic_name() != null) {
 				args.add(topic.getTopic_name().toLowerCase());
@@ -51,7 +51,7 @@ public class TopicServiceImpl implements TopicService {
 	public List<Topic> getTopic() throws SQLException {
 
 		List<Topic> listTopic = new ArrayList<Topic>();
-		String sql = QueryConstants.getTopic;
+		String sql = QueryConstants.GETTOPIC;
 
 		try {
 			List<Topic> response = jdbcTemplate.query(sql, new TopicExtractor());
@@ -67,7 +67,7 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	public Topic getTopicByName(String name) throws SQLException {
 
-		String sql = QueryConstants.getTopicByName;
+		String sql = QueryConstants.GETTOPICBYNAME;
 		List<String> args = new ArrayList<>();
 		args.add(name.toLowerCase());
 		try {
@@ -84,7 +84,7 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	public Topic modifyByTopicName(String oldName, String newName) throws SQLException {
 
-		String sql = QueryConstants.modifyByTopicName;
+		String sql = QueryConstants.MODIFYBYTOPICNAME;
 		List<String> args = new ArrayList<>();
 		args.add(newName.toLowerCase());
 		args.add(oldName.toLowerCase());
@@ -103,7 +103,7 @@ public class TopicServiceImpl implements TopicService {
 
 	private boolean isExist(Topic topic) {
 
-		String sql = QueryConstants.isExist;
+		String sql = QueryConstants.ISEXIST;
 		List<String> args = new ArrayList<>();
 		args.add(topic.getTopic_name());
 		try {

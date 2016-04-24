@@ -29,7 +29,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		if (doExist != null && doExist.getUserId() > 0) {
 			return doExist;
 		}
-		String sql = QueryConstants.addUserDetails;
+		String sql = QueryConstants.ADDUSERDETAILS;
 		List<String> args = new ArrayList<>();
 		args.add(userDetail.getFirstName());
 		args.add(userDetail.getLastName());
@@ -56,7 +56,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 	@Override
 	public Map<Integer, UserDetail> getUserDetails() throws SQLException {
 
-		String sql = QueryConstants.getUserDetails;
+		String sql = QueryConstants.GETUSERDETAILS;
 		try {
 			List<UserDetail> response = jdbcTemplate.query(sql, new UserDetailExtractor());
 			if (response != null && !response.isEmpty()) {
@@ -75,7 +75,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 	@Override
 	public UserDetail getUserByEmail(String name) throws SQLException {
 
-		String sql = QueryConstants.getUserByEmail;
+		String sql = QueryConstants.GETUSERBYEMAIL;
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(name)) {
@@ -136,8 +136,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 	@Override
 	public String activateDeactivateUser(String email, String status) throws SQLException {
 
-		String sqlDeactive = QueryConstants.deactivateUser;
-		String sqlActive = QueryConstants.activateUser;
+		String sqlDeactive = QueryConstants.DEACTIVATEUSER;
+		String sqlActive = QueryConstants.ACTIVATEUSER;
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(email)) {
 			args.add(email);
@@ -166,7 +166,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 
 	private UserDetail isUserExist(UserDetail userDetail) {
 
-		String sql = QueryConstants.getUserByEmail;
+		String sql = QueryConstants.GETUSERBYEMAIL;
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(userDetail.getEmailAddress())) {
