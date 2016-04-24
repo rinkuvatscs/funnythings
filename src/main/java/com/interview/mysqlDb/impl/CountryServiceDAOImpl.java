@@ -1,7 +1,9 @@
 package com.interview.mysqlDb.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,7 +41,7 @@ public class CountryServiceDAOImpl implements CountryServiceDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public String getCountry(int contryCode) {
+	public String getCountryName(int contryCode) {
 		String sql = "select * from country where id = ?";
 		List<Integer> intList = new ArrayList<Integer>();
 		intList.add(contryCode);
@@ -50,26 +52,53 @@ public class CountryServiceDAOImpl implements CountryServiceDAO {
 
 	@Override
 	public String addCountry(String country) {
-		// TODO Auto-generated method stub
-		return null;
+		String query ="insert into country (countryName) values ?";
+		List<String> intList = new ArrayList<String>();
+		intList.add(country);
+		jdbcTemplate.update(query, intList);
+		return country+" "+"Country Is Added";
 	}
 
 	@Override
 	public int getContrycodeByName(String countryName) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "select * from country where countryName = ?";
+		List<String> intList = new ArrayList<String>();
+		intList.add(countryName);
+		Country country = (Country) jdbcTemplate.query(sql,intList.toArray(), new CountryExtractor());
+		int countryCode = country.getCountryCode();
+		return countryCode;
 	}
 
 	@Override
-	public Country modifyCountry(Country oldCountryName, Country newCountryName) {
-		// TODO Auto-generated method stub
-		return null;
+	public Country modifyCountry(String oldCountryName, String newCountryName) {
+		String updateQuery = "update country set countryName = ? where countryName=?";
+		Map<String,String> modifymap = new HashMap<String, String>();
+		modifymap.put(oldCountryName, newCountryName);
+		jdbcTemplate.update(updateQuery, modifymap);
+		
+		Country country = null;
+		String query = "select * from country where countryName = ?";
+		List<String> intList = new ArrayList<String>();
+		intList.add(newCountryName);
+		country = (Country) jdbcTemplate.query(query,intList.toArray(), new CountryExtractor());
+		
+		return country;
 	}
 
 	@Override
 	public String deleteCountryByName(String countryName) {
-		// TODO Auto-generated method stub
-		return null;
+		String query ="DELETE FROM country WHERE countryName = ?";
+		List<String> intList = new ArrayList<String>();
+		intList.add(countryName);
+		jdbcTemplate.update(query, intList);
+		return "Country is Deleted";
+	}
+
+	@Override
+	public HashMap<Integer, String> getCountry() {
+		String query ="select * from country";
+		HashMap<Integer, String> hashMap = jdbcTemplate.query(query, new CountryListExtrator());
+		return hashMap;
 	}
 
 	
