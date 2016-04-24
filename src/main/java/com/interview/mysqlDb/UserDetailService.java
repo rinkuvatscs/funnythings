@@ -3,17 +3,17 @@ package com.interview.mysqlDb;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.interview.pojo.UserDetails;
+import com.interview.pojo.UserDetail;
 
 public interface UserDetailService {
 
-	public UserDetails addUser(UserDetails user_Details) throws SQLException;
+	public UserDetail addUser(UserDetail user_Details) throws SQLException;
 
-	public Map<Integer, UserDetails> getUserDetails() throws SQLException;
+	public Map<Integer, UserDetail> getUserDetails() throws SQLException;
 
-	public UserDetails getUserByEmail(String name) throws SQLException;
+	public UserDetail getUserByEmail(String name) throws SQLException;
 
-	public UserDetails modifyByEmail(UserDetails user_Details) throws SQLException;
+	public UserDetail modifyByEmail(UserDetail user_Details) throws SQLException;
 
 	public String activateDeactivateUser(String email, String status) throws SQLException;
 }

@@ -11,7 +11,21 @@ public class UserDetail {
 	private String location;
 	private String topic ;
 	MultipartFile file;
+	int userId;
+	String status ;
 	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public MultipartFile getFile() {
 		return file;
 	}

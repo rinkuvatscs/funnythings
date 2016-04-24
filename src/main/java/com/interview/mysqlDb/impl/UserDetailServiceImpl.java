@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.interview.constants.QueryConstants;
-import com.interview.extractor.UserDetailsExtractor;
+import com.interview.extractor.UserDetailExtractor;
 import com.interview.mysqlDb.UserDetailService;
-import com.interview.pojo.UserDetails;
+import com.interview.pojo.UserDetail;
 
 @Component
 public class UserDetailServiceImpl implements UserDetailService {
@@ -23,19 +23,19 @@ public class UserDetailServiceImpl implements UserDetailService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public UserDetails addUser(UserDetails user_Details) throws SQLException {
+	public UserDetail addUser(UserDetail userDetail) throws SQLException {
 
-		UserDetails doExist = isUserExist(user_Details);
-		if (doExist != null && doExist.getUser_id() > 0) {
+		UserDetail doExist = isUserExist(userDetail);
+		if (doExist != null && doExist.getUserId() > 0) {
 			return doExist;
 		}
 		String sql = QueryConstants.addUserDetails;
 		List<String> args = new ArrayList<>();
-		args.add(user_Details.getFirst_name());
-		args.add(user_Details.getLast_name());
-		args.add(user_Details.getEmail());
-		if (user_Details.getMobile_number() > 0) {
-			args.add(String.valueOf(user_Details.getMobile_number()));
+		args.add(userDetail.getFirstName());
+		args.add(userDetail.getLastName());
+		args.add(userDetail.getEmailAddress());
+		if (StringUtils.isEmpty(userDetail.getMobileNum())) {
+			args.add(String.valueOf(userDetail.getMobileNum()));
 		} else {
 			args.add("0");
 		}
@@ -43,7 +43,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		try {
 			int response = jdbcTemplate.update(sql, args.toArray());
 			if (response != 0) {
-				UserDetails details = getUserByEmail(user_Details.getEmail());
+				UserDetail details = getUserByEmail(userDetail.getEmailAddress());
 				return details;
 			}
 		} catch (Exception e) {
@@ -54,15 +54,15 @@ public class UserDetailServiceImpl implements UserDetailService {
 	}
 
 	@Override
-	public Map<Integer, UserDetails> getUserDetails() throws SQLException {
+	public Map<Integer, UserDetail> getUserDetails() throws SQLException {
 
 		String sql = QueryConstants.getUserDetails;
 		try {
-			List<UserDetails> response = jdbcTemplate.query(sql, new UserDetailsExtractor());
+			List<UserDetail> response = jdbcTemplate.query(sql, new UserDetailExtractor());
 			if (response != null && !response.isEmpty()) {
-				Map<Integer, UserDetails> map = new HashMap<>();
+				Map<Integer, UserDetail> map = new HashMap<>();
 				for (int i = 0; i < response.size(); i++) {
-					map.put(response.get(i).getUser_id(), response.get(i));
+					map.put(response.get(i).getUserId(), response.get(i));
 				}
 				return map;
 			}
@@ -73,7 +73,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 	}
 
 	@Override
-	public UserDetails getUserByEmail(String name) throws SQLException {
+	public UserDetail getUserByEmail(String name) throws SQLException {
 
 		String sql = QueryConstants.getUserByEmail;
 		StringBuffer str = new StringBuffer();
@@ -83,7 +83,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 			args.add(name);
 		}
 		try {
-			List<UserDetails> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailsExtractor());
+			List<UserDetail> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailExtractor());
 			if (response != null && !response.isEmpty()) {
 				return response.get(0);
 			}
@@ -94,35 +94,35 @@ public class UserDetailServiceImpl implements UserDetailService {
 	}
 
 	@Override
-	public UserDetails modifyByEmail(UserDetails user_Details) throws SQLException {
+	public UserDetail modifyByEmail(UserDetail userDetail) throws SQLException {
 
 		StringBuffer str = new StringBuffer(" UPDATE USER_DETAILS ");
 		List<String> args = new ArrayList<>();
-		if (!StringUtils.isEmpty(user_Details)) {
-			if (!StringUtils.isEmpty(user_Details.getEmail())) {
-				if (!StringUtils.isEmpty(user_Details.getFirst_name())) {
+		if (!StringUtils.isEmpty(userDetail)) {
+			if (!StringUtils.isEmpty(userDetail.getEmailAddress())) {
+				if (!StringUtils.isEmpty(userDetail.getFirstName())) {
 					str.append("SET FIRST_NAME = ? ");
-					args.add(user_Details.getFirst_name());
+					args.add(userDetail.getFirstName());
 				}
-				if (!StringUtils.isEmpty(user_Details.getLast_name())) {
+				if (!StringUtils.isEmpty(userDetail.getLastName())) {
 					str.append(", LAST_NAME = ? ");
-					args.add(user_Details.getLast_name());
+					args.add(userDetail.getLastName());
 				}
-				if (user_Details.getMobile_number() > 0) {
+				if (StringUtils.isEmpty(userDetail.getMobileNum())) {
 					str.append(", MOBILE_NUMBER = ? ");
-					args.add(String.valueOf(user_Details.getMobile_number()));
+					args.add(String.valueOf(userDetail.getMobileNum()));
 				}
-				if (!StringUtils.isEmpty(user_Details.getStatus())) {
+				if (!StringUtils.isEmpty(userDetail.getStatus())) {
 					str.append(", SET STATUS = ? ");
-					args.add(user_Details.getStatus());
+					args.add(userDetail.getStatus());
 				}
 				str.append("WHERE EMAIL = ? ");
-				args.add(user_Details.getEmail());
+				args.add(userDetail.getEmailAddress());
 
 				try {
 					int response = jdbcTemplate.update(str.toString(), args.toArray());
 					if (response > 0) {
-						UserDetails user = getUserByEmail(user_Details.getEmail());
+						UserDetail user = getUserByEmail(userDetail.getEmailAddress());
 						return user;
 					}
 				} catch (Exception e) {
@@ -164,23 +164,23 @@ public class UserDetailServiceImpl implements UserDetailService {
 		return null;
 	}
 
-	private UserDetails isUserExist(UserDetails user_Details) {
+	private UserDetail isUserExist(UserDetail userDetail) {
 
 		String sql = QueryConstants.getUserByEmail;
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
-		if (!StringUtils.isEmpty(user_Details.getEmail())) {
+		if (!StringUtils.isEmpty(userDetail.getEmailAddress())) {
 			str.append(" email = ? ");
-			args.add(user_Details.getEmail());
-			if (user_Details.getMobile_number() > 0) {
+			args.add(userDetail.getEmailAddress());
+			if (StringUtils.isEmpty(userDetail.getMobileNum())) {
 				str.append(" OR mobile_number = ? ");
-				args.add(String.valueOf(user_Details.getMobile_number()));
+				args.add(String.valueOf(userDetail.getMobileNum()));
 			}
 		}
 		try {
-			List<UserDetails> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailsExtractor());
+			List<UserDetail> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailExtractor());
 			if (response != null && !response.isEmpty()) {
-				UserDetails details = response.get(0);
+				UserDetail details = response.get(0);
 				return details;
 			}
 		} catch (Exception e) {

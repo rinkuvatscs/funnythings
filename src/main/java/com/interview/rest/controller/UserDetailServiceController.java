@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.interview.mysqlDb.UserDetailService;
-import com.interview.pojo.UserDetails;
+import com.interview.pojo.UserDetail;
 
 @RestController
 public class UserDetailServiceController {
@@ -23,25 +23,25 @@ public class UserDetailServiceController {
 	private UserDetailService userDetailService;
 
 	@RequestMapping(value = "/addUserDetail", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<UserDetails> addUserDetails(@RequestBody UserDetails user_Details)
+	public @ResponseBody ResponseEntity<UserDetail> addUserDetails(@RequestBody UserDetail user_Details)
 			throws SQLException {
-		UserDetails userDetails = null;
-		userDetails = userDetailService.addUser(user_Details);
-		return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
+		UserDetail userDetail = null;
+		userDetail = userDetailService.addUser(user_Details);
+		return new ResponseEntity<UserDetail>(userDetail, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getUserDetail", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Map<Integer, UserDetails>> getUserDetails() throws SQLException {
-		Map<Integer, UserDetails> userDetails = userDetailService.getUserDetails();
-		return new ResponseEntity<Map<Integer, UserDetails>>(userDetails, HttpStatus.OK);
+	public @ResponseBody ResponseEntity<Map<Integer, UserDetail>> getUserDetails() throws SQLException {
+		Map<Integer, UserDetail> userDetails = userDetailService.getUserDetails();
+		return new ResponseEntity<Map<Integer, UserDetail>>(userDetails, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/modifyUserDetailByEmail", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<UserDetails> modifyByEmail(@RequestBody UserDetails user_Details)
+	public @ResponseBody ResponseEntity<UserDetail> modifyByEmail(@RequestBody UserDetail user_Details)
 			throws SQLException {
-		UserDetails userDetails = null;
+		UserDetail userDetails = null;
 		userDetails = userDetailService.modifyByEmail(user_Details);
-		return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
+		return new ResponseEntity<UserDetail>(userDetails, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/activateDeactivateUser", method = RequestMethod.PUT)
