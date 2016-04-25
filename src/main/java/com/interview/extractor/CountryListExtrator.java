@@ -1,4 +1,4 @@
-package com.interview.mysqlDb.impl;
+package com.interview.extractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,17 +9,17 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.interview.pojo.Country;
 
-public class CountryListExtrator implements ResultSetExtractor<HashMap<Integer, String>> {
+public class CountryListExtrator implements ResultSetExtractor<HashMap<Integer, Country>> {
 
 	@Override
-	public HashMap<Integer, String> extractData(ResultSet rs) throws SQLException, DataAccessException {
-		HashMap<Integer, String> hashMap = new HashMap<Integer, String>();
+	public HashMap<Integer, Country> extractData(ResultSet rs) throws SQLException, DataAccessException {
+		HashMap<Integer, Country> hashMap = new HashMap<Integer, Country>();
 		Country country = null;
 		while (rs.next()) {
 			country = new Country();
 			country.setCountryCode(rs.getInt("id"));
 			country.setCountryName(rs.getString("countryName"));
-			hashMap.put(country.getCountryCode(), country.getCountryName());
+			hashMap.put(country.getCountryCode(), country);
 		}
 		return hashMap;
 	}

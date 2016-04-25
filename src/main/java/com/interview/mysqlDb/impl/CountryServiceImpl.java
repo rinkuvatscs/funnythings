@@ -10,12 +10,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.interview.extractor.CountryExtractor;
-import com.interview.mysqlDb.CountryServiceDAO;
+import com.interview.extractor.CountryListExtrator;
+import com.interview.mysqlDb.CountryService;
 import com.interview.pojo.Country;
 
 
 @Component
-public class CountryServiceDAOImpl implements CountryServiceDAO {
+public class CountryServiceImpl implements CountryService {
 
 	/*country --country_id,country_name 
 
@@ -41,10 +42,10 @@ public class CountryServiceDAOImpl implements CountryServiceDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public String getCountryName(int contryCode) {
+	public String getCountryNameByCountryCode(int cuontryCode) {
 		String sql = "select * from country where id = ?";
 		List<Integer> intList = new ArrayList<Integer>();
-		intList.add(contryCode);
+		intList.add(cuontryCode);
 		Country country = (Country) jdbcTemplate.query(sql,intList.toArray(), new CountryExtractor());
 		String countryName  = country.getCountryName();
 		return countryName;
@@ -60,7 +61,7 @@ public class CountryServiceDAOImpl implements CountryServiceDAO {
 	}
 
 	@Override
-	public int getContrycodeByName(String countryName) {
+	public int getCountryCodeByCountryName(String countryName) {
 		String sql = "select * from country where countryName = ?";
 		List<String> intList = new ArrayList<String>();
 		intList.add(countryName);
@@ -86,7 +87,7 @@ public class CountryServiceDAOImpl implements CountryServiceDAO {
 	}
 
 	@Override
-	public String deleteCountryByName(String countryName) {
+	public String deleteCountryByCountryName(String countryName) {
 		String query ="DELETE FROM country WHERE countryName = ?";
 		List<String> intList = new ArrayList<String>();
 		intList.add(countryName);
@@ -95,10 +96,16 @@ public class CountryServiceDAOImpl implements CountryServiceDAO {
 	}
 
 	@Override
-	public HashMap<Integer, String> getCountry() {
+	public HashMap<Integer, Country> getCountry() {
 		String query ="select * from country";
-		HashMap<Integer, String> hashMap = jdbcTemplate.query(query, new CountryListExtrator());
+		HashMap<Integer, Country> hashMap = jdbcTemplate.query(query, new CountryListExtrator());
 		return hashMap;
+	}
+
+	@Override
+	public boolean isCountryExist(Country country) {
+		// Please implement this method GOru and check before adding country in addCountry Service
+		return false;
 	}
 
 	

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.lang3.StringUtils;
 
-import com.interview.mysqlDb.CountryServiceDAO;
+import com.interview.mysqlDb.CountryService;
 import com.interview.pojo.Country;
 import com.interview.validateException.ValidationException;
 
@@ -19,7 +19,7 @@ import com.interview.validateException.ValidationException;
 public class CountryServiceController {
 
 	@Autowired
-	private CountryServiceDAO countryService;
+	private CountryService countryService;
 
 	@RequestMapping("/")
 	public String test() {
@@ -27,9 +27,9 @@ public class CountryServiceController {
 	}
 
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-	public ResponseEntity<String> getCountryName(
-			@PathVariable("id") int contryCode) throws ValidationException {
-		String countryName = countryService.getCountryName(contryCode);
+	public ResponseEntity<String> getCountryNameByCountryCode(
+			@PathVariable("id") int countryCode) throws ValidationException {
+		String countryName = countryService.getCountryNameByCountryCode(countryCode);
 		if (StringUtils.isEmpty(countryName)) {
 			String message = "country name does't exists" + " " + countryName;
 			throw new ValidationException(message, HttpStatus.CONFLICT);
@@ -38,7 +38,7 @@ public class CountryServiceController {
 
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/addCountry", method = RequestMethod.POST)
 	public ResponseEntity<String> addCountry(@PathVariable String contryName)
 			throws ValidationException {
 		String status = countryService.addCountry(contryName);
@@ -50,42 +50,42 @@ public class CountryServiceController {
 
 	}
 
-	@RequestMapping(value = "/getContrycode", method = RequestMethod.GET)
-	public ResponseEntity<Integer> getContrycodeByName(
-			@PathVariable String contryName) throws ValidationException {
-		int countryName = countryService.getContrycodeByName(contryName);
-		if (countryName == 0) {
+	@RequestMapping(value = "/getCountryCodeByCountryName", method = RequestMethod.GET)
+	public ResponseEntity<Integer> getCountryCodeByCountryName(
+			@PathVariable String countryName) throws ValidationException {
+		int countryCode = countryService.getCountryCodeByCountryName(countryName);
+		if (countryCode == 0) {
 			String message = "country name does't exists" + " " + countryName;
 			throw new ValidationException(message, HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<Integer>(countryName, HttpStatus.OK);
+		return new ResponseEntity<Integer>(countryCode, HttpStatus.OK);
 
 	}
 
 	@RequestMapping(value = "/modifyCountry", method = RequestMethod.POST)
 	public ResponseEntity<Country> modifyCountry(
-			@PathVariable String oldContryName,
-			@PathVariable String newContryName) throws ValidationException {
-		Country country = countryService.modifyCountry(oldContryName,
-				newContryName);
+			@PathVariable String oldCountryName,
+			@PathVariable String newCountryName) throws ValidationException {
+		Country country = countryService.modifyCountry(oldCountryName,
+				newCountryName);
 		if (StringUtils.isEmpty(country.getCountryName())) {
-			String message = "country name does't exists" + " " + oldContryName;
+			String message = "country name does't exists" + " " + oldCountryName;
 			throw new ValidationException(message, HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<Country>(country, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/deleteCountry", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteCountryByCountryName", method = RequestMethod.DELETE)
 	public ResponseEntity<String> deleteCountryByName(
-			@PathVariable String contryName) throws ValidationException {
-		String status = countryService.deleteCountryByName(contryName);
+			@PathVariable String countryName) throws ValidationException {
+		String status = countryService.deleteCountryByCountryName(countryName);
 		return new ResponseEntity<String>(status, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getCountry", method = RequestMethod.GET)
-	public ResponseEntity<HashMap<Integer, String>> getCountry() {
-		HashMap<Integer, String> countryMap = countryService.getCountry();
-		return new ResponseEntity<HashMap<Integer, String>>(countryMap,
+	@RequestMapping(value = "/getCountries", method = RequestMethod.GET)
+	public ResponseEntity<HashMap<Integer, Country>> getCountry() {
+		HashMap<Integer, Country> countryMap = countryService.getCountry();
+		return new ResponseEntity<HashMap<Integer, Country>>(countryMap,
 				HttpStatus.OK);
 	}
 

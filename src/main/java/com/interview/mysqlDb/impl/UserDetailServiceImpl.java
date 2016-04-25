@@ -108,7 +108,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 					str.append(", LAST_NAME = ? ");
 					args.add(userDetail.getLastName());
 				}
-				if (StringUtils.isEmpty(userDetail.getMobileNum())) {
+				if (!StringUtils.isEmpty(userDetail.getMobileNum())) {
 					str.append(", MOBILE_NUMBER = ? ");
 					args.add(String.valueOf(userDetail.getMobileNum()));
 				}
