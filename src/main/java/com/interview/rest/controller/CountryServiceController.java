@@ -5,11 +5,11 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.apache.commons.lang3.StringUtils;
 
 import com.interview.mysqlDb.CountryService;
 import com.interview.pojo.Country;
@@ -23,7 +23,7 @@ public class CountryServiceController {
 
 	@RequestMapping("/")
 	public String test() {
-		return "hello world";
+		return "Country-Service-Contorller";
 	}
 
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
@@ -68,7 +68,7 @@ public class CountryServiceController {
 			@PathVariable String newCountryName) throws ValidationException {
 		Country country = countryService.modifyCountry(oldCountryName,
 				newCountryName);
-		if (StringUtils.isEmpty(country.getCountryName())) {
+		if (org.springframework.util.StringUtils.isEmpty(country.getCountryName())) {
 			String message = "country name does't exists" + " " + oldCountryName;
 			throw new ValidationException(message, HttpStatus.CONFLICT);
 		}
