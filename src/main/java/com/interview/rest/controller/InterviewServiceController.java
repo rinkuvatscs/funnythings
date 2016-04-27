@@ -1,5 +1,7 @@
 package com.interview.rest.controller;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.interview.pojo.UserDetail;
-import com.wordnik.swagger.annotations.ApiOperation;
 
 @RestController
 public class InterviewServiceController {
@@ -29,7 +30,7 @@ public class InterviewServiceController {
 	}
 
 	@ApiOperation(value = "getGreeting", nickname = "getGreeting")
-	@RequestMapping(value = "/addSabha", method = RequestMethod.POST)
+	@RequestMapping(value = "/greeting", method = RequestMethod.POST)
 	public @ResponseBody String handleUploadFile(@RequestParam String firstName,
 			@RequestParam String lastName, @RequestParam String emailAddress,
 			@RequestParam String location, @RequestParam String mobileNum,

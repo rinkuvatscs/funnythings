@@ -1,4 +1,4 @@
-package com.interview;
+/*package com.interview;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,3 +33,4 @@ public class SwaggerConfig {
 		return apiInfo;
 	}
 }
+*/
