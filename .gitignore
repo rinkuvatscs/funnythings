@@ -1,6 +1,4 @@
-.rvmrc
 .gradle/
-.idea/
 private/
 target/
 build/
@@ -26,5 +24,3 @@ gradle.properties
 /.tmpBin/*.class
 /.apt_generated/
 /.project
-/.classpath
-.gradle/
