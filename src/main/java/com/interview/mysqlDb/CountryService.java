@@ -18,6 +18,6 @@ public interface CountryService {
 	
 	public HashMap<Integer,Country> getCountry();
 	
-	public boolean isCountryExist(Country country);
+	public boolean isCountryExist(String country);
 
 }
