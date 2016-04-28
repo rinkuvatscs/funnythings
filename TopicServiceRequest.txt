@@ -1,0 +1,21 @@
+Topic Service   (Base URL : http://IP:PORT/ )
+
+1. Add Topic :
+        URL : addTopic
+        Request Method : PUT
+        JSON String : {"topic_name" : "*your Topic Name"}
+      
+2. Get Topic : 
+		URL : getTopic
+		Request Method : GET
+		JSON String : null
+		
+3. Get Topic By Name : 
+		URL : getTopicByTopicName
+		Request Method : GET
+		param : topicName = "*Your Topic Name"
+		
+4. Modify Topic By Name : 
+		URL : modifyTopicByTopicName
+		Request Method : PUT
+		param : topicName = "*Your Topic Name"
