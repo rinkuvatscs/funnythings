@@ -18,4 +18,4 @@ Topic Service   (Base URL : http://IP:PORT/ )
 4. Modify Topic By Name : 
 		URL : modifyTopicByTopicName
 		Request Method : PUT
-		param : topicName = "*Your Topic Name"
+		param : oldTopicName = "*Your old Topic Name" and newTopicName = "*Your new Topic Name"
