@@ -103,7 +103,7 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	@Override
-	public boolean isCountryExist(Country country) {
+	public boolean isCountryExist(String country) {
 		// Please implement this method GOru and check before adding country in addCountry Service
 		return false;
 	}
