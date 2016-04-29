@@ -53,11 +53,18 @@ public class CountryServiceImpl implements CountryService {
 
 	@Override
 	public String addCountry(String country) {
-		String query ="insert into country (countryName) values ?";
+	
 		List<String> intList = new ArrayList<String>();
+		String query ="insert into country (countryName) values ?";
 		intList.add(country);
-		jdbcTemplate.update(query, intList);
-		return country+" "+"Country Is Added";
+		if(isCountryExist(country)){
+			jdbcTemplate.update(query, intList);
+			return country+" "+"Country Is Added";
+		}
+		else{
+			return country+" "+"Country Is already exists";
+		}
+		
 	}
 
 	@Override
@@ -103,10 +110,28 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	@Override
-	public boolean isCountryExist(String country) {
-		// Please implement this method GOru and check before adding country in addCountry Service
-		return false;
+	public boolean isCountryExist(String countryName) {
+		
+		String query = "select * from country where countryName = ?";
+		List<String> intList = new ArrayList<String>();
+		intList.add(countryName);
+		Country country =  (Country) jdbcTemplate.query(query,intList.toArray(), new CountryExtractor());
+		
+		countryName = country.getCountryName();
+		
+		if(countryName == null){
+			return true;
+		}
+		else{
+			return false;
+		}
+		
+		
+		
 	}
+
+	
+
 
 	
 }
