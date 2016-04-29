@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.interview.extractor.CountryExtractor;
 import com.interview.extractor.CountryListExtrator;
@@ -52,17 +53,21 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	@Override
-	public String addCountry(String country) {
+	public String addCountry(Country country) {
 	
 		List<String> intList = new ArrayList<String>();
 		String query ="insert into country (countryName) values ?";
-		intList.add(country);
-		if(isCountryExist(country)){
+		if(StringUtils.isEmpty(country) && StringUtils.isEmpty(country.getCountryName())){
+		intList.add(country.getCountryName());
+		if(isCountryExist(country.getCountryName())){
 			jdbcTemplate.update(query, intList);
 			return country+" "+"Country Is Added";
 		}
 		else{
 			return country+" "+"Country Is already exists";
+		}
+		}else {
+			return "Please Check your Country Name";
 		}
 		
 	}

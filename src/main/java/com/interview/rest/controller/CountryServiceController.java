@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,11 +41,11 @@ public class CountryServiceController {
 	}
 
 	@RequestMapping(value = "/addCountry", method = RequestMethod.POST)
-	public ResponseEntity<String> addCountry(@PathVariable String contryName)
+	public ResponseEntity<String> addCountry(@RequestBody Country countryName)
 			throws ValidationException {
-		String status = countryService.addCountry(contryName);
+		String status = countryService.addCountry(countryName);
 		if (StringUtils.isEmpty(status)) {
-			String message = "country is not added" + " " + contryName;
+			String message = "country is not added" + " " + countryName;
 			throw new ValidationException(message, HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<String>(status, HttpStatus.OK);

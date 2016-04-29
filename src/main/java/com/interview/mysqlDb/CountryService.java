@@ -8,7 +8,7 @@ public interface CountryService {
 	
 	public String getCountryNameByCountryCode(int countryCode);
 	
-	public String addCountry(String country);
+	public String addCountry(Country country);
 	
 	public int getCountryCodeByCountryName(String countryName);
 	
