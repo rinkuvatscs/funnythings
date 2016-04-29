@@ -17,6 +17,7 @@ import com.interview.mysqlDb.UserDetailService;
 import com.interview.pojo.UserDetail;
 
 @RestController
+@RequestMapping(value = "/api/interviewservice/userdetailservice")
 public class UserDetailServiceController {
 
 	@Autowired

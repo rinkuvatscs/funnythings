@@ -1,12 +1,8 @@
 package com.interview;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-@Configuration
-@EnableAutoConfiguration
-@ComponentScan("com.interview")
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
 public class InterviewServiceApplication {
 
 	public static void main(String[] args) {

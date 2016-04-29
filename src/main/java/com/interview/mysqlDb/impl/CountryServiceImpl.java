@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.interview.extractor.CountryExtractor;
 import com.interview.extractor.CountryListExtrator;
@@ -15,7 +15,7 @@ import com.interview.mysqlDb.CountryService;
 import com.interview.pojo.Country;
 
 
-@Component
+@Repository
 public class CountryServiceImpl implements CountryService {
 
 	/*country --country_id,country_name 

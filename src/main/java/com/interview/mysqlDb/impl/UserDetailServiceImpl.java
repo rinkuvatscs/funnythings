@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.interview.constants.QueryConstants;
@@ -16,7 +16,7 @@ import com.interview.extractor.UserDetailExtractor;
 import com.interview.mysqlDb.UserDetailService;
 import com.interview.pojo.UserDetail;
 
-@Component
+@Repository
 public class UserDetailServiceImpl implements UserDetailService {
 
 	@Autowired

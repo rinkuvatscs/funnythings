@@ -17,6 +17,7 @@ import com.interview.pojo.Topic;
 import com.interview.validator.TopicValidator;
 
 @RestController
+@RequestMapping(value = "/api/interviewservice/topicservice/")
 public class TopicServiceController {
 
 	@Autowired

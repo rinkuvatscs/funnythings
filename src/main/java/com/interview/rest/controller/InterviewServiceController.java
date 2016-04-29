@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.interview.pojo.UserDetail;
 
 @RestController
+@RequestMapping(value = "/api/interviewservice/interviewservice/")
 public class InterviewServiceController {
 
 	HashMap<String, List<UserDetail>> cache = new HashMap<String, List<UserDetail>>();
