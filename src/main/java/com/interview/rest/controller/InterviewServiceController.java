@@ -10,9 +10,11 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,21 +32,17 @@ public class InterviewServiceController {
 		return "Welcome To Employee Order Management System ";
 	}
 
-	@ApiOperation(value = "getGreeting", nickname = "getGreeting")
-	@RequestMapping(value = "/greeting", method = RequestMethod.POST)
-	public @ResponseBody String handleUploadFile(@RequestParam String firstName,
-			@RequestParam String lastName, @RequestParam String emailAddress,
-			@RequestParam String location, @RequestParam String mobileNum,
-			@RequestParam String topic, @RequestParam MultipartFile file) {
+	@ApiOperation(value = "addSabha", nickname = "addSabha")
+	@RequestMapping(value = "/addSabha", method = RequestMethod.POST )
+	public @ResponseBody String handleUploadFile(@RequestBody UserDetail userDetail , @RequestPart MultipartFile file) {
 
-		UserDetail userDetail = new UserDetail();
+		/*UserDetail userDetail = new UserDetail();
 		userDetail.setFirstName(firstName);
 		userDetail.setLastName(lastName);
 		userDetail.setEmailAddress(emailAddress);
 		userDetail.setLocation(location);
 		userDetail.setMobileNum(mobileNum);
-		userDetail.setTopic(topic);
-
+		userDetail.setTopic(topic);*/
 		if (null != file && !file.isEmpty()) {
 			FileOutputStream fileOutputStream = null;
 			String uploadedFileLocation = "D:\\Interview\\";
@@ -72,12 +70,12 @@ public class InterviewServiceController {
 			}
 
 			// ADDING VALUES INTO DATABASE
-			if (cache.containsKey(emailAddress)) {
-				cache.get(emailAddress).add(userDetail);
+			if (cache.containsKey(userDetail.getEmailAddress())) {
+				cache.get(userDetail.getEmailAddress()).add(userDetail);
 			} else {
 				List<UserDetail> userDetails = new ArrayList<UserDetail>();
 				userDetails.add(userDetail);
-				cache.put(emailAddress, userDetails);
+				cache.put(userDetail.getEmailAddress(), userDetails);
 			}
 			return "You successfully uploaded  !";
 		} else {
