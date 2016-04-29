@@ -28,7 +28,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
     @Bean
     public Docket restfulApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("inventory-cpe-service")
+                .groupName("Interview-Service")
                 .select()
                 .paths(PathSelectors.regex("/api/interviewservice/.*"))
                 .build()
@@ -44,10 +44,10 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
     private ApiInfo apiInfo() {
     	ApiInfo apiInfo = new ApiInfo(
-                "Inventory CPE Service",
-                "Inventory CPE Service manages the inventory of physical (such as device/customer-premises equipment) Items. The resource may be available for use or already being used, etc. and this service maintains the current status of the Items which may differ for each type of Item. This service also provides the functionality to manage the inventory, in terms of adding, modifying, removing, transferring, etc. Items. This service does not use Location Service or EPC.",
+                "Interview-Service",
+                "Interview-Service manages user details and videos of the users",
                 "1.0",
-                "Inventory API terms of service",
+                "Interview API terms of service",
                 new Contact("", "", ""),
                 "",
                 ""
