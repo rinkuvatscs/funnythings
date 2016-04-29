@@ -31,15 +31,23 @@ public class UserDetailServiceImpl implements UserDetailService {
 		}
 		String sql = QueryConstants.ADDUSERDETAILS;
 		List<String> args = new ArrayList<>();
+		args.add(String.valueOf(userDetail.getUserId()));
 		args.add(userDetail.getFirstName());
 		args.add(userDetail.getLastName());
 		args.add(userDetail.getEmailAddress());
-		if (StringUtils.isEmpty(userDetail.getMobileNum())) {
+		if (!StringUtils.isEmpty(userDetail.getMobileNum())) {
 			args.add(String.valueOf(userDetail.getMobileNum()));
 		} else {
 			args.add("0");
 		}
-
+		args.add(userDetail.getStatus());
+		args.add(userDetail.getLocation());
+		args.add(userDetail.getTopic());
+		if (userDetail.getFile() != null) {
+			args.add(userDetail.getFile().getContentType());
+		} else {
+			args.add(null);
+		}
 		try {
 			int response = jdbcTemplate.update(sql, args.toArray());
 			if (response != 0) {
