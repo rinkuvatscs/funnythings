@@ -22,23 +22,33 @@ public class PropertiesConfiguration {
 	private String username;
 	@Value("${pswd}")
 	private String password;
+	@Value("${enable.mysql}")
+	boolean mysql_enable ;
 
 	@Autowired
 	private DataSource dataSource;
 
 	@Bean
 	public DataSource getDataSource() {
+		if(mysql_enable) {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(className);
 		dataSource.setUrl(url);
 		dataSource.setUsername(username);
 		dataSource.setPassword(password);
 		return dataSource;
+		}else {
+			return null;
+		}
 
 	}
 	
 	@Bean(name="jdbcTemplate")
 	public JdbcTemplate getJdbcTemplate() {
-		return new JdbcTemplate(getDataSource()); 
+		if(mysql_enable) {
+		return new JdbcTemplate(getDataSource());
+		}else {
+			return null;
+		}
 	}
 }

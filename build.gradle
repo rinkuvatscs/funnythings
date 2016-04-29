@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.2.4.RELEASE'
+		springBootVersion = '1.2.8.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -41,9 +41,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	compile("mysql:mysql-connector-java:5.1.38")
-	compile("org.springframework:spring-jdbc:4.2.4.RELEASE")
-     compile("io.springfox:springfox-swagger2:2.0.2")
-    compile("io.springfox:springfox-swagger-ui:2.0.2")
+	compile("org.springframework:spring-jdbc:4.2.5.RELEASE")
+    compile("io.springfox:springfox-swagger2:2.4.0")
 	testCompile('org.springframework.boot:spring-boot-starter-test') 
 }
 

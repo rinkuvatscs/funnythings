@@ -1,36 +1,57 @@
-/*package com.interview;
+package com.interview;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
-import com.mangofactory.swagger.plugin.EnableSwagger;
-import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
-import com.wordnik.swagger.model.ApiInfo;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger
-public class SwaggerConfig {
+@EnableSwagger2
+public class SwaggerConfig extends WebMvcConfigurerAdapter  {
 
-	private SpringSwaggerConfig springSwaggerConfig;
-
-	@Autowired
-	public void setSpringSwaggerConfig(SpringSwaggerConfig springSwaggerConfig) {
-		this.springSwaggerConfig = springSwaggerConfig;
-	}
-
-	@Bean
-	public SwaggerSpringMvcPlugin customImplementation() {
-		return new SwaggerSpringMvcPlugin(this.springSwaggerConfig).apiInfo(
-				apiInfo()).includePatterns("/*");
-	}
-
-	private ApiInfo apiInfo() {
-		ApiInfo apiInfo = new ApiInfo("SaurzCode API", "API for Saurzcode",
-				"Saurzcode API terms of service", "mail2saurzcode@gmail.com",
-				"Saurzcode API Licence Type", "Saurzcode API License URL");
-		return apiInfo;
-	}
+	 @Override
+	    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+	        configurer.enable();
+	    }
+	    @Bean
+	    public Docket restfulApi() {
+	        return new Docket(DocumentationType.SWAGGER_2)
+	                .groupName("inventory-cpe-service")
+	                .select()
+	                .paths(PathSelectors.regex("/api/inventory/.*"))
+	                .build()
+	                .apiInfo(apiInfo());
+	    }
+	  
+	    private ApiInfo apiInfo() {
+	       ApiInfo apiInfo = new ApiInfo(
+	                "Inventory CPE Service",
+	                "Inventory CPE Service manages the inventory of physical (such as device/customer-premises equipment) Items. The resource may be available for use or already being used, etc. and this service maintains the current status of the Items which may differ for each type of Item. This service also provides the functionality to manage the inventory, in terms of adding, modifying, removing, transferring, etc. Items. This service does not use Location Service or EPC.",
+	                "1.0",
+	                "Inventory API terms of service",
+	                new Contact("", "", ""),
+	                "",
+	                ""
+	        );
+	        return apiInfo;
+	    }
+	   
+	   
+	    @Override
+	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	        registry
+	            .addResourceHandler("swagger-ui.html")
+	            .addResourceLocations("classpath:/META-INF/resources/");
+	        registry
+	            .addResourceHandler("/webjars/**")
+	            .addResourceLocations("classpath:/META-INF/resources/webjars/");
+	    }
 }
-*/
