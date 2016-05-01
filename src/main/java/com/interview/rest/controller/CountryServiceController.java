@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.interview.mysqlDb.CountryService;
+import com.interview.mysql.CountryService;
 import com.interview.pojo.Country;
 import com.interview.validateException.ValidationException;
 

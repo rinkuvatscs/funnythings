@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.interview.mysqlDb.TopicService;
+import com.interview.mysql.TopicService;
 import com.interview.pojo.Topic;
 import com.interview.validator.TopicValidator;
 

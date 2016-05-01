@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.interview.mysqlDb.UserDetailService;
+import com.interview.mysql.UserDetailService;
 import com.interview.pojo.UserDetail;
 
 @RestController
