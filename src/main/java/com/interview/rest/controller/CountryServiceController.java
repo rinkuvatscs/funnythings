@@ -17,7 +17,7 @@ import com.interview.pojo.Country;
 import com.interview.validateException.ValidationException;
 
 @RestController
-@RequestMapping(value = "/api/interviewservice/countryservice/")
+@RequestMapping(value = "/interviewservice/countryservice/")
 public class CountryServiceController {
 
 	@Autowired

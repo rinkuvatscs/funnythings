@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.interview.mysql.StateService;
 
 @RestController
-@RequestMapping(value = "/api/interviewservice/stateservice/")
+@RequestMapping(value = "/interviewservice/stateservice/")
 public class StateServiceController {
 
 	@Autowired
