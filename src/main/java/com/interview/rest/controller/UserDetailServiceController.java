@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.interview.mysqlDb.UserDetailService;
 import com.interview.pojo.UserDetail;
@@ -24,7 +26,7 @@ public class UserDetailServiceController {
 	private UserDetailService userDetailService;
 
 	@RequestMapping(value = "/addUserDetail", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<UserDetail> addUserDetails(@RequestBody UserDetail user_Details)
+	public @ResponseBody ResponseEntity<UserDetail> addUserDetails(@RequestBody UserDetail user_Details, @RequestPart MultipartFile file)
 			throws SQLException {
 		UserDetail userDetail = null;
 		userDetail = userDetailService.addUser(user_Details);

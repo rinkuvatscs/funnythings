@@ -31,7 +31,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		}
 		String sql = QueryConstants.ADDUSERDETAILS;
 		List<String> args = new ArrayList<>();
-		args.add(String.valueOf(userDetail.getUserId()));
+//		args.add(String.valueOf(userDetail.getUserId()));
 		args.add(userDetail.getFirstName());
 		args.add(userDetail.getLastName());
 		args.add(userDetail.getEmailAddress());
