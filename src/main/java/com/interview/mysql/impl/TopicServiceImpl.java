@@ -1,4 +1,4 @@
-package com.interview.mysqlDb.impl;
+package com.interview.mysql.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.interview.constants.QueryConstants;
 import com.interview.extractor.TopicExtractor;
-import com.interview.mysqlDb.TopicService;
+import com.interview.mysql.TopicService;
 import com.interview.pojo.Topic;
 
 @Repository

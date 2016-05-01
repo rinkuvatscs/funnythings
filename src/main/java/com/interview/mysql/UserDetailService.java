@@ -1,4 +1,4 @@
-package com.interview.mysqlDb;
+package com.interview.mysql;
 
 import java.sql.SQLException;
 import java.util.Map;

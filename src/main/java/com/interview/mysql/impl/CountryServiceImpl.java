@@ -1,4 +1,4 @@
-package com.interview.mysqlDb.impl;
+package com.interview.mysql.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 
 import com.interview.extractor.CountryExtractor;
 import com.interview.extractor.CountryListExtrator;
-import com.interview.mysqlDb.CountryService;
+import com.interview.mysql.CountryService;
 import com.interview.pojo.Country;
 
 

@@ -1,4 +1,4 @@
-package com.interview.mysqlDb.impl;
+package com.interview.mysql.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 
 import com.interview.constants.QueryConstants;
 import com.interview.extractor.UserDetailExtractor;
-import com.interview.mysqlDb.UserDetailService;
+import com.interview.mysql.UserDetailService;
 import com.interview.pojo.UserDetail;
 
 @Repository

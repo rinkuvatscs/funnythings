@@ -1,4 +1,4 @@
-package com.interview.mysqlDb;
+package com.interview.mysql;
 
 public interface StateService {
 
