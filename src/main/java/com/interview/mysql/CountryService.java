@@ -3,6 +3,7 @@ package com.interview.mysql;
 import java.util.HashMap;
 
 import com.interview.pojo.Country;
+import com.interview.util.MysqlOperations;
 
 public interface CountryService {
 	
@@ -10,14 +11,14 @@ public interface CountryService {
 	
 	public String addCountry(Country country);
 	
-	public int getCountryCodeByCountryName(String countryName);
+	public Country getCountryCodeByCountryName(String countryName);
 	
 	public Country modifyCountry(String oldCountryName , String newCountryName);
 	
-	public String deleteCountryByCountryName(String countryName);
+	public String activateDeactivateCountryByCountryName(MysqlOperations mysqlOperations , String countryName);
 	
 	public HashMap<Integer,Country> getCountry();
 	
-	public boolean isCountryExist(String country);
+	public boolean isCountryExist(Country country);
 
 }
