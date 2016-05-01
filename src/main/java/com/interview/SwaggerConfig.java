@@ -30,7 +30,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Interview-Service")
                 .select()
-                .paths(PathSelectors.regex("/api/interviewservice/.*"))
+                .paths(PathSelectors.regex("/interviewservice/.*"))
                 .build()
                 .apiInfo(apiInfo());
     }
