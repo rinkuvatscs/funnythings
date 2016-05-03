@@ -22,7 +22,7 @@ import com.interview.pojo.Topic;
 public class TopicServiceController {
 
 	public static final String INVALID_TOPIC = "Topic Name can not be Blank";
-	public static final String TOPIC_SAVING_ERROR = "Sorry , Topic is not saved ";
+	public static final String TOPIC_SAVING_ERROR = "Sorry , Topic is not added ";
 
 	@Autowired
 	private TopicService mysqlDbService;
@@ -32,7 +32,7 @@ public class TopicServiceController {
 		String message = null;
 		try {
 			if (StringUtils.isEmpty(topic)
-					&& StringUtils.isEmpty(topic.getTopic_name())) {
+					&& StringUtils.isEmpty(topic.getTopicName())) {
 				message = mysqlDbService.addTopics(topic);
 			} else {
 				message = INVALID_TOPIC;
