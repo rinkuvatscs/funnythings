@@ -27,13 +27,12 @@ public class TopicServiceController {
 
 	@RequestMapping(value = "/addTopic", method = RequestMethod.PUT)
 	public ResponseEntity<String> addTopics(@RequestBody Topic topic) throws SQLException {
-		String message = null;
-		message = topicValidator.topicValidNew(topic);
-		if (message == null) {
-			String response = mysqlDbService.addTopics(topic);
-			return new ResponseEntity<String>(response,HttpStatus.OK);
+		String response = null;
+		response = topicValidator.topicValidNew(topic);
+		if (response == null) {
+			response = mysqlDbService.addTopics(topic);
 		}
-		return null;
+		return new ResponseEntity<String>(response,HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getTopic", method = RequestMethod.GET)
