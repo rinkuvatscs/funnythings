@@ -6,6 +6,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetail {
 
+	public UserDetail(int userId, String firstName, String lastName,
+			String mobileNum, String emailAddress, String location,
+			String topic, MultipartFile file, String status) {
+		super();
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mobileNum = mobileNum;
+		this.emailAddress = emailAddress;
+		this.location = location;
+		this.topic = topic;
+		this.file = file;
+		this.status = status;
+	}
+
+	public UserDetail() {
+		
+	}
 	@JsonIgnore
 	private int userId;
 	private String firstName;

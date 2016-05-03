@@ -10,7 +10,7 @@ public class QueryConstants {
 
 	public static final String ADDUSERDETAILS = " INSERT INTO USER_DETAILS (firstname,lastname,email,mobile,status,topic,location,file) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	public static final String GETUSERDETAILS = " SELECT * FROM USER_DETAILS WHERE status = 'A' ";
-	public static final String GETUSERBYEMAIL = " SELECT * FROM USER_DETAILS WHERE  ";
+	public static final String GETUSERBYEMAIL = " SELECT * FROM USER_DETAILS ";
 	public static final String DEACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'D' WHERE EMAIL = ? ";
 	public static final String ACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'A' WHERE EMAIL = ? ";
 }

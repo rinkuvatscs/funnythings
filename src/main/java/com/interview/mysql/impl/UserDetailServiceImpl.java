@@ -25,13 +25,11 @@ public class UserDetailServiceImpl implements UserDetailService {
 	@Override
 	public UserDetail addUser(UserDetail userDetail) throws SQLException {
 
-		UserDetail doExist = isUserExist(userDetail);
-		if (doExist != null && doExist.getUserId() > 0) {
-			return doExist;
-		}
+		if (isUserExist(userDetail))
+			return userDetail;
 		String sql = QueryConstants.ADDUSERDETAILS;
 		List<String> args = new ArrayList<>();
-//		args.add(String.valueOf(userDetail.getUserId()));
+		// args.add(String.valueOf(userDetail.getUserId()));
 		args.add(userDetail.getFirstName());
 		args.add(userDetail.getLastName());
 		args.add(userDetail.getEmailAddress());
@@ -51,7 +49,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 		try {
 			int response = jdbcTemplate.update(sql, args.toArray());
 			if (response != 0) {
-				UserDetail details = getUserByEmail(userDetail.getEmailAddress());
+				UserDetail details = getUserByEmail(userDetail
+						.getEmailAddress());
 				return details;
 			}
 		} catch (Exception e) {
@@ -66,7 +65,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 
 		String sql = QueryConstants.GETUSERDETAILS;
 		try {
-			List<UserDetail> response = jdbcTemplate.query(sql, new UserDetailExtractor());
+			List<UserDetail> response = jdbcTemplate.query(sql,
+					new UserDetailExtractor());
 			if (response != null && !response.isEmpty()) {
 				Map<Integer, UserDetail> map = new HashMap<>();
 				for (int i = 0; i < response.size(); i++) {
@@ -91,7 +91,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 			args.add(name);
 		}
 		try {
-			List<UserDetail> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailExtractor());
+			List<UserDetail> response = jdbcTemplate.query(sql + str,
+					args.toArray(), new UserDetailExtractor());
 			if (response != null && !response.isEmpty()) {
 				return response.get(0);
 			}
@@ -128,9 +129,11 @@ public class UserDetailServiceImpl implements UserDetailService {
 				args.add(userDetail.getEmailAddress());
 
 				try {
-					int response = jdbcTemplate.update(str.toString(), args.toArray());
+					int response = jdbcTemplate.update(str.toString(),
+							args.toArray());
 					if (response > 0) {
-						UserDetail user = getUserByEmail(userDetail.getEmailAddress());
+						UserDetail user = getUserByEmail(userDetail
+								.getEmailAddress());
 						return user;
 					}
 				} catch (Exception e) {
@@ -142,7 +145,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 	}
 
 	@Override
-	public String activateDeactivateUser(String email, String status) throws SQLException {
+	public String activateDeactivateUser(String email, String status)
+			throws SQLException {
 
 		String sqlDeactive = QueryConstants.DEACTIVATEUSER;
 		String sqlActive = QueryConstants.ACTIVATEUSER;
@@ -151,7 +155,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 			args.add(email);
 			if (StringUtils.isEmpty(status) || status.equalsIgnoreCase("D")) {
 				try {
-					int response = jdbcTemplate.update(sqlDeactive, args.toArray());
+					int response = jdbcTemplate.update(sqlDeactive,
+							args.toArray());
 					if (response > 0) {
 						return "User successfully Deactivat...";
 					}
@@ -160,7 +165,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 				}
 			} else {
 				try {
-					int response = jdbcTemplate.update(sqlActive, args.toArray());
+					int response = jdbcTemplate.update(sqlActive,
+							args.toArray());
 					if (response > 0) {
 						return "User successfully Active Again...";
 					}
@@ -172,29 +178,50 @@ public class UserDetailServiceImpl implements UserDetailService {
 		return null;
 	}
 
-	private UserDetail isUserExist(UserDetail userDetail) {
-
-		String sql = QueryConstants.GETUSERBYEMAIL;
+	private Boolean isUserExist(UserDetail userDetail) {
+		boolean isUserExist = false;
+		boolean isEmailAdded = false;
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
-		if (!StringUtils.isEmpty(userDetail.getEmailAddress())) {
-			str.append(" email = ? ");
-			args.add(userDetail.getEmailAddress());
-			if (StringUtils.isEmpty(userDetail.getMobileNum())) {
-				str.append(" OR mobile_number = ? ");
+		if (!StringUtils.isEmpty(userDetail)) {
+
+			if (!StringUtils.isEmpty(userDetail.getEmailAddress())) {
+				str.append("where email = ? ");
+				args.add(userDetail.getEmailAddress());
+				isEmailAdded = true;
+			}
+			if (!StringUtils.isEmpty(userDetail.getMobileNum())) {
+				if (isEmailAdded) {
+					str.append(" OR mobile_number = ? ");
+				} else {
+					str.append(" where mobile_number = ? ");
+				}
 				args.add(String.valueOf(userDetail.getMobileNum()));
 			}
 		}
 		try {
-			List<UserDetail> response = jdbcTemplate.query(sql + str, args.toArray(), new UserDetailExtractor());
-			if (response != null && !response.isEmpty()) {
-				UserDetail details = response.get(0);
-				return details;
+			List<UserDetail> response = jdbcTemplate.query(
+					QueryConstants.GETUSERBYEMAIL + str, args.toArray(),
+					new UserDetailExtractor());
+			if (!StringUtils.isEmpty(response)) {
+				userDetail.setEmailAddress(response.get(0).getEmailAddress());
+				userDetail.setFirstName(response.get(0).getFirstName());
+				userDetail.setLastName(response.get(0).getLastName());
+				userDetail.setLocation(response.get(0).getLocation());
+				userDetail.setMobileNum(response.get(0).getMobileNum());
+				userDetail.setTopic(response.get(0).getTopic());
+				userDetail.setUserId(response.get(0).getUserId());
+				isUserExist = true;
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			isUserExist = false;
+		} finally {
+			str = null;
+			args = null;
 		}
-		return null;
+		return isUserExist;
 	}
 
 }

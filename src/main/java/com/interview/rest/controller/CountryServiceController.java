@@ -32,6 +32,7 @@ public class CountryServiceController {
 	@RequestMapping(value = "/getCountryByCountryCode/{id}", method = RequestMethod.GET)
 	public ResponseEntity<String> getCountryNameByCountryCode(
 			@PathVariable("id") int countryCode) throws ValidationException {
+		
 		String countryName = countryService
 				.getCountryNameByCountryCode(countryCode);
 		if (StringUtils.isEmpty(countryName)) {
@@ -39,7 +40,6 @@ public class CountryServiceController {
 			throw new ValidationException(message, HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<String>(countryName, HttpStatus.OK);
-
 	}
 
 	@RequestMapping(value = "/addCountry", method = RequestMethod.POST)

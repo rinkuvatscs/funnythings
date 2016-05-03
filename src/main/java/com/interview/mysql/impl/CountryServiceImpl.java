@@ -19,6 +19,8 @@ import com.interview.util.MysqlOperations;
 @Repository
 public class CountryServiceImpl implements CountryService {
 
+	public static final String SELECT_COUNTRY = "select * from country where id = ?";
+	public static final String INSERT_COUNTRY = "insert into country (countryName) values ?";
 	/*
 	 * country --country_id,country_name
 	 * 
@@ -44,48 +46,52 @@ public class CountryServiceImpl implements CountryService {
 	private JdbcTemplate jdbcTemplate;
 
 	public String getCountryNameByCountryCode(int cuontryCode) {
-		String sql = "select * from country where id = ?";
 		List<Integer> intList = new ArrayList<Integer>();
 		intList.add(cuontryCode);
-		Country country = (Country) jdbcTemplate.query(sql, intList.toArray(),
-				new CountryExtractor());
-		String countryName = country.getCountryName();
-		return countryName;
+		Country country = (Country) jdbcTemplate.query(SELECT_COUNTRY,
+				intList.toArray(), new CountryExtractor());
+		if (StringUtils.isEmpty(country)) {
+			country = new Country();
+		}
+		return country.getCountryName();
 	}
 
 	@Override
 	public String addCountry(Country country) {
-
+		String response = null;
 		List<String> intList = new ArrayList<String>();
-		String query = "insert into country (countryName) values ?";
 		if (StringUtils.isEmpty(country)
 				&& StringUtils.isEmpty(country.getCountryName())) {
 			intList.add(country.getCountryName());
 			if (!isCountryExist(country)) {
-				jdbcTemplate.update(query, intList);
-				// Aviral TODO Need to explain why using
+				int result = jdbcTemplate.update(INSERT_COUNTRY, intList);
+				// GORU TODO Need to explain why using
 				// jdbcTemplate.update(query, intList)
 				/*
-				 * Aviral in place of jdbcTemplate.update(query, intList) we
+				 * GORU in place of jdbcTemplate.update(query, intList) we
 				 * should use jdbcTemplate.update(query,
 				 * country.getCountryName());
 				 */
-
-				return country + " " + "Country Is Added";
+				if (result > 0) {
+					response = country + " " + "Country Is Added";
+				} else {
+					response = "Sorry , Can not add " + country;
+				}
 			} else {
 
 				if (country.getStatus().equalsIgnoreCase("D")) {
 					activateDeactivateCountryByCountryName(
 							MysqlOperations.ACTIVATE, country.getCountryName());
-					return country + " " + "Country Is Activated";
+					response = country + " " + "Country Is Activated";
 				}
 
-				return country + " " + "Country Is already exists";
+				response = country + " " + "Country Is already exists";
 			}
 		} else {
-			return "Please Check your Country Name";
+			response = "Please Check your Country Name";
 		}
 
+		return response;
 	}
 
 	@Override

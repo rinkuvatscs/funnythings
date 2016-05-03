@@ -19,8 +19,8 @@ public class TopicExtractor implements ResultSetExtractor<List<Topic>> {
 		Topic topics = null;
 		while(rs.next()){
 			topics = new Topic();
-			topics.setTopic_id(rs.getInt("topic_id"));
-			topics.setTopic_name(rs.getString("topic_name"));
+			topics.setTopicId(rs.getInt("topic_id"));
+			topics.setTopicName(rs.getString("topic_name"));
 			topicList.add(topics);
 		}
 		return topicList;
