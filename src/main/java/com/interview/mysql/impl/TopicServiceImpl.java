@@ -126,7 +126,7 @@ public class TopicServiceImpl implements TopicService {
 		try {
 			List<Topic> topicList = jdbcTemplate.query(QueryConstants.ISEXIST,
 					args.toArray(), new TopicExtractor());
-			if (!StringUtils.isEmpty(response)) {
+			if (!StringUtils.isEmpty(topicList)) {
 				topic.setTopicId(topicList.get(0).getTopicId());
 				response = true;
 			} else {

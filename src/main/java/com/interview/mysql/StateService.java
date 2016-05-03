@@ -1,5 +1,7 @@
 package com.interview.mysql;
 
+import com.interview.pojo.State;
+
 public interface StateService {
 
 	public String addState(int countryId , String stateName);
@@ -13,4 +15,6 @@ public interface StateService {
 	public String modifyStateName(int countryId , String oldStateName, String newStateName);
 	
 	public String deleteState(int countryId , String stateName);
+	
+	public boolean isStateExist(State state) ;
 }
