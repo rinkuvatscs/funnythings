@@ -23,13 +23,13 @@ public class UserDetailServiceImpl implements UserDetailService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public UserDetail addUser(UserDetail userDetail) throws SQLException {
+	public UserDetail addUser(UserDetail userDetail) {
+		UserDetail responseUserDetail = null;
 
 		if (isUserExist(userDetail))
 			return userDetail;
-		String sql = QueryConstants.ADDUSERDETAILS;
+
 		List<String> args = new ArrayList<>();
-		// args.add(String.valueOf(userDetail.getUserId()));
 		args.add(userDetail.getFirstName());
 		args.add(userDetail.getLastName());
 		args.add(userDetail.getEmailAddress());
@@ -47,82 +47,102 @@ public class UserDetailServiceImpl implements UserDetailService {
 			args.add(null);
 		}
 		try {
-			int response = jdbcTemplate.update(sql, args.toArray());
+			int response = jdbcTemplate.update(QueryConstants.ADDUSERDETAILS,
+					args.toArray());
 			if (response != 0) {
-				UserDetail details = getUserByEmail(userDetail
+				responseUserDetail = getUserByEmail(userDetail
 						.getEmailAddress());
-				return details;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			responseUserDetail = new UserDetail();
 		}
 
-		return null;
+		return responseUserDetail;
 	}
 
 	@Override
-	public Map<Integer, UserDetail> getUserDetails() throws SQLException {
-
-		String sql = QueryConstants.GETUSERDETAILS;
+	public Map<Integer, UserDetail> getUserDetails() {
+		Map<Integer, UserDetail> userDetailMap = new HashMap<Integer, UserDetail>();
 		try {
-			List<UserDetail> response = jdbcTemplate.query(sql,
-					new UserDetailExtractor());
-			if (response != null && !response.isEmpty()) {
-				Map<Integer, UserDetail> map = new HashMap<>();
-				for (int i = 0; i < response.size(); i++) {
-					map.put(response.get(i).getUserId(), response.get(i));
+			List<UserDetail> response = jdbcTemplate.query(
+					QueryConstants.GETUSERDETAILS, new UserDetailExtractor());
+			if (!StringUtils.isEmpty(response)) {
+				for (UserDetail userDetail : response) {
+					userDetailMap.put(userDetail.getUserId(), userDetail);
 				}
-				return map;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			userDetailMap.clear();
 		}
-		return null;
+		return userDetailMap;
 	}
 
 	@Override
-	public UserDetail getUserByEmail(String name) throws SQLException {
-
-		String sql = QueryConstants.GETUSERBYEMAIL;
+	public UserDetail getUserByEmail(String email) {
+		UserDetail userDetail = null;
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
-		if (!StringUtils.isEmpty(name)) {
-			str.append(" email = ? ");
-			args.add(name);
+		if (!StringUtils.isEmpty(email)) {
+			str.append("where email = ? ");
+			args.add(email);
 		}
 		try {
-			List<UserDetail> response = jdbcTemplate.query(sql + str,
-					args.toArray(), new UserDetailExtractor());
-			if (response != null && !response.isEmpty()) {
-				return response.get(0);
+			List<UserDetail> response = jdbcTemplate.query(
+					QueryConstants.GETUSERBYEMAIL + str, args.toArray(),
+					new UserDetailExtractor());
+			if (!StringUtils.isEmpty(response)
+					&& !StringUtils.isEmpty(response.get(0))) {
+				userDetail = response.get(0);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			userDetail = new UserDetail();
 		}
-		return null;
+		return userDetail;
 	}
 
 	@Override
-	public UserDetail modifyByEmail(UserDetail userDetail) throws SQLException {
-
-		StringBuffer str = new StringBuffer(" UPDATE USER_DETAILS ");
+	public UserDetail modifyByEmail(UserDetail userDetail) {
+		boolean isSecondArg = false;
+		UserDetail responseUserDetail = null;
+		StringBuffer str = new StringBuffer(" UPDATE USER_DETAILS SET ");
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(userDetail)) {
 			if (!StringUtils.isEmpty(userDetail.getEmailAddress())) {
+
 				if (!StringUtils.isEmpty(userDetail.getFirstName())) {
-					str.append("SET FIRST_NAME = ? ");
+					str.append("FIRST_NAME = ? ");
 					args.add(userDetail.getFirstName());
+					isSecondArg = true;
 				}
+
 				if (!StringUtils.isEmpty(userDetail.getLastName())) {
-					str.append(", LAST_NAME = ? ");
+					if (isSecondArg) {
+						str.append(", LAST_NAME = ? ");
+					} else {
+						str.append(" LAST_NAME = ? ");
+						isSecondArg = true;
+					}
+
 					args.add(userDetail.getLastName());
 				}
 				if (!StringUtils.isEmpty(userDetail.getMobileNum())) {
-					str.append(", MOBILE_NUMBER = ? ");
+					if (isSecondArg) {
+						str.append(", MOBILE_NUMBER = ? ");
+					} else {
+						str.append(" MOBILE_NUMBER = ? ");
+						isSecondArg = true;
+					}
 					args.add(String.valueOf(userDetail.getMobileNum()));
 				}
 				if (!StringUtils.isEmpty(userDetail.getStatus())) {
-					str.append(", SET STATUS = ? ");
+					if (isSecondArg) {
+						str.append(", SET STATUS = ? ");
+					} else {
+						str.append(" SET STATUS = ? ");
+					}
 					args.add(userDetail.getStatus());
 				}
 				str.append("WHERE EMAIL = ? ");
@@ -132,43 +152,40 @@ public class UserDetailServiceImpl implements UserDetailService {
 					int response = jdbcTemplate.update(str.toString(),
 							args.toArray());
 					if (response > 0) {
-						UserDetail user = getUserByEmail(userDetail
+						responseUserDetail = getUserByEmail(userDetail
 								.getEmailAddress());
-						return user;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
+					responseUserDetail = new UserDetail();
 				}
 			}
 		}
-		return null;
+		return responseUserDetail;
 	}
 
 	@Override
-	public String activateDeactivateUser(String email, String status)
-			throws SQLException {
+	public String activateDeactivateUserByEmail(String email, String status) {
 
-		String sqlDeactive = QueryConstants.DEACTIVATEUSER;
-		String sqlActive = QueryConstants.ACTIVATEUSER;
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(email)) {
 			args.add(email);
 			if (StringUtils.isEmpty(status) || status.equalsIgnoreCase("D")) {
 				try {
-					int response = jdbcTemplate.update(sqlDeactive,
-							args.toArray());
+					int response = jdbcTemplate.update(
+							QueryConstants.DEACTIVATEUSER, args.toArray());
 					if (response > 0) {
-						return "User successfully Deactivat...";
+						return "User Deactivated successfully ";
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
 				try {
-					int response = jdbcTemplate.update(sqlActive,
-							args.toArray());
+					int response = jdbcTemplate.update(
+							QueryConstants.ACTIVATEUSER, args.toArray());
 					if (response > 0) {
-						return "User successfully Active Again...";
+						return "User Activated  successfully";
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
