@@ -19,36 +19,37 @@ public class TopicServiceImpl implements TopicService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	public static final String TOPIC_SAVING_ERROR = "Sorry , Topic is not added ";
+	public static final String TOPIC_SAVING_ERROR = "Sorry , Topic is not saved ";
+	public static final String TOPIC_ADDED_ERROR = "Sorry , Topic is not added ";
 
 	@Override
 	public String addTopics(Topic topic) throws SQLException {
-
+		String response = null;
 		if (!isExist(topic)) {
-			String sql = QueryConstants.ADDTOPIC;
 			List<String> args = new ArrayList<>();
 			args.add(topic.getTopicName().toLowerCase());
 			try {
-				int response = jdbcTemplate.update(sql, args.toArray());
-				if (response > 0) {
+				int result = jdbcTemplate.update(QueryConstants.ADDTOPIC,
+						args.toArray());
+				if (result > 0) {
 					Topic topics = getTopicByName(topic.getTopicName());
-					return "Successfully Added topic id : "
+					response = "Successfully Added topic id : "
 							+ topics.getTopicId() + " topic name : "
 							+ topics.getTopicName();
 				} else {
-					return TOPIC_SAVING_ERROR;
+					response = TOPIC_SAVING_ERROR;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				response = TOPIC_ADDED_ERROR;
 			}
-			return "Successfully Added topic id : " + topic.getTopicId()
-					+ " topic name : " + topic.getTopicName();
 		} else {
 			Topic tempTopic = getTopicByName(topic.getTopicName());
-			return "Topic Already Exist topic id : " + tempTopic.getTopicId()
-					+ " Topic name : " + tempTopic.getTopicName();
+			response = "Topic Already Exist topic id : "
+					+ tempTopic.getTopicId() + " Topic name : "
+					+ tempTopic.getTopicName();
 		}
-
+		return response;
 	}
 
 	@Override
@@ -60,12 +61,14 @@ public class TopicServiceImpl implements TopicService {
 					new TopicExtractor());
 		} catch (Exception e) {
 			e.printStackTrace();
+			listTopic = new ArrayList<Topic>();
 		}
 		if (listTopic == null) {
-			return new ArrayList<Topic>();
+			listTopic = new ArrayList<Topic>();
 		} else {
 			return listTopic;
 		}
+		return listTopic;
 	}
 
 	@Override
