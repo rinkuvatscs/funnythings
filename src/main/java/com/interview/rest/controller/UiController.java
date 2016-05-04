@@ -57,6 +57,7 @@ public class UiController {
 
 			if (countryList == null)
 				countryList = new ArrayList<Country>();
+
 			request.setAttribute("countryList", countryList);
 
 		} catch (SQLException sqlException) {
