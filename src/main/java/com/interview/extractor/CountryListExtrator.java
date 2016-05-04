@@ -13,14 +13,14 @@ import com.interview.pojo.Country;
 public class CountryListExtrator implements ResultSetExtractor<List<Country>> {
 
 	@Override
-	public List<Country> extractData(ResultSet rs) throws SQLException,
-			DataAccessException {
+	public List<Country> extractData(ResultSet rs) throws SQLException, DataAccessException {
 		List<Country> countryList = new ArrayList<Country>();
 		Country country = null;
 		while (rs.next()) {
 			country = new Country();
-			country.setCountryCode(rs.getInt("id"));
+			country.setCountryCode(rs.getInt("countryCode"));
 			country.setCountryName(rs.getString("countryName"));
+			country.setStatus(rs.getString("status"));
 			countryList.add(country);
 		}
 		return countryList;
