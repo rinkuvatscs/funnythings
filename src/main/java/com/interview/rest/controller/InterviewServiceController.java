@@ -31,8 +31,8 @@ public class InterviewServiceController {
 		return "Interview-Service-Controller";
 	}
 
-	@ApiOperation(value = "addSabha", nickname = "addSabha")
-	@RequestMapping(value = "/addSabha", method = RequestMethod.POST)
+	@ApiOperation(value = "addInterview", nickname = "addSabha")
+	@RequestMapping(value = "/addInterview", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> handleUploadFile(
 			@RequestBody UserDetail userDetail, @RequestPart MultipartFile file) {
 		return new ResponseEntity<String>(interviewServiceImpl.addInterview(
