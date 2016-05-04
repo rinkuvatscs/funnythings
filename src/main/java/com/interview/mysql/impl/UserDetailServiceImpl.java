@@ -121,7 +121,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 					if (isSecondArg) {
 						str.append(", LAST_NAME = ? ");
 					} else {
-						str.append(" LAST_NAME = ? ");
+						str.append(" SET LAST_NAME = ? ");
 						isSecondArg = true;
 					}
 
@@ -131,14 +131,14 @@ public class UserDetailServiceImpl implements UserDetailService {
 					if (isSecondArg) {
 						str.append(", MOBILE_NUMBER = ? ");
 					} else {
-						str.append(" MOBILE_NUMBER = ? ");
+						str.append(" SET MOBILE_NUMBER = ? ");
 						isSecondArg = true;
 					}
 					args.add(String.valueOf(userDetail.getMobileNum()));
 				}
 				if (!StringUtils.isEmpty(userDetail.getStatus())) {
 					if (isSecondArg) {
-						str.append(", SET STATUS = ? ");
+						str.append(", STATUS = ? ");
 					} else {
 						str.append(" SET STATUS = ? ");
 					}
