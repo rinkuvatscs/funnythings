@@ -23,18 +23,19 @@ public class TopicServiceImpl implements TopicService {
 	public static final String TOPIC_ADDED_ERROR = "Sorry , Topic is not added ";
 
 	@Override
-	public String addTopics(Topic topic) throws SQLException {
+	public String addTopics(String topicName) throws SQLException {
 		String response = null;
+		Topic topic = new Topic();
+		topic.setTopicName(topicName);
+
 		if (!isExist(topic)) {
 			List<String> args = new ArrayList<>();
 			args.add(topic.getTopicName().toLowerCase());
 			try {
-				int result = jdbcTemplate.update(QueryConstants.ADDTOPIC,
-						args.toArray());
+				int result = jdbcTemplate.update(QueryConstants.ADDTOPIC, args.toArray());
 				if (result > 0) {
 					Topic topics = getTopicByName(topic.getTopicName());
-					response = "Successfully Added topic id : "
-							+ topics.getTopicId() + " topic name : "
+					response = "Successfully Added topic id : " + topics.getTopicId() + " topic name : "
 							+ topics.getTopicName();
 				} else {
 					response = TOPIC_SAVING_ERROR;
@@ -45,8 +46,7 @@ public class TopicServiceImpl implements TopicService {
 			}
 		} else {
 			Topic tempTopic = getTopicByName(topic.getTopicName());
-			response = "Topic Already Exist topic id : "
-					+ tempTopic.getTopicId() + " Topic name : "
+			response = "Topic Already Exist topic id : " + tempTopic.getTopicId() + " Topic name : "
 					+ tempTopic.getTopicName();
 		}
 		return response;
@@ -57,8 +57,7 @@ public class TopicServiceImpl implements TopicService {
 		List<Topic> listTopic = null;
 
 		try {
-			listTopic = jdbcTemplate.query(QueryConstants.GETTOPIC,
-					new TopicExtractor());
+			listTopic = jdbcTemplate.query(QueryConstants.GETTOPIC, new TopicExtractor());
 		} catch (Exception e) {
 			e.printStackTrace();
 			listTopic = new ArrayList<Topic>();
@@ -72,14 +71,13 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public Topic getTopicByName(String name) throws SQLException {
+	public Topic getTopicByName(String name) {
 		Topic topicResponse = null;
 		List<Topic> responseList = null;
 		List<String> args = new ArrayList<>();
 		args.add(name.toLowerCase());
 		try {
-			responseList = jdbcTemplate.query(QueryConstants.GETTOPICBYNAME,
-					args.toArray(), new TopicExtractor());
+			responseList = jdbcTemplate.query(QueryConstants.GETTOPICBYNAME, args.toArray(), new TopicExtractor());
 			if (responseList != null && !responseList.isEmpty()) {
 				topicResponse = responseList.get(0);
 			}
@@ -97,15 +95,13 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public Topic modifyByTopicName(String oldName, String newName)
-			throws SQLException {
+	public Topic modifyByTopicName(String oldName, String newName) throws SQLException {
 		Topic topic = null;
 		List<String> args = new ArrayList<>();
 		args.add(newName.toLowerCase());
 		args.add(oldName.toLowerCase());
 		try {
-			int response = jdbcTemplate.update(
-					QueryConstants.MODIFYBYTOPICNAME, args.toArray());
+			int response = jdbcTemplate.update(QueryConstants.MODIFYBYTOPICNAME, args.toArray());
 			if (response != 0) {
 				topic = getTopicByName(newName);
 			} else {
@@ -124,8 +120,7 @@ public class TopicServiceImpl implements TopicService {
 		List<String> args = new ArrayList<>();
 		args.add(topic.getTopicName());
 		try {
-			List<Topic> topicList = jdbcTemplate.query(QueryConstants.ISEXIST,
-					args.toArray(), new TopicExtractor());
+			List<Topic> topicList = jdbcTemplate.query(QueryConstants.ISEXIST, args.toArray(), new TopicExtractor());
 			if (!StringUtils.isEmpty(topicList)) {
 				topic.setTopicId(topicList.get(0).getTopicId());
 				response = true;

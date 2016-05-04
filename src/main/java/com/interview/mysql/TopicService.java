@@ -7,7 +7,7 @@ import com.interview.pojo.Topic;
 
 public interface TopicService {
 
-	public String addTopics(Topic topic) throws SQLException;
+	public String addTopics(String topicName) throws SQLException;
 
 	public List<Topic> getTopic() throws SQLException;
 

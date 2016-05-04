@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.interview.mysql.TopicService;
 import com.interview.pojo.Topic;
@@ -27,13 +27,26 @@ public class TopicServiceController {
 	@Autowired
 	private TopicService mysqlDbService;
 
-	@RequestMapping(value = "/addTopic", method = RequestMethod.POST)
-	public ResponseEntity<String> addTopics(@RequestBody Topic topic) {
+	@RequestMapping(value = "/addTopicjsp", method = RequestMethod.GET)
+	public ModelAndView addTopicsJsp() {
+
+		return new ModelAndView("addTopic");
+	}
+	
+	/*
+	 * @RequestMapping(value = "/acceptTopicsJspForm", method =
+	 * RequestMethod.POST, consumes="application/x-www-form-urlencoded") public
+	 * ModelAndView acceptTopicsJspForm(@RequestParam String topicName) {
+	 * System.out.println("In This method" +topicName); return new
+	 * ModelAndView("addTopic"); }
+	 */
+
+	@RequestMapping(value = "/addTopic", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
+	public ModelAndView addTopics(@RequestParam String topicName) {
 		String message = null;
 		try {
-			if (StringUtils.isEmpty(topic)
-					&& StringUtils.isEmpty(topic.getTopicName())) {
-				message = mysqlDbService.addTopics(topic);
+			if (!StringUtils.isEmpty(topicName)) {
+				message = mysqlDbService.addTopics(topicName);
 			} else {
 				message = INVALID_TOPIC;
 			}
@@ -41,7 +54,7 @@ public class TopicServiceController {
 			sqlException.printStackTrace();
 			message = TOPIC_SAVING_ERROR;
 		}
-		return new ResponseEntity<String>(message, HttpStatus.OK);
+		return new ModelAndView("topicAdded").addObject("msg", message);
 	}
 
 	@RequestMapping(value = "/getTopic", method = RequestMethod.GET)
@@ -78,14 +91,11 @@ public class TopicServiceController {
 	}
 
 	@RequestMapping(value = "/modifyTopicByTopicName", method = RequestMethod.PUT)
-	public ResponseEntity<Topic> modifyByTopicName(
-			@RequestParam String oldTopicName, @RequestParam String newTopicName) {
+	public ResponseEntity<Topic> modifyByTopicName(@RequestParam String oldTopicName, @RequestParam String newTopicName) {
 		Topic topic = null;
 		try {
-			if (StringUtils.isEmpty(oldTopicName)
-					&& StringUtils.isEmpty(newTopicName)) {
-				topic = mysqlDbService.modifyByTopicName(oldTopicName,
-						newTopicName);
+			if (StringUtils.isEmpty(oldTopicName) && StringUtils.isEmpty(newTopicName)) {
+				topic = mysqlDbService.modifyByTopicName(oldTopicName, newTopicName);
 			} else {
 				topic = new Topic();
 			}

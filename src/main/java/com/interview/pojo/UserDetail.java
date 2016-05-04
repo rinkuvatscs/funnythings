@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetail {
 
-	public UserDetail(int userId, String firstName, String lastName,
-			String mobileNum, String emailAddress, String location,
-			int topicId, String fileLocation, String status) {
+	public UserDetail(int userId, String firstName, String lastName, String mobileNum, String emailAddress,
+			String location, int topicId, String fileLocation, String status) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -20,8 +19,9 @@ public class UserDetail {
 	}
 
 	public UserDetail() {
-		
+
 	}
+
 	@JsonIgnore
 	private int userId;
 	private String firstName;
@@ -30,6 +30,7 @@ public class UserDetail {
 	private String emailAddress;
 	private String location;
 	private int topicId;
+
 	public int getTopicId() {
 		return topicId;
 	}
@@ -37,9 +38,10 @@ public class UserDetail {
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
 	}
+
 	private String fileLocation;
-	private int countryId ;
-	private int stateId ;
+	private int countryId;
+	private int stateId;
 
 	public int getCountryId() {
 		return countryId;
@@ -64,8 +66,8 @@ public class UserDetail {
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
 	}
+
 	private String status;
-	
 
 	public int getUserId() {
 		return userId;
@@ -82,7 +84,6 @@ public class UserDetail {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 
 	public String getFirstName() {
 		return firstName;
@@ -123,7 +124,6 @@ public class UserDetail {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
 
 	@Override
 	public String toString() {
