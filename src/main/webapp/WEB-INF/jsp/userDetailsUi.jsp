@@ -10,7 +10,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/interviewservice/interviewservice/" method="post">
+	<form action="/interviewservice/UiController/userDetailData"
+		method="post">
 		<table>
 			<tr>
 				<td><label>Enter your First Name : </label></td>
@@ -42,7 +43,7 @@
 								for (int i = 0; i < topicList.size(); i++) {
 									out.print(topicList.get(i).getTopicName());
 						%>
-						<option value=<%=topicList.get(i).getTopicId()%>>
+						<option value=<%=topicList.get(i).getTopicId()%> >
 							<%=topicList.get(i).getTopicName()%>
 						</option>
 						<%
@@ -51,8 +52,8 @@
 						%>
 				</select></td>
 			</tr>
-			
-			
+
+
 			<tr>
 				<td><label>Enter your Country : </label></td>
 				<td><select name="cName">
@@ -72,8 +73,12 @@
 						%>
 				</select></td>
 			</tr>
-			
-			
+
+			<tr>
+				<td><label>File : </label></td>
+				<td><input type="file" name="file" /></td>
+			</tr>
+
 			<tr>
 				<td></td>
 				<td><input type="submit" name="submit" value="Submit" /></td>
