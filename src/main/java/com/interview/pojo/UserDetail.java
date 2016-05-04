@@ -1,14 +1,12 @@
 package com.interview.pojo;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetail {
 
 	public UserDetail(int userId, String firstName, String lastName,
 			String mobileNum, String emailAddress, String location,
-			String topic, MultipartFile file, String status) {
+			int topicId, String fileLocation, String status) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -16,8 +14,8 @@ public class UserDetail {
 		this.mobileNum = mobileNum;
 		this.emailAddress = emailAddress;
 		this.location = location;
-		this.topic = topic;
-		this.file = file;
+		this.topicId = topicId;
+		this.fileLocation = fileLocation;
 		this.status = status;
 	}
 
@@ -31,9 +29,43 @@ public class UserDetail {
 	private String mobileNum;
 	private String emailAddress;
 	private String location;
-	private String topic;
-	private MultipartFile file;
+	private int topicId;
+	public int getTopicId() {
+		return topicId;
+	}
+
+	public void setTopicId(int topicId) {
+		this.topicId = topicId;
+	}
+	private String fileLocation;
+	private int countryId ;
+	private int stateId ;
+
+	public int getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
+	}
+
+	public int getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(int stateId) {
+		this.stateId = stateId;
+	}
+
+	public String getFileLocation() {
+		return fileLocation;
+	}
+
+	public void setFileLocation(String fileLocation) {
+		this.fileLocation = fileLocation;
+	}
 	private String status;
+	
 
 	public int getUserId() {
 		return userId;
@@ -51,13 +83,6 @@ public class UserDetail {
 		this.status = status;
 	}
 
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -99,18 +124,11 @@ public class UserDetail {
 		this.location = location;
 	}
 
-	public String getTopic() {
-		return topic;
-	}
-
-	public void setTopic(String topic) {
-		this.topic = topic;
-	}
 
 	@Override
 	public String toString() {
 		return "UserDetail [firstName=" + firstName + ", lastName=" + lastName + ", mobileNum=" + mobileNum
-				+ ", emailAddress=" + emailAddress + ", location=" + location + ", topic=" + topic + "]";
+				+ ", emailAddress=" + emailAddress + ", location=" + location + ", topicId=" + topicId + "]";
 	}
 
 }

@@ -39,12 +39,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		}
 		args.add(userDetail.getStatus());
 		args.add(userDetail.getLocation());
-		args.add(userDetail.getTopic());
-		if (userDetail.getFile() != null) {
-			args.add(userDetail.getFile().getContentType());
-		} else {
-			args.add(null);
-		}
+		args.add(String.valueOf(userDetail.getTopicId()));
 		try {
 			int response = jdbcTemplate.update(QueryConstants.ADDUSERDETAILS,
 					args.toArray());
@@ -225,7 +220,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 				userDetail.setLastName(response.get(0).getLastName());
 				userDetail.setLocation(response.get(0).getLocation());
 				userDetail.setMobileNum(response.get(0).getMobileNum());
-				userDetail.setTopic(response.get(0).getTopic());
+				userDetail.setTopicId(response.get(0).getTopicId());
 				userDetail.setUserId(response.get(0).getUserId());
 				isUserExist = true;
 			}

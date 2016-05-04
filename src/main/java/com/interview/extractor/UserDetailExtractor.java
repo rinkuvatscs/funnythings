@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.interview.pojo.UserDetail;
 
@@ -27,11 +26,8 @@ public class UserDetailExtractor implements ResultSetExtractor<List<UserDetail>>
 			userDetail.setMobileNum(rs.getString("mobile"));
 			userDetail.setStatus(rs.getString("status"));
 			userDetail.setLocation(rs.getString("location"));
-			userDetail.setTopic(rs.getString("topic"));
-			if (rs.getBlob("file") != null) {
-				MultipartFile file = (MultipartFile) rs.getBlob("file");
-				userDetail.setFile(file);
-			}
+			userDetail.setTopicId(rs.getInt("topic_id"));
+			userDetail.setFileLocation(rs.getString("file_location"));
 
 			userDetailsList.add(userDetail);
 		}

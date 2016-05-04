@@ -7,15 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileProcessingUtil {
 
-	
-	
-	public static boolean fileSaved(MultipartFile file) {
-		boolean result = false ; 
-		
+	public static boolean fileSaved(MultipartFile file, String fileLocation) {
+		boolean result = false;
+
 		FileOutputStream fileOutputStream = null;
-		String uploadedFileLocation = "D:\\Interview\\";
-		String fileLocation = uploadedFileLocation
-				+ file.getOriginalFilename();
+		fileLocation = fileLocation + file.getOriginalFilename();
 		try {
 
 			byte[] bytes = file.getBytes();
@@ -29,7 +25,7 @@ public class FileProcessingUtil {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			result =  false ;
+			result = false;
 		} finally {
 			try {
 				fileOutputStream.close();
@@ -37,8 +33,17 @@ public class FileProcessingUtil {
 				e.printStackTrace();
 			}
 		}
+
+		return result;
+	}
+	
+	public static boolean deleteFile(String fileLocation) {
+		boolean result = false ; 
+		java.io.File file = new java.io.File(fileLocation) ;
+		if(file.exists()) {
+			result = file.delete();
+		}
 		
 		return result ;
-	
 	}
 }
