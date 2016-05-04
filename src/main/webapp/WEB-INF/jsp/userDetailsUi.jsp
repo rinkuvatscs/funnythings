@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.interview.pojo.Topic"%>
+<%@ page import="com.interview.pojo.Country"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/interviewservice/topicservice/addTopic" method="post">
+	<form action="/interviewservice/interviewservice/" method="post">
 		<table>
 			<tr>
 				<td><label>Enter your First Name : </label></td>
@@ -50,6 +51,29 @@
 						%>
 				</select></td>
 			</tr>
+			
+			
+			<tr>
+				<td><label>Enter your Country : </label></td>
+				<td><select name="cName">
+						<%
+							Object obj1 = request.getAttribute("countryList");
+							if (obj instanceof List<?>) {
+								List<Country> countryList = (ArrayList<Country>) obj;
+								for (int i = 0; i < countryList.size(); i++) {
+									out.print(countryList.get(i).getCountryName());
+						%>
+						<option value=<%=countryList.get(i).getCountryCode()%>>
+							<%=countryList.get(i).getCountryName()%>
+						</option>
+						<%
+							}
+							}
+						%>
+				</select></td>
+			</tr>
+			
+			
 			<tr>
 				<td></td>
 				<td><input type="submit" name="submit" value="Submit" /></td>

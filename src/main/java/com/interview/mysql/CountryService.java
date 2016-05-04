@@ -1,6 +1,6 @@
 package com.interview.mysql;
 
-import java.util.HashMap;
+import java.util.List;
 
 import com.interview.pojo.Country;
 import com.interview.util.MysqlOperations;
@@ -17,7 +17,7 @@ public interface CountryService {
 	
 	public String activateDeactivateCountryByCountryName(MysqlOperations mysqlOperations , String countryName);
 	
-	public HashMap<Integer,Country> getCountry();
+	public List<Country> getCountry();
 	
 	public boolean isCountryExist(Country country);
 

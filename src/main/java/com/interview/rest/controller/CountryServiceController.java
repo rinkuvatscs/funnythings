@@ -1,6 +1,6 @@
 package com.interview.rest.controller;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -91,9 +91,8 @@ public class CountryServiceController {
 	}
 
 	@RequestMapping(value = "/getCountries", method = RequestMethod.GET)
-	public ResponseEntity<HashMap<Integer, Country>> getCountry() {
-		HashMap<Integer, Country> countryMap = countryService.getCountry();
-		return new ResponseEntity<HashMap<Integer, Country>>(countryMap,
+	public ResponseEntity<List<Country>> getCountry() {
+		return new ResponseEntity<List<Country>>(countryService.getCountry(),
 				HttpStatus.OK);
 	}
 

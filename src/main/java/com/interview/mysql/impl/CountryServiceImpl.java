@@ -20,7 +20,7 @@ import com.interview.util.MysqlOperations;
 public class CountryServiceImpl implements CountryService {
 
 	public static final String SELECT_COUNTRY = "select * from country where id = ?";
-	public static final String INSERT_COUNTRY = "insert into country (countryName) values ?";
+	public static final String INSERT_COUNTRY = "INSERT INTO Country VALUES (LAST_INSERT_ID(), ?)";
 	/*
 	 * country --country_id,country_name
 	 * 
@@ -60,8 +60,8 @@ public class CountryServiceImpl implements CountryService {
 	public String addCountry(Country country) {
 		String response = null;
 		List<String> intList = new ArrayList<String>();
-		if (StringUtils.isEmpty(country)
-				&& StringUtils.isEmpty(country.getCountryName())) {
+		if (!StringUtils.isEmpty(country)
+				&& !StringUtils.isEmpty(country.getCountryName())) {
 			intList.add(country.getCountryName());
 			if (!isCountryExist(country)) {
 				int result = jdbcTemplate.update(INSERT_COUNTRY, intList);
@@ -155,17 +155,17 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	@Override
-	public HashMap<Integer, Country> getCountry() {
+	public List<Country> getCountry() {
 		String query = "select * from country where status = 'A'";
-		HashMap<Integer, Country> hashMap = jdbcTemplate.query(query,
+		List<Country> countryList = jdbcTemplate.query(query,
 				new CountryListExtrator());
-		return hashMap;
+		return countryList;
 	}
 
 	@Override
 	public boolean isCountryExist(Country country) {
 
-		String query = "select * from country where countryName = ? ";
+		String query = "select * from country where country_name = ? ";
 		List<String> intList = new ArrayList<String>();
 		intList.add(country.getCountryName());
 		Country tempCountry = (Country) jdbcTemplate.query(query,
