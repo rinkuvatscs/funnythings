@@ -58,8 +58,8 @@
 				<td><select name="cName">
 						<%
 							Object obj1 = request.getAttribute("countryList");
-							if (obj instanceof List<?>) {
-								List<Country> countryList = (ArrayList<Country>) obj;
+							if (obj1 instanceof List<?>) {
+								List<Country> countryList = (ArrayList<Country>) obj1;
 								for (int i = 0; i < countryList.size(); i++) {
 									out.print(countryList.get(i).getCountryName());
 						%>
