@@ -2,7 +2,10 @@ package com.interview.rest.controller;
 
 import io.swagger.annotations.ApiOperation;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.annotation.MultipartConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interview.mysql.InterviewService;
 import com.interview.pojo.UserDetail;
 
@@ -34,7 +40,9 @@ public class InterviewServiceController {
 	@ApiOperation(value = "addInterview", nickname = "addSabha")
 	@RequestMapping(value = "/addInterview", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> handleUploadFile(
-			@RequestBody UserDetail userDetail, @RequestPart MultipartFile file) {
+			@RequestPart  String userDetailStr , @RequestPart("file") MultipartFile file) throws JsonParseException, JsonMappingException, IOException {
+		UserDetail userDetail =  new ObjectMapper().readValue(userDetailStr	, UserDetail.class) ;
+		
 		return new ResponseEntity<String>(interviewServiceImpl.addInterview(
 				userDetail, file), HttpStatus.OK);
 	}
