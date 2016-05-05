@@ -76,4 +76,10 @@ mysql> select * from user_details;
 +---------+------------+-----------+----------------------------+---------------+--------+
 1 row in set (0.00 sec)
 
+CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
+  `countryCode` INT NOT NULL AUTO_INCREMENT ,
+  `countryName` VARCHAR(45) NOT NULL ,
+  `status` VARCHAR(4) NOT NULL DEFAULT 'A' ,
+  PRIMARY KEY (`countryCode`) );
+
 mysql> tee close;

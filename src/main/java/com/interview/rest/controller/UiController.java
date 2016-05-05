@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.interview.mysql.CountryService;
@@ -57,10 +57,10 @@ public class UiController {
 		return new ModelAndView("userDetailsUi").addObject("topicList", topicList);
 	}
 
-	@RequestMapping(value = "/userDetailData", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
+	@RequestMapping(value = "/userDetailData", method = RequestMethod.POST, consumes = {"application/x-www-form-urlencoded", " multipart/mixed" })
 	public ModelAndView getUserData(@RequestParam String fName, @RequestParam String lName, @RequestParam String mNo,
 			@RequestParam String email, @RequestParam String location, @RequestParam("tName") String topicName,
-			@RequestBody String countryName) {
+			@RequestParam("cName") String countryName, @RequestParam("file") MultipartFile file) {
 
 		return new ModelAndView();
 	}

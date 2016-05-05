@@ -43,17 +43,15 @@
 								for (int i = 0; i < topicList.size(); i++) {
 									out.print(topicList.get(i).getTopicName());
 						%>
-						<option value=<%=topicList.get(i).getTopicId()%> >
+						<option value=<%=topicList.get(i).getTopicId()%>>
 							<%=topicList.get(i).getTopicName()%>
 						</option>
 						<%
-							}
+								}
 							}
 						%>
 				</select></td>
 			</tr>
-
-
 			<tr>
 				<td><label>Enter your Country : </label></td>
 				<td><select name="cName">
@@ -84,9 +82,6 @@
 				<td><input type="submit" name="submit" value="Submit" /></td>
 			</tr>
 		</table>
-
-
-
 	</form>
 </body>
 </html>
