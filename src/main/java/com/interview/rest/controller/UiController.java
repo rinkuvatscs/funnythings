@@ -73,7 +73,7 @@ public class UiController {
 			@RequestParam("cName") String countryId, @RequestParam MultipartFile file) {
 
 		String response = null;
-		FileProcessingUtil.fileSaved(file, fileLocation);
+		FileProcessingUtil.fileSaved(file, fileLocation + file.getOriginalFilename());
 		UserDetail userDetail = new UserDetail();
 
 		userDetail.setFirstName(fName);
@@ -82,7 +82,7 @@ public class UiController {
 		userDetail.setEmailAddress(email);
 		userDetail.setCountryId(Integer.parseInt(countryId));
 		userDetail.setTopicId(Integer.parseInt(topicId));
-		userDetail.setLocation(location + file);
+		userDetail.setLocation(location);
 
 		response = interviewServiceImpl.addInterview(userDetail, file);
 		FileProcessingUtil.fileSaved(file, fileLocation);
