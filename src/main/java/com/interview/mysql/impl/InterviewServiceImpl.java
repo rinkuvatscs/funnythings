@@ -23,7 +23,7 @@ public class InterviewServiceImpl implements InterviewService {
 	public static final String FILE_SAVING_ERROR = "Errror in file saving for ";
 	public static final String FILE_IS_BLANK = "Please add audio or video file ";
 	public static final String USER_ADDING_ERROR = "Error in User Detail Adding ";
-	public static final String INTERVIEW_SAVED = "Interview Saved succesfully for ";
+	public static final String INTERVIEW_SAVED = "Interview Saved succesfully ";
 	public static final String INTERVIEW_NOT_SAVED = "Sorry, Interview not Saved succesfully for ";
 	public static final String INTERVIEW_NOT_SAVE_ERROR = "Sorry , Error in Interview Saving for ";
 	@Autowired
@@ -53,7 +53,7 @@ public class InterviewServiceImpl implements InterviewService {
 					args.add(userDetail.getFileLocation());
 					args.add(String.valueOf(userDetail.getStateId()));
 					args.add(String.valueOf(userDetail.getCountryId()));
-					args.add(userDetail.getLocation());
+//					args.add(userDetail.getLocation());
 					args.add(String.valueOf(userDetail.getTopicId()));
 					args.add(userDetail.getStatus());
 					try {
