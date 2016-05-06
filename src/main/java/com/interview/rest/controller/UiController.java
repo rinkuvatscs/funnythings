@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,15 +21,11 @@ import com.interview.mysql.TopicService;
 import com.interview.pojo.Country;
 import com.interview.pojo.Topic;
 import com.interview.pojo.UserDetail;
-import com.interview.util.FileProcessingUtil;
 
 @RestController
 @RequestMapping(value = "/interviewservice/UiController/")
 public class UiController {
 
-	private static final String NOINPUT = "All parameters are required.";
-
-	public String fileLocation = "d://interviewService//";
 	@Autowired
 	private TopicService mysqlDbService;
 
@@ -70,23 +65,18 @@ public class UiController {
 
 	@RequestMapping(value = "/userDetailData", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public ModelAndView getUserData(@RequestParam String fName, @RequestParam String lName, @RequestParam String mNo,
-			@RequestParam String email, @RequestParam String location, @RequestParam("tName") String topicId,
-			@RequestParam("cName") String countryId, @RequestParam MultipartFile file) {
+			@RequestParam String email, @RequestParam("tName") String topicId, @RequestParam("cName") String countryId,
+			@RequestParam MultipartFile file) {
 
 		String response = null;
-		FileProcessingUtil.fileSaved(file, fileLocation + file.getOriginalFilename());
 		UserDetail userDetail = new UserDetail();
-
 		userDetail.setFirstName(fName);
 		userDetail.setLastName(lName);
 		userDetail.setMobileNum(mNo);
 		userDetail.setEmailAddress(email);
 		userDetail.setCountryId(Integer.parseInt(countryId));
 		userDetail.setTopicId(Integer.parseInt(topicId));
-		userDetail.setLocation(location);
-
 		response = interviewServiceImpl.addInterview(userDetail, file);
-		FileProcessingUtil.fileSaved(file, fileLocation);
 		return new ModelAndView("userDetailsUi").addObject("result", response);
 	}
 }

@@ -29,10 +29,10 @@
 				<td><label>Enter your Email : </label></td>
 				<td><input type="text" name="email" /></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td><label>Enter your Location : </label></td>
 				<td><input type="text" name="location" /></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td><label>Enter your Topic Name : </label></td>
 				<td><select name="tName">

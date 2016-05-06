@@ -39,7 +39,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		}
 //		args.add(userDetail.getStatus());
 		args.add(String.valueOf(userDetail.getTopicId()));
-		args.add(String.valueOf(userDetail.getLocation()));
+//		args.add(String.valueOf(userDetail.getLocation()));
 		try {
 			int response = jdbcTemplate.update(QueryConstants.ADDUSERDETAILS,
 					args.toArray());
@@ -221,7 +221,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 				userDetail.setEmailAddress(response.get(0).getEmailAddress());
 				userDetail.setFirstName(response.get(0).getFirstName());
 				userDetail.setLastName(response.get(0).getLastName());
-				userDetail.setLocation(response.get(0).getLocation());
+//				userDetail.setLocation(response.get(0).getLocation());
 				userDetail.setMobileNum(response.get(0).getMobileNum());
 				userDetail.setTopicId(response.get(0).getTopicId());
 				userDetail.setUserId(response.get(0).getUserId());
