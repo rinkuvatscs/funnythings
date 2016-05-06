@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class UserDetail {
 
 	public UserDetail(int userId, String firstName, String lastName, String mobileNum, String emailAddress,
-			String location, int topicId, String fileLocation, String status) {
+			/*String location,*/ int topicId, String fileLocation, String status) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mobileNum = mobileNum;
 		this.emailAddress = emailAddress;
-		this.location = location;
+//		this.location = location;
 		this.topicId = topicId;
 		this.fileLocation = fileLocation;
 		this.status = status;
@@ -28,7 +28,7 @@ public class UserDetail {
 	private String lastName;
 	private String mobileNum;
 	private String emailAddress;
-	private String location;
+//	private String location;
 	private int topicId;
 
 	public int getTopicId() {
@@ -117,18 +117,18 @@ public class UserDetail {
 		this.emailAddress = emailAddress;
 	}
 
-	public String getLocation() {
+	/*public String getLocation() {
 		return location;
 	}
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
+	}*/
 
 	@Override
 	public String toString() {
 		return "UserDetail [firstName=" + firstName + ", lastName=" + lastName + ", mobileNum=" + mobileNum
-				+ ", emailAddress=" + emailAddress + ", location=" + location + ", topicId=" + topicId + "]";
+				+ ", emailAddress=" + emailAddress +  ", topicId=" + topicId + "]";
 	}
 
 }
