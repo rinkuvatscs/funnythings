@@ -41,7 +41,6 @@ CREATE TABLE `sabha`.`user_details` (
   `lastname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `mobile` VARCHAR(45) NOT NULL,
-  `location` VARCHAR(45) NOT NULL,
   `topicid` VARCHAR(45) NOT NULL,
   `status` VARCHAR(4) NOT NULL DEFAULT 'A',
   PRIMARY KEY (`userid`)
@@ -57,11 +56,10 @@ mysql> desc user_details;
 | lastname  | varchar(45)      | NO   |     |         |                |
 | email     | varchar(45)      | NO   |     |         |                |
 | mobile    | varchar(45)      | NO   |     |         |                |
-| location  | varchar(45)      | NO   |     |         |                |
 | topicid   | varchar(45)      | NO   |     |         |                |
 | status    | varchar(4)       | NO   |     | A       |                |
 +-----------+------------------+------+-----+---------+----------------+
-8 rows in set (0.01 sec)
+7 rows in set (0.01 sec)
 
 ---------------------------------------------------------------------------------------------
   										COUNTRY
@@ -80,7 +78,6 @@ CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
   `file_location` VARCHAR(50) NOT NULL ,
   `state_id` VARCHAR(45) NULL ,
   `country_id` VARCHAR(45) NOT NULL ,
-  `location` VARCHAR(45) NOT NULL ,
   `topic_id` VARCHAR(45) NOT NULL ,
   `status` VARCHAR(45) NOT NULL DEFAULT 'A' ,
   PRIMARY KEY (`user_id`) );
