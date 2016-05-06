@@ -21,6 +21,7 @@ public class FileProcessingUtil {
 
 			if (fileOutputStream != null) {
 				fileOutputStream.flush();
+				result = true;
 			}
 
 		} catch (Exception e) {
