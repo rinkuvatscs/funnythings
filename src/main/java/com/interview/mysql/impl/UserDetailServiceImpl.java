@@ -37,9 +37,9 @@ public class UserDetailServiceImpl implements UserDetailService {
 		} else {
 			args.add("0");
 		}
-		args.add(userDetail.getStatus());
-		args.add(userDetail.getLocation());
+//		args.add(userDetail.getStatus());
 		args.add(String.valueOf(userDetail.getTopicId()));
+		args.add(String.valueOf(userDetail.getLocation()));
 		try {
 			int response = jdbcTemplate.update(QueryConstants.ADDUSERDETAILS,
 					args.toArray());
@@ -79,7 +79,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		StringBuffer str = new StringBuffer();
 		List<String> args = new ArrayList<>();
 		if (!StringUtils.isEmpty(email)) {
-			str.append("where email = ? ");
+			str.append("AND email = ? ");
 			args.add(email);
 		}
 		try {
@@ -197,24 +197,27 @@ public class UserDetailServiceImpl implements UserDetailService {
 		if (!StringUtils.isEmpty(userDetail)) {
 
 			if (!StringUtils.isEmpty(userDetail.getEmailAddress())) {
-				str.append("where email = ? ");
+				str.append(" AND  (email = ? ");
 				args.add(userDetail.getEmailAddress());
 				isEmailAdded = true;
 			}
 			if (!StringUtils.isEmpty(userDetail.getMobileNum())) {
 				if (isEmailAdded) {
-					str.append(" OR mobile_number = ? ");
+					str.append(" or mobile = ? )");
 				} else {
-					str.append(" where mobile_number = ? ");
+					str.append(" where mobile = ? ");
 				}
 				args.add(String.valueOf(userDetail.getMobileNum()));
+			}else {
+				if (isEmailAdded)
+				str.append(")");
 			}
 		}
 		try {
 			List<UserDetail> response = jdbcTemplate.query(
 					QueryConstants.GETUSERBYEMAIL + str, args.toArray(),
 					new UserDetailExtractor());
-			if (!StringUtils.isEmpty(response)) {
+			if (!StringUtils.isEmpty(response) && !response.isEmpty()) {
 				userDetail.setEmailAddress(response.get(0).getEmailAddress());
 				userDetail.setFirstName(response.get(0).getFirstName());
 				userDetail.setLastName(response.get(0).getLastName());

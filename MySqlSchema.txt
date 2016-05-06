@@ -76,10 +76,26 @@ mysql> select * from user_details;
 +---------+------------+-----------+----------------------------+---------------+--------+
 1 row in set (0.00 sec)
 
+---------------------------------------------------------------------------------------------
+  										COUNTRY
+  ---------------------------------------------------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
   `countryCode` INT NOT NULL AUTO_INCREMENT ,
   `countryName` VARCHAR(45) NOT NULL ,
   `status` VARCHAR(4) NOT NULL DEFAULT 'A' ,
   PRIMARY KEY (`countryCode`) );
+  
+  ---------------------------------------------------------------------------------------------
+  										INTERVIEW_DETAIL
+  ---------------------------------------------------------------------------------------------
+  CREATE  TABLE IF NOT EXISTS `sabha`.`interview_detail` (
+  `user_id` INT NOT NULL AUTO_INCREMENT ,
+  `file_location` VARCHAR(50) NOT NULL ,
+  `state_id` VARCHAR(45) NULL ,
+  `country_id` VARCHAR(45) NOT NULL ,
+  `location` VARCHAR(45) NOT NULL ,
+  `topic_id` VARCHAR(45) NOT NULL ,
+  `status` VARCHAR(45) NOT NULL DEFAULT 'A' ,
+  PRIMARY KEY (`user_id`) );
 
 mysql> tee close;

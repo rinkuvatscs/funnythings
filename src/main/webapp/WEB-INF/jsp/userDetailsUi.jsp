@@ -11,7 +11,7 @@
 </head>
 <body>
 	<form action="/interviewservice/UiController/userDetailData"
-		method="post">
+		method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><label>Enter your First Name : </label></td>
@@ -47,7 +47,7 @@
 							<%=topicList.get(i).getTopicName()%>
 						</option>
 						<%
-								}
+							}
 							}
 						%>
 				</select></td>
@@ -83,5 +83,6 @@
 			</tr>
 		</table>
 	</form>
+	 ${result}
 </body>
 </html>

@@ -55,12 +55,11 @@ public class InterviewServiceImpl implements InterviewService {
 					args.add(String.valueOf(userDetail.getCountryId()));
 					args.add(userDetail.getLocation());
 					args.add(String.valueOf(userDetail.getTopicId()));
-					args.add(String.valueOf(userDetail.getTopicId()));
 					args.add(userDetail.getStatus());
 					try {
 						int response = jdbcTemplate.update(QueryConstants.INTERVIEW_DETAIL_ADD, args.toArray());
 						if (response != 0) {
-							message = INTERVIEW_SAVED + userDetail.getUserId();
+							message = INTERVIEW_SAVED ;
 						} else {
 							message = INTERVIEW_NOT_SAVED + userDetail.getUserId();
 						}
