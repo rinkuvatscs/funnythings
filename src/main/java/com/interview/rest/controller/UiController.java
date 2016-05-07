@@ -66,7 +66,7 @@ public class UiController {
 	@RequestMapping(value = "/userDetailData", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public ModelAndView getUserData(@RequestParam String fName, @RequestParam String lName, @RequestParam String mNo,
 			@RequestParam String email, @RequestParam("tName") String topicId, @RequestParam("cName") String countryId,
-			@RequestParam MultipartFile file) {
+			@RequestParam String location, @RequestParam MultipartFile file) {
 
 		String response = null;
 		UserDetail userDetail = new UserDetail();
@@ -76,6 +76,7 @@ public class UiController {
 		userDetail.setEmailAddress(email);
 		userDetail.setCountryId(Integer.parseInt(countryId));
 		userDetail.setTopicId(Integer.parseInt(topicId));
+		userDetail.setLocation(location);
 		response = interviewServiceImpl.addInterview(userDetail, file);
 		return new ModelAndView("userDetailsUi").addObject("result", response);
 	}
