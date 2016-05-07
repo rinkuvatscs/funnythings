@@ -19,7 +19,7 @@ import com.interview.util.FileProcessingUtil;
 @Component
 public class InterviewServiceImpl implements InterviewService {
 
-	public static final String FILELOCATION = "d://interviewService//";
+	public String FILELOCATION = "d://interviewService//";
 	public static final String FILE_SAVING_ERROR = "Errror in file saving for ";
 	public static final String FILE_IS_BLANK = "Please add audio or video file ";
 	public static final String USER_ADDING_ERROR = "Error in User Detail Adding ";
@@ -32,6 +32,7 @@ public class InterviewServiceImpl implements InterviewService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	
 	@Override
 	public String addInterview(UserDetail userDetail, MultipartFile file) {
 		String message = null;

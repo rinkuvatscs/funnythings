@@ -13,6 +13,8 @@ public class QueryConstants {
 	public static final String GETUSERBYEMAIL = " SELECT * FROM USER_DETAILS where status='A' ";
 	public static final String DEACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'D' WHERE EMAIL = ? ";
 	public static final String ACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'A' WHERE EMAIL = ? ";
-	public static final String INTERVIEW_DETAIL_ADD = " INSERT INTO INTERVIEW_DETAIL (user_id,file_location,state_id,country_id,topic_id,status,location) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	
+	public static final String INTERVIEW_DETAIL_ADD = " INSERT INTO INTERVIEW_DETAIL (userid,file_location,state_id,country_id,topic_id,status,location) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
+//	insert into interview_detail (file_location,country_id,topic_id,location,userid) values ('e://interviewService//abc.txt','1','1','Delhi',1);
 }
