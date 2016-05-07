@@ -42,17 +42,14 @@ public class UiController {
 		List<Country> countryList = null;
 		try {
 			topicList = mysqlDbService.getTopic();
-
 			request.setAttribute("msgList", topicList);
-
 			countryList = countryServiceImpl.getCountry();
-
-			if (topicList == null)
+			if (topicList == null) {
 				topicList = new ArrayList<Topic>();
-
-			if (countryList == null)
+			}
+			if (countryList == null) {
 				countryList = new ArrayList<Country>();
-
+			}
 			request.setAttribute("countryList", countryList);
 
 		} catch (SQLException sqlException) {
@@ -80,4 +77,20 @@ public class UiController {
 		response = interviewServiceImpl.addInterview(userDetail, file);
 		return new ModelAndView("userDetailsUi").addObject("result", response);
 	}
+
+	@RequestMapping(value = "/searchFile")
+	public ModelAndView searchFile() {
+		return new ModelAndView("FileSearch");
+	}
+
+	@RequestMapping(value = "/searchResult")
+	public ModelAndView searchResult(@RequestParam String fName, @RequestParam String lName, @RequestParam String mNo,
+			@RequestParam String email, @RequestParam String location, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<String> fileLocation = interviewServiceImpl.fileSearch(fName, lName, email, mNo, location);
+		request.setAttribute("fileLoc", fileLocation);
+		return new ModelAndView("FileSearchResult").addObject("fname", fName);
+	}
+
 }

@@ -15,6 +15,6 @@ public class QueryConstants {
 	public static final String ACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'A' WHERE EMAIL = ? ";
 	
 	public static final String INTERVIEW_DETAIL_ADD = " INSERT INTO INTERVIEW_DETAIL (userid,file_location,state_id,country_id,topic_id,status,location) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	public static final String INTERVIEW_DETAIL_SEARCH_FILE = "SELECT * FROM SABHA.USER_DETAILS USRD INNER JOIN SABHA.INTERVIEW_DETAIL INTD ON USRD.USERID=INTD.USERID WHERE ( USRD.EMAIL = ? OR USRD.MOBILE = ? ) AND USRD.FIRSTNAME = ? AND USRD.LASTNAME = ? AND intd.location = ? ";
 
-//	insert into interview_detail (file_location,country_id,topic_id,location,userid) values ('e://interviewService//abc.txt','1','1','Delhi',1);
 }

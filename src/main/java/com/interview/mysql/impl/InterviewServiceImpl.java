@@ -11,8 +11,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.interview.constants.QueryConstants;
+import com.interview.extractor.InterviewServiceExtractor;
 import com.interview.mysql.InterviewService;
 import com.interview.mysql.UserDetailService;
+import com.interview.pojo.InterviewDetail;
 import com.interview.pojo.UserDetail;
 import com.interview.util.FileProcessingUtil;
 
@@ -26,13 +28,15 @@ public class InterviewServiceImpl implements InterviewService {
 	public static final String INTERVIEW_SAVED = "Interview Saved succesfully ";
 	public static final String INTERVIEW_NOT_SAVED = "Sorry, Interview not Saved succesfully for ";
 	public static final String INTERVIEW_NOT_SAVE_ERROR = "Sorry , Error in Interview Saving for ";
+	public static final String INTERVIEW_FILE_LOCATION_ERROR = "Sorry , Error in file Location ";
+	public static final String INTERVIEW_FIELDS_IS_BLANK = "Sorry , Error in file Location ";
+
 	@Autowired
 	UserDetailService userDetailServiceImpl;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	
 	@Override
 	public String addInterview(UserDetail userDetail, MultipartFile file) {
 		String message = null;
@@ -83,6 +87,36 @@ public class InterviewServiceImpl implements InterviewService {
 		}
 
 		return message;
+	}
+
+	@Override
+	public List<String> fileSearch(String fname, String lname, String email, String mobile, String location) {
+
+		List<String> args = new ArrayList<>();
+		List<String> response = new ArrayList<>();
+		if (!StringUtils.isEmpty(fname) && !StringUtils.isEmpty(lname) && !StringUtils.isEmpty(email)
+				&& !StringUtils.isEmpty(mobile) && !StringUtils.isEmpty(location)) {
+			args.add(email);
+			args.add(mobile);
+			args.add(fname);
+			args.add(lname);
+			args.add(location);
+			List<InterviewDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE,
+					args.toArray(), new InterviewServiceExtractor());
+			if (!StringUtils.isEmpty(interviewDetailList) && interviewDetailList.size() > 0) {
+				for (int i = 0; i < interviewDetailList.size(); i++) {
+					response.add(interviewDetailList.get(i).getFileLocation());
+				}
+			} else {
+				// response = INTERVIEW_FILE_LOCATION_ERROR;
+				response.add(INTERVIEW_FILE_LOCATION_ERROR);
+			}
+		} else {
+			// response = INTERVIEW_FIELDS_IS_BLANK;
+			response.add(INTERVIEW_FIELDS_IS_BLANK);
+		}
+
+		return response;
 	}
 
 	@Override
