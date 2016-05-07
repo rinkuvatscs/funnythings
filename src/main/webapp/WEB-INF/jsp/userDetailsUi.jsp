@@ -29,10 +29,6 @@
 				<td><label>Enter your Email : </label></td>
 				<td><input type="text" name="email" /></td>
 			</tr>
-			<!-- <tr>
-				<td><label>Enter your Location : </label></td>
-				<td><input type="text" name="location" /></td>
-			</tr> -->
 			<tr>
 				<td><label>Enter your Topic Name : </label></td>
 				<td><select name="tName">
@@ -71,7 +67,10 @@
 						%>
 				</select></td>
 			</tr>
-
+			<tr>
+				<td><label>Enter your Area/Location : </label></td>
+				<td><input type="text" name="location" /></td>
+			</tr>
 			<tr>
 				<td><label>File : </label></td>
 				<td><input type="file" name="file" /></td>
@@ -83,6 +82,6 @@
 			</tr>
 		</table>
 	</form>
-	 ${result}
+	${result}
 </body>
 </html>

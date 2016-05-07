@@ -19,7 +19,7 @@ import com.interview.util.FileProcessingUtil;
 @Component
 public class InterviewServiceImpl implements InterviewService {
 
-	public String fileLocation = "d://interviewService//";
+	public static final String FILELOCATION = "d://interviewService//";
 	public static final String FILE_SAVING_ERROR = "Errror in file saving for ";
 	public static final String FILE_IS_BLANK = "Please add audio or video file ";
 	public static final String USER_ADDING_ERROR = "Error in User Detail Adding ";
@@ -42,24 +42,24 @@ public class InterviewServiceImpl implements InterviewService {
 		if (!StringUtils.isEmpty(addUserDetail) && addUserDetail.getUserId() != 0) {
 
 			if (!StringUtils.isEmpty(file)) {
-				boolean isFileSaved = FileProcessingUtil.fileSaved(file, fileLocation);
+				boolean isFileSaved = FileProcessingUtil.fileSaved(file, FILELOCATION);
 				if (isFileSaved) {
 					// ADD DETAILS IN INTERVIEW_DETAIL TABLE
 					List<String> args = new ArrayList<>();
 					userDetail.setStatus("A");
-					userDetail.setFileLocation(fileLocation);
+					userDetail.setFileLocation(FILELOCATION + file.getOriginalFilename());
 
 					args.add(String.valueOf(userDetail.getUserId()));
 					args.add(userDetail.getFileLocation());
 					args.add(String.valueOf(userDetail.getStateId()));
 					args.add(String.valueOf(userDetail.getCountryId()));
-//					args.add(userDetail.getLocation());
+					args.add(userDetail.getLocation());
 					args.add(String.valueOf(userDetail.getTopicId()));
 					args.add(userDetail.getStatus());
 					try {
 						int response = jdbcTemplate.update(QueryConstants.INTERVIEW_DETAIL_ADD, args.toArray());
 						if (response != 0) {
-							message = INTERVIEW_SAVED ;
+							message = INTERVIEW_SAVED;
 						} else {
 							message = INTERVIEW_NOT_SAVED + userDetail.getUserId();
 						}

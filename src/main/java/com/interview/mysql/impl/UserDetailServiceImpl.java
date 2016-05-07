@@ -39,7 +39,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		}
 //		args.add(userDetail.getStatus());
 		args.add(String.valueOf(userDetail.getTopicId()));
-//		args.add(String.valueOf(userDetail.getLocation()));
+		args.add(String.valueOf(userDetail.getLocation()));
 		try {
 			int response = jdbcTemplate.update(QueryConstants.ADDUSERDETAILS,
 					args.toArray());
