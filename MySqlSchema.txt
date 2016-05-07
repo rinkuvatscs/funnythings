@@ -42,7 +42,6 @@ CREATE TABLE `sabha`.`user_details` (
   `email` VARCHAR(45) NOT NULL,
   `mobile` VARCHAR(45) NOT NULL,
   `topicid` VARCHAR(45) NOT NULL,
-   `location` VARCHAR(45) NOT NULL,
   `status` VARCHAR(4) NOT NULL DEFAULT 'A',
   PRIMARY KEY (`userid`)
 )
@@ -84,5 +83,14 @@ CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
    `location` VARCHAR(45) NOT NULL,
   `status` VARCHAR(45) NOT NULL DEFAULT 'A' ,
   PRIMARY KEY (`user_id`) );
+  ----------------------------------------ALTER TABLE INTERVIEW_DETAIL-------------------------------------
+  ALTER TABLE `sabha`.`interview_detail` CHANGE COLUMN `user_id` `interview_id` INTEGER NOT NULL AUTO_INCREMENT,
+ ADD COLUMN `userid` INTEGER UNSIGNED NOT NULL AFTER `location`,
+ DROP PRIMARY KEY,
+ ADD PRIMARY KEY  USING BTREE(`interview_id`),
+ ADD CONSTRAINT `FK_UserID_1` FOREIGN KEY `FK_UserID_1` (`userid`)
+    REFERENCES `user_details` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
 
 mysql> tee close;
