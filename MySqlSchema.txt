@@ -71,6 +71,16 @@ CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
   `status` VARCHAR(4) NOT NULL DEFAULT 'A' ,
   PRIMARY KEY (`countryCode`) );
   
+  ----------------------------------------ALTER TABLE STATE-------------------------------------
+  ALTER TABLE `sabha`.`state` 
+  ADD CONSTRAINT `f_cid`
+  FOREIGN KEY (`country_id` )
+  REFERENCES `sabha`.`country` (`countryCode` )
+  ON DELETE cascade
+  ON UPDATE NO ACTION
+, ADD INDEX `f_cid` (`country_id` ASC) ;
+
+  
   ---------------------------------------------------------------------------------------------
   										INTERVIEW_DETAIL
   ---------------------------------------------------------------------------------------------
@@ -92,5 +102,61 @@ CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
     REFERENCES `user_details` (`userid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
+    
+    
+    
+    
+    --------------------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------------------------
+    CREATE TABLE `sabha`.`user_details` (
+  `userid` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `firstname` VARCHAR(45) NOT NULL,
+  `lastname` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `mobile` VARCHAR(45) NOT NULL,
+  `topicid` VARCHAR(45) NOT NULL,
+  `status` VARCHAR(4) NOT NULL DEFAULT 'A',
+  PRIMARY KEY (`userid`)
+)
+
+CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
+  `countryCode` INT NOT NULL AUTO_INCREMENT ,
+  `countryName` VARCHAR(45) NOT NULL ,
+  `status` VARCHAR(4) NOT NULL DEFAULT 'A' ,
+  PRIMARY KEY (`countryCode`) );
+
+
+ CREATE  TABLE IF NOT EXISTS `sabha`.`interview_detail` (
+  `user_id` INT NOT NULL AUTO_INCREMENT ,
+  `file_location` VARCHAR(50) NOT NULL ,
+  `state_id` VARCHAR(45) NULL ,
+  `country_id` VARCHAR(45) NOT NULL ,
+  `topic_id` VARCHAR(45) NOT NULL ,
+   `location` VARCHAR(45) NOT NULL,
+  `status` VARCHAR(45) NOT NULL DEFAULT 'A' ,
+  PRIMARY KEY (`user_id`) );
+  
+   ALTER TABLE `sabha`.`interview_detail` CHANGE COLUMN `user_id` `interview_id` INTEGER NOT NULL AUTO_INCREMENT,
+ ADD COLUMN `userid` INTEGER UNSIGNED NOT NULL AFTER `location`,
+ DROP PRIMARY KEY,
+ ADD PRIMARY KEY  USING BTREE(`interview_id`),
+ ADD CONSTRAINT `FK_UserID_1` FOREIGN KEY `FK_UserID_1` (`userid`)
+    REFERENCES `user_details` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
+    
+    select * from sabha.interview_detail;
+    select * from sabha.user_details;
+    select * from sabha.country;
+    
+    desc sabha.interview_detail;
+    desc sabha.user_details;
+    desc sabha.country;
+    desc sabha.state;
+    
+    insert into sabha.user_details (firstname,lastname,email,mobile,topicid) values ('Aviral','Mittal','aviral@live.com','8527701990','1');
+    insert into sabha.interview_detail(file_location,state_id,country_id,topic_id,location,userid) values ('d://interviewService','3','2','1','Delhi',1);
+    insert into sabha.country (countryName) values ('Paris');
+    insert into sabha.state();
 
 mysql> tee close;
