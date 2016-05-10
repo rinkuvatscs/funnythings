@@ -92,16 +92,49 @@ public class InterviewServiceImpl implements InterviewService {
 	@Override
 	public List<String> fileSearch(String fname, String lname, String email, String mobile, String location) {
 
+		boolean isEmail = false;
+		boolean isMobile = false;
+		boolean isLocation = false;
 		List<String> args = new ArrayList<>();
+		StringBuffer str = new StringBuffer();
 		List<String> response = new ArrayList<>();
-		if (!StringUtils.isEmpty(fname) && !StringUtils.isEmpty(lname) && !StringUtils.isEmpty(email)
-				&& !StringUtils.isEmpty(mobile) && !StringUtils.isEmpty(location)) {
+
+		if (!StringUtils.isEmpty(email)) {
+			str.append(" WHERE email = ? ");
 			args.add(email);
+			isEmail = true;
+		}
+		if (isEmail) {
+			if (!StringUtils.isEmpty(mobile)) {
+				str.append(" AND mobile = ? ");
+				args.add(mobile);
+				isMobile = true;
+			}
+		} else {
+			str.append(" where mobile = ? ");
 			args.add(mobile);
-			args.add(fname);
-			args.add(lname);
+		}
+		if (isMobile) {
+			if (!StringUtils.isEmpty(location)) {
+				str.append(" AND location = ? ");
+				args.add(location);
+				isLocation = true;
+			} else {
+				// Location is Empty.
+			}
+		} else {
+			str.append(" where location = ? ");
 			args.add(location);
-			List<InterviewDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE,
+		}
+
+		if (isLocation) {
+			if (!StringUtils.isEmpty(fname) && !StringUtils.isEmpty(lname)) {
+				str.append(" OR firstname = ? OR lastname = ? ");
+				args.add(fname);
+				args.add(lname);
+			}
+
+			List<InterviewDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE + str,
 					args.toArray(), new InterviewServiceExtractor());
 			if (!StringUtils.isEmpty(interviewDetailList) && interviewDetailList.size() > 0) {
 				for (int i = 0; i < interviewDetailList.size(); i++) {

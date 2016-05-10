@@ -13,8 +13,15 @@ public class QueryConstants {
 	public static final String GETUSERBYEMAIL = " SELECT * FROM USER_DETAILS where status='A' ";
 	public static final String DEACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'D' WHERE EMAIL = ? ";
 	public static final String ACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'A' WHERE EMAIL = ? ";
-	
-	public static final String INTERVIEW_DETAIL_ADD = " INSERT INTO INTERVIEW_DETAIL (userid,file_location,state_id,country_id,topic_id,status,location) VALUES (?, ?, ?, ?, ?, ?, ?)";
-	public static final String INTERVIEW_DETAIL_SEARCH_FILE = "SELECT * FROM SABHA.USER_DETAILS USRD INNER JOIN SABHA.INTERVIEW_DETAIL INTD ON USRD.USERID=INTD.USERID WHERE ( USRD.EMAIL = ? OR USRD.MOBILE = ? ) AND USRD.FIRSTNAME = ? AND USRD.LASTNAME = ? AND intd.location = ? ";
 
+	public static final String INTERVIEW_DETAIL_ADD = " INSERT INTO INTERVIEW_DETAIL (userid,file_location,state_id,country_id,topic_id,status,location) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	public static final String INTERVIEW_DETAIL_SEARCH_FILE = "SELECT * from (sabha.interview_detail as intd Inner Join sabha.user_details usrd on intd.userid = usrd.userid ) "
+			+ " inner join sabha.topics as top on top.topic_id =  intd.topic_id inner join sabha.country as cnt on cnt.countryCode = intd.country_id inner join sabha.state as ste"
+			+ " on ste.state_id = intd.state_id  ";
+
+	/* SELECT * from (sabha.interview_detail as intd Inner Join sabha.user_details usrd on intd.userid = usrd.userid ) 
+	inner join sabha.topics as top on top.topic_id =  intd.topic_id inner join sabha.country as cnt 
+	on cnt.countryCode = intd.country_id inner join sabha.state as ste on ste.state_id = intd.state_id 
+  where email = 'aviral@live.com' && mobile = '8527701990' && location = 'Delhi' OR firstname = 'Aviral' OR lastname = 'Mittal';
+  */
 }
