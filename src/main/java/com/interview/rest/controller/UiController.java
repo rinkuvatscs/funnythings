@@ -19,6 +19,7 @@ import com.interview.mysql.CountryService;
 import com.interview.mysql.InterviewService;
 import com.interview.mysql.TopicService;
 import com.interview.pojo.Country;
+import com.interview.pojo.InterviewDetail;
 import com.interview.pojo.Topic;
 import com.interview.pojo.UserDetail;
 
@@ -88,7 +89,7 @@ public class UiController {
 			@RequestParam String email, @RequestParam String location, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		List<String> fileLocation = interviewServiceImpl.fileSearch(fName, lName, email, mNo, location);
+		List<UserDetail> fileLocation = interviewServiceImpl.fileSearch(fName, lName, email, mNo, location);
 		request.setAttribute("fileLoc", fileLocation);
 		return new ModelAndView("FileSearchResult").addObject("fname", fName);
 	}

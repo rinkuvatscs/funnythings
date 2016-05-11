@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.interview.pojo.InterviewDetail;
 import com.interview.pojo.UserDetail;
 
 public interface InterviewService {
@@ -19,6 +20,6 @@ public interface InterviewService {
 
 	public Map<Integer, List<UserDetail>> getInterviewDetails();
 
-	public List<String> fileSearch(String fname, String lname, String email, String mobile, String location);
+	public List<UserDetail> fileSearch(String fname, String lname, String email, String mobile, String location);
 
 }

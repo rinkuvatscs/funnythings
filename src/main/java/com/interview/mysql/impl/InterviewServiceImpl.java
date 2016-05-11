@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.interview.constants.QueryConstants;
 import com.interview.extractor.InterviewServiceExtractor;
+import com.interview.extractor.UserDetailExtractor;
 import com.interview.mysql.InterviewService;
 import com.interview.mysql.UserDetailService;
 import com.interview.pojo.InterviewDetail;
@@ -90,7 +91,7 @@ public class InterviewServiceImpl implements InterviewService {
 	}
 
 	@Override
-	public List<String> fileSearch(String fname, String lname, String email, String mobile, String location) {
+	public List<UserDetail> fileSearch(String fname, String lname, String email, String mobile, String location) {
 
 		boolean isEmail = false;
 		boolean isMobile = false;
@@ -98,7 +99,7 @@ public class InterviewServiceImpl implements InterviewService {
 		boolean isFname = false;
 		List<String> args = new ArrayList<>();
 		StringBuffer str = new StringBuffer();
-		List<String> response = new ArrayList<>();
+		List<UserDetail> response = new ArrayList<>();
 
 		if (!StringUtils.isEmpty(email)) {
 			str.append(" WHERE email = ? ");
@@ -158,15 +159,15 @@ public class InterviewServiceImpl implements InterviewService {
 				args.add(lname);
 			}
 		}
-			List<InterviewDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE
-					+ str, args.toArray(), new InterviewServiceExtractor());
+			List<UserDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE
+					+ str, args.toArray(), new UserDetailExtractor());
 			if (!StringUtils.isEmpty(interviewDetailList) && interviewDetailList.size() > 0) {
 				for (int i = 0; i < interviewDetailList.size(); i++) {
-					response.add(interviewDetailList.get(i).getFileLocation());
+					response.add(interviewDetailList.get(i));
 				}
 			} else {
 				// response = INTERVIEW_FILE_LOCATION_ERROR;
-				response.add(INTERVIEW_FILE_LOCATION_ERROR);
+//				response.add(INTERVIEW_FILE_LOCATION_ERROR);
 			}
 		/*} else {
 			// response = INTERVIEW_FIELDS_IS_BLANK;

@@ -25,7 +25,8 @@ public class UserDetailExtractor implements ResultSetExtractor<List<UserDetail>>
 			userDetail.setEmailAddress(rs.getString("email"));
 			userDetail.setMobileNum(rs.getString("mobile"));
 			userDetail.setStatus(rs.getString("status"));
-//			userDetail.setLocation(rs.getString("location"));
+			userDetail.setLocation(rs.getString("location"));
+			userDetail.setFileLocation(rs.getString("file_location"));
 			userDetail.setTopicId(Integer.parseInt(rs.getString("topicid")));
 			userDetailsList.add(userDetail);
 		}
