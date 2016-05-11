@@ -95,6 +95,7 @@ public class InterviewServiceImpl implements InterviewService {
 		boolean isEmail = false;
 		boolean isMobile = false;
 		boolean isLocation = false;
+		boolean isFname = false;
 		List<String> args = new ArrayList<>();
 		StringBuffer str = new StringBuffer();
 		List<String> response = new ArrayList<>();
@@ -111,8 +112,11 @@ public class InterviewServiceImpl implements InterviewService {
 				isMobile = true;
 			}
 		} else {
-			str.append(" where mobile = ? ");
-			args.add(mobile);
+			if (!StringUtils.isEmpty(mobile)) {
+				str.append(" where mobile = ? ");
+				args.add(mobile);
+				isMobile = true;
+			}
 		}
 		if (isMobile) {
 			if (!StringUtils.isEmpty(location)) {
@@ -123,19 +127,39 @@ public class InterviewServiceImpl implements InterviewService {
 				// Location is Empty.
 			}
 		} else {
-			str.append(" where location = ? ");
-			args.add(location);
+			if (!StringUtils.isEmpty(location)) {
+				str.append(" where location = ? ");
+				args.add(location);
+				isLocation = true;
+			}
 		}
 
 		if (isLocation) {
-			if (!StringUtils.isEmpty(fname) && !StringUtils.isEmpty(lname)) {
-				str.append(" OR firstname = ? OR lastname = ? ");
+			if (!StringUtils.isEmpty(fname)) {
+				str.append(" OR firstname = ? ");
 				args.add(fname);
+				isFname = true;
+			}
+		}else{
+			if (!StringUtils.isEmpty(fname)) {
+				str.append(" WHERE firstname = ? ");
+				args.add(fname);
+				isFname = true;
+			}
+		}
+		if(isFname){
+			if(!StringUtils.isEmpty(lname)){
+				str.append(" OR lastname = ? ");
 				args.add(lname);
 			}
-
-			List<InterviewDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE + str,
-					args.toArray(), new InterviewServiceExtractor());
+		}else{
+			if(!StringUtils.isEmpty(lname)){
+				str.append(" WHERE lastname = ? ");
+				args.add(lname);
+			}
+		}
+			List<InterviewDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE
+					+ str, args.toArray(), new InterviewServiceExtractor());
 			if (!StringUtils.isEmpty(interviewDetailList) && interviewDetailList.size() > 0) {
 				for (int i = 0; i < interviewDetailList.size(); i++) {
 					response.add(interviewDetailList.get(i).getFileLocation());
@@ -144,10 +168,10 @@ public class InterviewServiceImpl implements InterviewService {
 				// response = INTERVIEW_FILE_LOCATION_ERROR;
 				response.add(INTERVIEW_FILE_LOCATION_ERROR);
 			}
-		} else {
+		/*} else {
 			// response = INTERVIEW_FIELDS_IS_BLANK;
 			response.add(INTERVIEW_FIELDS_IS_BLANK);
-		}
+		}*/
 
 		return response;
 	}
