@@ -33,5 +33,19 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<!-- <video id="sampleMovie" width="640" height="360" preload controls>
+	<source src="file:///D:/interviewService/Wildlife.wmv" /> <source></video> -->
+
+	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+		codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"
+		width="400" height="400">
+		<param name="movie" value="flashplayer.swf">
+		<param name="quality" value="high">
+		<param name="LOOP" value="false">
+		<embed src=file:///D:/interviewService/Wildlife.wmv width="350"
+			height="250" loop="false" quality="high"
+			pluginspage="http://www.macromedia.com/go/getflashplayer"
+			type="application/x-shockwave-flash"></embed>
+	</object>
 </body>
 </html>

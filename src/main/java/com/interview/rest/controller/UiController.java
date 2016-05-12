@@ -1,5 +1,8 @@
 package com.interview.rest.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,6 @@ import com.interview.mysql.CountryService;
 import com.interview.mysql.InterviewService;
 import com.interview.mysql.TopicService;
 import com.interview.pojo.Country;
-import com.interview.pojo.InterviewDetail;
 import com.interview.pojo.Topic;
 import com.interview.pojo.UserDetail;
 
@@ -89,6 +91,30 @@ public class UiController {
 			@RequestParam String email, @RequestParam String location) {
 
 		List<UserDetail> fileLocation = interviewServiceImpl.fileSearch(fName, lName, email, mNo, location);
+		return new ModelAndView("FileSearchResult").addObject("fileLoc", fileLocation);
+	}
+
+	@RequestMapping(value = "/mobileSearchResult")
+	public ModelAndView mobileSearchResult(@RequestParam String fName, @RequestParam String lName,
+			@RequestParam String mNo, @RequestParam String email, @RequestParam String location) {
+
+		List<UserDetail> fileLocation = interviewServiceImpl.fileSearch(fName, lName, email, mNo, location);
+		File file = new File(fileLocation.get(0).getFileLocation());
+		System.out.println(file);
+		FileInputStream fin = null;
+
+		try {
+			fin = new FileInputStream(file);
+			byte fileContent[] = new byte[(int) file.length()];
+			fin.read(fileContent);
+			String s = new String(fileContent);
+			System.out.println("File content: " + s);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return new ModelAndView("FileSearchResult").addObject("fileLoc", fileLocation);
 	}
 
