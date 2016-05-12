@@ -5,7 +5,14 @@ public class State {
 	private int country_id ;
 	private int state_id ;
 	private String state_name ;
+	 private String status ;
 	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public int getCountry_id() {
 		return country_id;
 	}

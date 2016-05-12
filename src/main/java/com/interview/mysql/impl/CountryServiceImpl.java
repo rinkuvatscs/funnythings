@@ -20,7 +20,7 @@ import com.interview.util.MysqlOperations;
 public class CountryServiceImpl implements CountryService {
 
 	public static final String SELECT_COUNTRY = "select * from country where id = ?";
-	public static final String INSERT_COUNTRY = "INSERT INTO Country VALUES (LAST_INSERT_ID(), ?)";
+	public static final String INSERT_COUNTRY = "INSERT INTO Country VALUES (LAST_INSERT_ID(), ?, ?)";
 	/*
 	 * country --country_id,country_name
 	 * 
@@ -110,9 +110,10 @@ public class CountryServiceImpl implements CountryService {
 	@Override
 	public Country modifyCountry(String oldCountryName, String newCountryName) {
 		String updateQuery = "update country set countryName = ? where countryName=?";
-		Map<String, String> modifymap = new HashMap<String, String>();
-		modifymap.put(oldCountryName, newCountryName);
-		jdbcTemplate.update(updateQuery, modifymap);
+		List<String> intList = new ArrayList<String>();
+		intList.add(newCountryName);
+		intList.add(oldCountryName);
+		jdbcTemplate.update(updateQuery, intList);
 
 		/*
 		 * In between start and end line code is use less when we have

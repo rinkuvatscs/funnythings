@@ -1,6 +1,7 @@
 package com.interview.mysql;
 
 import com.interview.pojo.State;
+import com.interview.util.MysqlOperations;
 
 public interface StateService {
 
@@ -16,5 +17,7 @@ public interface StateService {
 	
 	public String deleteState(int countryId , String stateName);
 	
-	public boolean isStateExist(State state) ;
+	public boolean isStateExist(State state , int countryId ) ;
+	
+	public String activateDeactivateStateByStateName(MysqlOperations mysqlOperations , String stateName , int countryId);
 }

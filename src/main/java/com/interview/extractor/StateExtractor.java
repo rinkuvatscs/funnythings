@@ -19,10 +19,12 @@ public class StateExtractor implements ResultSetExtractor<List<State>> {
 		List<State> stateList = new ArrayList<State>();
 		State state = null;
 		while (rs.next()) {
+	
 			state = new State();
-			state.setState_id(rs.getInt("topic_id"));
-			state.setState_name(rs.getString("topic_name"));
+			state.setState_id(rs.getInt("state_id"));
+			state.setState_name(rs.getString("state_name"));
 			state.setCountry_id(rs.getInt("country_id"));
+			state.setStatus(rs.getString("status"));
 			stateList.add(state);
 		}
 		return stateList;
