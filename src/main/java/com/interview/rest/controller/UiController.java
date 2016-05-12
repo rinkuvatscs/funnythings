@@ -86,12 +86,10 @@ public class UiController {
 
 	@RequestMapping(value = "/searchResult")
 	public ModelAndView searchResult(@RequestParam String fName, @RequestParam String lName, @RequestParam String mNo,
-			@RequestParam String email, @RequestParam String location, HttpServletRequest request,
-			HttpServletResponse response) {
+			@RequestParam String email, @RequestParam String location) {
 
 		List<UserDetail> fileLocation = interviewServiceImpl.fileSearch(fName, lName, email, mNo, location);
-		request.setAttribute("fileLoc", fileLocation);
-		return new ModelAndView("FileSearchResult").addObject("fname", fName);
+		return new ModelAndView("FileSearchResult").addObject("fileLoc", fileLocation);
 	}
 
 }

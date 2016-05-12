@@ -18,7 +18,7 @@ public class CountryListExtrator implements ResultSetExtractor<List<Country>> {
 		Country country = null;
 		while (rs.next()) {
 			country = new Country();
-			country.setCountryCode(rs.getInt("country_id"));
+			country.setCountryCode(rs.getInt("countryCode"));
 			country.setCountryName(rs.getString("countryName"));
 			country.setStatus(rs.getString("status"));
 			countryList.add(country);

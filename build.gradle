@@ -43,6 +43,7 @@ dependencies {
 	compile("mysql:mysql-connector-java:5.1.38")
 	compile("org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}")
     compile ("io.springfox:springfox-swagger2:2.4.0")
+    compile("jstl:jstl:1.2")
     providedRuntime("org.apache.tomcat.embed:tomcat-embed-jasper")
 	//testCompile("org.springframework.boot:spring-boot-starter-test") 
 }
