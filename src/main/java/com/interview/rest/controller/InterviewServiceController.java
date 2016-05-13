@@ -56,7 +56,7 @@ public class InterviewServiceController {
 	@RequestMapping(value = "/deleteByEmailOrMobile", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> deleteByEmailOrMobile() {
 
-		return new ResponseEntity<String>(interviewServiceImpl.deleteInterviewDetail("aviral@live.com", "8527701990"),
+		return new ResponseEntity<String>(interviewServiceImpl.deleteInterviewDetail("aviralmittal2012@gmail.com", "8527701990"),
 				HttpStatus.OK);
 
 	}

@@ -215,7 +215,7 @@ public class InterviewServiceImpl implements InterviewService {
 				args.add(email);
 				if (!StringUtils.isEmpty(mobile)) {
 					str.append(" AND mobile = ? ");
-					args.add(email);
+					args.add(mobile);
 				}
 			} else {
 				if (!StringUtils.isEmpty(mobile)) {
@@ -259,7 +259,7 @@ public class InterviewServiceImpl implements InterviewService {
 						args3.add(interviewDetailList.get(0).getTopicId());
 						int deleteResponse = jdbcTemplate.update(QueryConstants.INTERVIEW_DELETE, args3.toArray());
 						if (deleteResponse > 0) {
-							response = "Successfully " + name + " your details has been deleted Successfully. ";
+							response =  name + " your details has been deleted Successfully. ";
 						}
 					}
 				}
