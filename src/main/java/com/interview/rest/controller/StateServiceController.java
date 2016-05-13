@@ -47,7 +47,7 @@ public class StateServiceController {
 
 
 	@RequestMapping(value = "/deleteStateByStateName/{stateName}/byCountryId/{id}", method = RequestMethod.GET)
-	public ResponseEntity<String> getStateListByCountryId(@PathVariable("id") int countryid, @PathVariable("stateName") String stateName){
+	public ResponseEntity<String> deleteStateByStateName(@PathVariable("id") int countryid, @PathVariable("stateName") String stateName){
 		String stateStatus = stateService.activateDeactivateStateByStateNameAndCountry_Id(MysqlOperations.DEACTIVATE,stateName,countryid);
 		return new ResponseEntity<String>(stateStatus, HttpStatus.OK);
 	

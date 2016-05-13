@@ -62,10 +62,15 @@ public class StateServiceImpl implements StateService {
 
 	
 
-	@Override
+/*	@Override
 	public int getStateCodeByStateNameAndCountryId(int countryId,
 			String stateName) {
-		// TODO Auto-generated method stub
+		String query = "select * from state where country_id= ? AND state_name= ?";
+		List<String> intList = new ArrayList<String>();
+		intList.add(String.valueOf(countryId));
+		intList.add(stateName);
+		int list = new ArrayList<>();
+		list = jdbcTemplate.update(query, intList.toArray(), new StateExtractor());
 		return 0;
 	}
 
@@ -78,11 +83,18 @@ public class StateServiceImpl implements StateService {
 	@Override
 	public String modifyStateName(int countryId, String oldStateName,
 			String newStateName) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String updateQuery = "update state set state_name = ? where state_name=? AND country_id=?";
+		List<String> intList = new ArrayList<String>();
+		intList.add(newStateName);
+		intList.add(oldStateName);
+		intList.add(String.valueOf(countryId));
+		jdbcTemplate.update(updateQuery, intList.toArray());
+		int stateId = getStateCodeByStateNameAndCountryId(countryId,newStateName);
+		return getStateNmaeByStateIdAndCountryId(countryId,stateId);
 	}
 
-	
+	*/
 
 	@Override
 	public boolean isStateExist(State state , int countryId) {
