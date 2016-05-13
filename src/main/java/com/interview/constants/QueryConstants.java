@@ -13,7 +13,11 @@ public class QueryConstants {
 	public static final String GETUSERBYEMAIL = " SELECT * FROM USER_DETAILS where status='A' ";
 	public static final String DEACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'D' WHERE EMAIL = ? ";
 	public static final String ACTIVATEUSER = " UPDATE USER_DETAILS SET STATUS = 'A' WHERE EMAIL = ? ";
-
+	
+	public static final String INTERVIEW_DETAIL_SELECT = " SELECT * FROM interview_detail where userid = ? AND topic_id = ? ";
+	public static final String INTERVIEW_DETAIL_DELETE = " INSERT INTO INTERVIEWDELETE (interview_id,userid,file_location,state_id,country_id,topic_id,status,location) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	public static final String INTERVIEW_DELETE = " DELETE FROM interview_detail WHERE userid = ? AND topic_id = ?";
+	
 	public static final String INTERVIEW_DETAIL_ADD = " INSERT INTO INTERVIEW_DETAIL (userid,file_location,state_id,country_id,topic_id,status,location) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	public static final String INTERVIEW_DETAIL_SEARCH_FILE = "SELECT * from (sabha.interview_detail as intd Inner Join sabha.user_details usrd on intd.userid = usrd.userid ) "
 			+ " inner join sabha.topics as top on top.topic_id =  intd.topic_id inner join sabha.country as cnt on cnt.countryCode = intd.country_id inner join sabha.state as ste"

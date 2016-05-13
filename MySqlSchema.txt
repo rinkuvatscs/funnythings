@@ -104,9 +104,8 @@ CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
     ON UPDATE NO ACTION;
     
     
-    
-    
     --------------------------------------------------------------------------------------------------------
+    											USER_DETAILS
     -------------------------------------------------------------------------------------------------------
     CREATE TABLE `sabha`.`user_details` (
   `userid` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -144,6 +143,22 @@ CREATE  TABLE IF NOT EXISTS `sabha`.`country` (
     REFERENCES `user_details` (`userid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
+-------------------------------------------------------------------------------------------------------------
+    											INTERVIEW DELETE
+-------------------------------------------------------------------------------------------------------------
+    
+   CREATE  TABLE IF NOT EXISTS `sabha`.`interviewDelete` (
+  `interview_id` INT NOT NULL ,
+  `file_location` VARCHAR(45) NULL ,
+  `state_id` VARCHAR(45) NULL ,
+  `country_id` VARCHAR(45) NULL ,
+  `topic_id` VARCHAR(45) NULL ,
+  `location` VARCHAR(45) NULL ,
+  `userid` VARCHAR(45) NULL ,
+  `status` VARCHAR(45) NULL ,
+  PRIMARY KEY (`interview_id`) );
+
+    ---------------------------------------------------------------------------------------------------------------
     
     select * from sabha.interview_detail;
     select * from sabha.user_details;

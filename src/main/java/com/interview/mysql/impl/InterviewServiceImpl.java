@@ -30,7 +30,7 @@ public class InterviewServiceImpl implements InterviewService {
 	public static final String INTERVIEW_NOT_SAVED = "Sorry, Interview not Saved succesfully for ";
 	public static final String INTERVIEW_NOT_SAVE_ERROR = "Sorry , Error in Interview Saving for ";
 	public static final String INTERVIEW_FILE_LOCATION_ERROR = "Sorry , Error in file Location ";
-	public static final String INTERVIEW_FIELDS_IS_BLANK = "Sorry , Error in file Location ";
+	public static final String INTERVIEW_FIELDS_IS_BLANK = "Please provide input";
 
 	@Autowired
 	UserDetailService userDetailServiceImpl;
@@ -141,38 +141,37 @@ public class InterviewServiceImpl implements InterviewService {
 				args.add(fname);
 				isFname = true;
 			}
-		}else{
+		} else {
 			if (!StringUtils.isEmpty(fname)) {
 				str.append(" WHERE firstname = ? ");
 				args.add(fname);
 				isFname = true;
 			}
 		}
-		if(isFname){
-			if(!StringUtils.isEmpty(lname)){
+		if (isFname) {
+			if (!StringUtils.isEmpty(lname)) {
 				str.append(" OR lastname = ? ");
 				args.add(lname);
 			}
-		}else{
-			if(!StringUtils.isEmpty(lname)){
+		} else {
+			if (!StringUtils.isEmpty(lname)) {
 				str.append(" WHERE lastname = ? ");
 				args.add(lname);
 			}
 		}
-			List<UserDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE
-					+ str, args.toArray(), new UserDetailExtractor());
-			if (!StringUtils.isEmpty(interviewDetailList) && interviewDetailList.size() > 0) {
-				for (int i = 0; i < interviewDetailList.size(); i++) {
-					response.add(interviewDetailList.get(i));
-				}
-			} else {
-				// response = INTERVIEW_FILE_LOCATION_ERROR;
-//				response.add(INTERVIEW_FILE_LOCATION_ERROR);
+		List<UserDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SEARCH_FILE + str,
+				args.toArray(), new UserDetailExtractor());
+		if (!StringUtils.isEmpty(interviewDetailList) && interviewDetailList.size() > 0) {
+			for (int i = 0; i < interviewDetailList.size(); i++) {
+				response.add(interviewDetailList.get(i));
 			}
-		/*} else {
-			// response = INTERVIEW_FIELDS_IS_BLANK;
-			response.add(INTERVIEW_FIELDS_IS_BLANK);
-		}*/
+		} else {
+			// response = INTERVIEW_FILE_LOCATION_ERROR;
+			// response.add(INTERVIEW_FILE_LOCATION_ERROR);
+		}
+		/*
+		 * } else { response.add(); }
+		 */
 
 		return response;
 	}
@@ -201,4 +200,72 @@ public class InterviewServiceImpl implements InterviewService {
 		return null;
 	}
 
+	@Override
+	public String deleteInterviewDetail(String email, String mobile) {
+
+		StringBuffer str = new StringBuffer(" SELECT * FROM USER_DETAILS ");
+		List<String> args = new ArrayList<>();
+		List<String> args1 = new ArrayList<>();
+		List<String> args2 = new ArrayList<>();
+		List<String> args3 = new ArrayList<>();
+		String response = null;
+		if (!StringUtils.isEmpty(email) || !StringUtils.isEmpty(mobile)) {
+			if (!StringUtils.isEmpty(email)) {
+				str.append(" WHERE email = ? ");
+				args.add(email);
+				if (!StringUtils.isEmpty(mobile)) {
+					str.append(" AND mobile = ? ");
+					args.add(email);
+				}
+			} else {
+				if (!StringUtils.isEmpty(mobile)) {
+					str.append(" WHERE mobile = ? ");
+					args.add(email);
+				} else {
+					response = INTERVIEW_FIELDS_IS_BLANK;
+				}
+			}
+		} else {
+			response = INTERVIEW_FIELDS_IS_BLANK;
+		}
+
+		if (!args.isEmpty()) {
+
+			List<UserDetail> userDetailList = jdbcTemplate.query(str.toString(), args.toArray(),
+					new UserDetailExtractor());
+			if (userDetailList.size() > 0 && userDetailList.get(0) != null) {
+				int userId = userDetailList.get(0).getUserId();
+				int topicId = userDetailList.get(0).getTopicId();
+				String name = userDetailList.get(0).getFirstName();
+
+				args1.add(String.valueOf(userId));
+				args1.add(String.valueOf(topicId));
+
+				List<InterviewDetail> interviewDetailList = jdbcTemplate.query(QueryConstants.INTERVIEW_DETAIL_SELECT,
+						args1.toArray(), new InterviewServiceExtractor());
+				if (interviewDetailList.size() > 0 && interviewDetailList.get(0) != null) {
+					args2.add(interviewDetailList.get(0).getCountryId());
+					args2.add(interviewDetailList.get(0).getFileLocation());
+					args2.add(String.valueOf(interviewDetailList.get(0).getInterviewId()));
+					args2.add(interviewDetailList.get(0).getLocation());
+					args2.add(interviewDetailList.get(0).getStateId());
+					args2.add(interviewDetailList.get(0).getStatus());
+					args2.add(interviewDetailList.get(0).getTopicId());
+					args2.add(String.valueOf(interviewDetailList.get(0).getUserId()));
+
+					int responseGet = jdbcTemplate.update(QueryConstants.INTERVIEW_DETAIL_DELETE, args2.toArray());
+					if (responseGet > 0) {
+						args3.add(String.valueOf(interviewDetailList.get(0).getUserId()));
+						args3.add(interviewDetailList.get(0).getTopicId());
+						int deleteResponse = jdbcTemplate.update(QueryConstants.INTERVIEW_DELETE, args3.toArray());
+						if (deleteResponse > 0) {
+							response = "Successfully " + name + " your details has been deleted Successfully. ";
+						}
+					}
+				}
+			}
+		}
+
+		return response;
+	}
 }

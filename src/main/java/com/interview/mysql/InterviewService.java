@@ -21,5 +21,7 @@ public interface InterviewService {
 	public Map<Integer, List<UserDetail>> getInterviewDetails();
 
 	public List<UserDetail> fileSearch(String fname, String lname, String email, String mobile, String location);
+	
+	public String deleteInterviewDetail(String email, String mobile);
 
 }

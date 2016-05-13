@@ -36,21 +36,28 @@ public class InterviewServiceController {
 
 	@ApiOperation(value = "addInterview", nickname = "addSabha")
 	@RequestMapping(value = "/addInterview", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> handleUploadFile(
-			@RequestPart  String userDetailStr , @RequestPart("file") MultipartFile file) throws JsonParseException, JsonMappingException, IOException {
-		UserDetail userDetail =  new ObjectMapper().readValue(userDetailStr	, UserDetail.class) ;
-		
-		return new ResponseEntity<String>(interviewServiceImpl.addInterview(
-				userDetail, file), HttpStatus.OK);
+	public @ResponseBody ResponseEntity<String> handleUploadFile(@RequestPart String userDetailStr,
+			@RequestPart("file") MultipartFile file) throws JsonParseException, JsonMappingException, IOException {
+		UserDetail userDetail = new ObjectMapper().readValue(userDetailStr, UserDetail.class);
+
+		return new ResponseEntity<String>(interviewServiceImpl.addInterview(userDetail, file), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "getSabhaByEmailAddress", nickname = "getSabhaByEmailAddress")
 	@RequestMapping(value = "/getSabhaByEmailAddress", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<UserDetail>> getSabhaByEmailAddress(
-			@RequestParam String emailAddress) {
+	public @ResponseBody ResponseEntity<List<UserDetail>> getSabhaByEmailAddress(@RequestParam String emailAddress) {
 		List<UserDetail> userDetails = null;
 		// String emailAddress = "rinkuvatscs@gmail.com";
 		return new ResponseEntity<List<UserDetail>>(userDetails, HttpStatus.OK);
+
+	}
+
+	@ApiOperation(value = "deleteByEmailOrMobile", nickname = "deleteByEmailOrMobile")
+	@RequestMapping(value = "/deleteByEmailOrMobile", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> deleteByEmailOrMobile() {
+
+		return new ResponseEntity<String>(interviewServiceImpl.deleteInterviewDetail("aviral@live.com", "8527701990"),
+				HttpStatus.OK);
 
 	}
 
