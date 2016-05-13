@@ -177,12 +177,6 @@ public class InterviewServiceImpl implements InterviewService {
 	}
 
 	@Override
-	public String deleteInterview(UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String modifyInterviewDetails(UserDetail userDetail) {
 		// TODO Auto-generated method stub
 		return null;
@@ -259,7 +253,7 @@ public class InterviewServiceImpl implements InterviewService {
 						args3.add(interviewDetailList.get(0).getTopicId());
 						int deleteResponse = jdbcTemplate.update(QueryConstants.INTERVIEW_DELETE, args3.toArray());
 						if (deleteResponse > 0) {
-							response =  name + " your details has been deleted Successfully. ";
+							response = name + " your details has been deleted Successfully. ";
 						}
 					}
 				}

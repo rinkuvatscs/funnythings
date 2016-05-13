@@ -1,7 +1,5 @@
 package com.interview.rest.controller;
 
-import io.swagger.annotations.ApiOperation;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -21,6 +19,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interview.mysql.InterviewService;
 import com.interview.pojo.UserDetail;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/interviewservice/interviewservice/")
@@ -54,10 +54,10 @@ public class InterviewServiceController {
 
 	@ApiOperation(value = "deleteByEmailOrMobile", nickname = "deleteByEmailOrMobile")
 	@RequestMapping(value = "/deleteByEmailOrMobile", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<String> deleteByEmailOrMobile() {
+	public @ResponseBody ResponseEntity<String> deleteByEmailOrMobile(@RequestParam String email,
+			@RequestParam String mobile) {
 
-		return new ResponseEntity<String>(interviewServiceImpl.deleteInterviewDetail("aviralmittal2012@gmail.com", "8527701990"),
-				HttpStatus.OK);
+		return new ResponseEntity<String>(interviewServiceImpl.deleteInterviewDetail(email, mobile), HttpStatus.OK);
 
 	}
 
