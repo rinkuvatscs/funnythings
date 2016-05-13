@@ -1,5 +1,7 @@
 package com.interview.mysql;
 
+import java.util.List;
+
 import com.interview.pojo.State;
 import com.interview.util.MysqlOperations;
 
@@ -7,7 +9,7 @@ public interface StateService {
 
 	public String addState(int countryId , String stateName);
 	
-	public String getStateListByCountryId(int countryId);
+	public List<State> getStateListByCountryId(int countryId);
 	
 	public int getStateCodeByStateNameAndCountryId(int countryId , String stateName);
 	

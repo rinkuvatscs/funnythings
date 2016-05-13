@@ -60,11 +60,7 @@ public class StateServiceImpl implements StateService {
 		return response;
 	}
 
-	@Override
-	public String getStateListByCountryId(int countryId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public int getStateCodeByStateNameAndCountryId(int countryId,
@@ -136,6 +132,18 @@ public class StateServiceImpl implements StateService {
 		args.add(stateName);
 		jdbcTemplate.update(query, args);
 		return "state is modified";
+	}
+
+
+
+	@Override
+	public List<State> getStateListByCountryId(int countryId) {
+		List<String> intList = new ArrayList<String>();
+		intList.add(String.valueOf(countryId));
+		String query = "select * from state where status = 'A' AND country_id = ? ";
+		List<State> stateList = jdbcTemplate.query(query,intList.toArray(),
+				new StateExtractor());
+		return stateList;
 	}
 	
 	
