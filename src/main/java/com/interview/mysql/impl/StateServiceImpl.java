@@ -46,7 +46,7 @@ public class StateServiceImpl implements StateService {
 		
 		else{
 			if (state.getStatus().equalsIgnoreCase("D")) {
-				activateDeactivateStateByStateName(
+				activateDeactivateStateByStateNameAndCountry_Id(
 						MysqlOperations.ACTIVATE, state.getState_name(),countryId);
 				response = state + " " + "state Is Activated";
 			}
@@ -82,11 +82,7 @@ public class StateServiceImpl implements StateService {
 		return null;
 	}
 
-	@Override
-	public String deleteState(int countryId, String stateName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public boolean isStateExist(State state , int countryId) {
@@ -114,7 +110,7 @@ public class StateServiceImpl implements StateService {
 	}
 
 	@Override
-	public String activateDeactivateStateByStateName(MysqlOperations mysqlOperations, String stateName ,int countryId) {
+	public String activateDeactivateStateByStateNameAndCountry_Id(MysqlOperations mysqlOperations, String stateName ,int countryId) {
 		String query = null;
 		/* String query ="DELETE FROM state WHERE state_name = ?"; */
 		/*
@@ -130,7 +126,7 @@ public class StateServiceImpl implements StateService {
 		List<String> args = new ArrayList<>();
 		args.add(String.valueOf(countryId));
 		args.add(stateName);
-		jdbcTemplate.update(query, args);
+		jdbcTemplate.update(query, args.toArray());
 		return "state is modified";
 	}
 

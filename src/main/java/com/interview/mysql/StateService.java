@@ -17,9 +17,9 @@ public interface StateService {
 
 	public String modifyStateName(int countryId , String oldStateName, String newStateName);
 	
-	public String deleteState(int countryId , String stateName);
+	
 	
 	public boolean isStateExist(State state , int countryId ) ;
 	
-	public String activateDeactivateStateByStateName(MysqlOperations mysqlOperations , String stateName , int countryId);
+	public String activateDeactivateStateByStateNameAndCountry_Id(MysqlOperations mysqlOperations , String stateName , int countryId);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.interview.mysql.StateService;
 import com.interview.pojo.Country;
 import com.interview.pojo.State;
+import com.interview.util.MysqlOperations;
 
 @RestController
 @RequestMapping(value = "/interviewservice/stateservice/")
@@ -40,8 +41,16 @@ public class StateServiceController {
 		List<State> stateList = stateService.getStateListByCountryId(countryid);
 		
 		return new ResponseEntity<List<State>>(stateList, HttpStatus.OK);
+	
+	}
+	
 
-		
+
+	@RequestMapping(value = "/deleteStateByStateName/{stateName}/byCountryId/{id}", method = RequestMethod.GET)
+	public ResponseEntity<String> getStateListByCountryId(@PathVariable("id") int countryid, @PathVariable("stateName") String stateName){
+		String stateStatus = stateService.activateDeactivateStateByStateNameAndCountry_Id(MysqlOperations.DEACTIVATE,stateName,countryid);
+		return new ResponseEntity<String>(stateStatus, HttpStatus.OK);
+	
 	}
 	
 }
