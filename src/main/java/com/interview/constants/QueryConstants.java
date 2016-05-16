@@ -22,6 +22,16 @@ public class QueryConstants {
 	public static final String INTERVIEW_DETAIL_SEARCH_FILE = "SELECT * from (sabha.interview_detail as intd Inner Join sabha.user_details usrd on intd.userid = usrd.userid ) "
 			+ " inner join sabha.topics as top on top.topic_id =  intd.topic_id inner join sabha.country as cnt on cnt.countryCode = intd.country_id inner join sabha.state as ste"
 			+ " on ste.state_id = intd.state_id  ";
+	
+	public static final String ISCOUNTRYEXIST = "SELECT * FROM country WHERE countryName = ? ";
+	public static final String UPDATE_TO_ACTIVATE = "UPDATE country SET status = 'A' WHERE countryName = ?";
+	public static final String UPDATE_TO_DEACTIVATE = "UPDATE country SET status = 'D' WHERE countryName = ?";
+	public static final String MODIFYCOUNTRY = "UPDATE country SET countryName = ? WHERE countryName=?";
+	public static final String GET_COUNTRY_CODE_BY_COUNTRYNAME = "SELECT * FROM country WHERE countryName = ?";
+	public static final String SELECT_COUNTRY = "SELECT * FROM country WHERE countryCode = ?";
+	public static final String INSERT_COUNTRY = " INSERT INTO Country (countryCode,countryName) VALUES (0, ?) ";
+	
+	
 
 	/* SELECT * from (sabha.interview_detail as intd Inner Join sabha.user_details usrd on intd.userid = usrd.userid ) 
 	inner join sabha.topics as top on top.topic_id =  intd.topic_id inner join sabha.country as cnt 

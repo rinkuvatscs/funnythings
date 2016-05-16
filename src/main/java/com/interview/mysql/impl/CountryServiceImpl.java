@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.interview.constants.QueryConstants;
 import com.interview.extractor.CountryExtractor;
 import com.interview.extractor.CountryListExtrator;
 import com.interview.mysql.CountryService;
@@ -17,16 +18,14 @@ import com.interview.util.MysqlOperations;
 @Repository
 public class CountryServiceImpl implements CountryService {
 
-	public static final String SELECT_COUNTRY = "select * from country where id = ?";
-	public static final String INSERT_COUNTRY = " INSERT INTO Country (countryCode,countryName) VALUES (0, ?) ";
-
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	public String getCountryNameByCountryCode(int cuontryCode) {
 		List<Integer> intList = new ArrayList<Integer>();
 		intList.add(cuontryCode);
-		Country country = (Country) jdbcTemplate.query(SELECT_COUNTRY, intList.toArray(), new CountryExtractor());
+		Country country = (Country) jdbcTemplate.query(QueryConstants.SELECT_COUNTRY, intList.toArray(),
+				new CountryExtractor());
 		if (StringUtils.isEmpty(country)) {
 			country = new Country();
 		}
@@ -40,7 +39,7 @@ public class CountryServiceImpl implements CountryService {
 		if (!StringUtils.isEmpty(country) && !StringUtils.isEmpty(country.getCountryName())) {
 			intList.add(country.getCountryName());
 			if (!isCountryExist(country)) {
-				int result = jdbcTemplate.update(INSERT_COUNTRY, intList.toArray());
+				int result = jdbcTemplate.update(QueryConstants.INSERT_COUNTRY, intList.toArray());
 				if (result > 0) {
 					response = "Country " + country.getCountryName() + " " + "is Added";
 				} else {
@@ -58,10 +57,11 @@ public class CountryServiceImpl implements CountryService {
 
 	@Override
 	public Country getCountryCodeByCountryName(String countryName) {
-		String sql = "select * from country where countryName = ?";
+
 		List<String> intList = new ArrayList<String>();
 		intList.add(countryName);
-		Country country = (Country) jdbcTemplate.query(sql, intList.toArray(), new CountryExtractor());
+		Country country = (Country) jdbcTemplate.query(QueryConstants.GET_COUNTRY_CODE_BY_COUNTRYNAME,
+				intList.toArray(), new CountryExtractor());
 		/*
 		 * If Country Object not found then what will be Country Value ?
 		 */
@@ -70,11 +70,11 @@ public class CountryServiceImpl implements CountryService {
 
 	@Override
 	public Country modifyCountry(String oldCountryName, String newCountryName) {
-		String updateQuery = "update country set countryName = ? where countryName=?";
+
 		List<String> intList = new ArrayList<String>();
 		intList.add(newCountryName);
 		intList.add(oldCountryName);
-		jdbcTemplate.update(updateQuery, intList);
+		jdbcTemplate.update(QueryConstants.MODIFYCOUNTRY, intList);
 
 		/*
 		 * In between start and end line code is use less when we have
@@ -103,9 +103,10 @@ public class CountryServiceImpl implements CountryService {
 		 * At THe Time of deletion we will not delete Country we will disable it
 		 */
 		if (mysqlOperations.toString().equalsIgnoreCase(MysqlOperations.ACTIVATE.toString())) {
-			query = "UPDATE country set status = 'A' WHERE countryName = ?";
+			query = QueryConstants.UPDATE_TO_ACTIVATE;
 		} else if (mysqlOperations.toString().equalsIgnoreCase(MysqlOperations.DEACTIVATE.toString())) {
-			query = "UPDATE country set status = 'D' WHERE countryName = ?";
+			query = QueryConstants.UPDATE_TO_DEACTIVATE;
+			;
 		}
 		List<String> intList = new ArrayList<String>();
 		intList.add(countryName);
@@ -122,14 +123,13 @@ public class CountryServiceImpl implements CountryService {
 
 	private boolean isCountryExist(Country country) {
 
-		String query = "SELECT * FROM country WHERE countryName = ? ";
 		List<String> intList = new ArrayList<String>();
 		intList.add(country.getCountryName());
 		Country tempCountry = null;
 		boolean status = false;
 		try {
-			tempCountry = (Country) jdbcTemplate.query(query, intList.toArray(), new CountryExtractor());
-			System.out.println(tempCountry);
+			tempCountry = (Country) jdbcTemplate.query(QueryConstants.ISCOUNTRYEXIST, intList.toArray(),
+					new CountryExtractor());
 			if (!StringUtils.isEmpty(tempCountry)) {
 				status = true;
 			} else {

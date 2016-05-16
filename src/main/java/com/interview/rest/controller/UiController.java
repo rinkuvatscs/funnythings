@@ -23,6 +23,7 @@ import com.interview.mysql.TopicService;
 import com.interview.pojo.Country;
 import com.interview.pojo.Topic;
 import com.interview.pojo.UserDetail;
+import com.mysql.jdbc.StringUtils;
 
 @RestController
 @RequestMapping(value = "/interviewservice/UiController/")
@@ -115,6 +116,41 @@ public class UiController {
 		}
 
 		return new ModelAndView("FileSearchResult").addObject("fileLoc", fileLocation);
+	}
+
+	private List<Country> getCountryList() {
+
+		List<Country> countryList = null;
+		countryList = countryServiceImpl.getCountry();
+
+		if (countryList == null) {
+			countryList = new ArrayList<Country>();
+		}
+		return countryList;
+	}
+
+	@RequestMapping(value = "/addCountry")
+	public ModelAndView addCountry() {
+
+		return new ModelAndView("addCountry").addObject("countryName", getCountryList());
+	}
+
+	@RequestMapping(value = "/addCountryAction")
+	public ModelAndView addCountryAction(@RequestParam String countryName) {
+
+		Country country = null;
+		String cntry = null;
+		if (!StringUtils.isNullOrEmpty(countryName)) {
+			country = new Country();
+			country.setCountryName(countryName);
+			cntry = countryServiceImpl.addCountry(country);
+			System.out.println(cntry);
+		}
+		if (StringUtils.isNullOrEmpty(cntry)) {
+			return new ModelAndView("addCountry").addObject("countryName", "Country not added, please try again.");
+		}
+
+		return new ModelAndView("addCountry").addObject("msg", cntry).addObject("countryName", getCountryList());
 	}
 
 }
