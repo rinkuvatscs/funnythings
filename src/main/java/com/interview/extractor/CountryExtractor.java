@@ -15,8 +15,9 @@ public class CountryExtractor implements ResultSetExtractor<Object> {
 		Country country = null;
 		if (rs.next()) {
 			country = new Country();
-			country.setCountryCode(rs.getInt("id"));
+			country.setCountryCode(rs.getInt("countryCode"));
 			country.setCountryName(rs.getString("countryName"));
+			country.setStatus(rs.getString("status"));
 		}
 		return country;
 	}

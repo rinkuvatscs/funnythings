@@ -19,26 +19,6 @@ public class CountryServiceImpl implements CountryService {
 
 	public static final String SELECT_COUNTRY = "select * from country where id = ?";
 	public static final String INSERT_COUNTRY = " INSERT INTO Country (countryCode,countryName) VALUES (0, ?) ";
-	/*
-	 * country --country_id,country_name
-	 * 
-	 * country_states country_id,state_id,state_name
-	 * 
-	 * 
-	 * create table country(country_id number, country_name varchar2(300))
-	 * 
-	 * insert into country values(2,'PAKISTAN')
-	 * 
-	 * SELECT * FROM COUNTRY
-	 * 
-	 * CREATE TABLE COUNTRY_STATES(COUNTRY_ID NUMBER,STATE_ID NUMBER,STATE_NAME
-	 * VARCHAR2(30))
-	 * 
-	 * INSERT INTO COUNTRY_STATES VALUES(2,2,'YY')
-	 * 
-	 * SELECT B.COUNTRY_ID,B.COUNTRY_NAME ,A.STATE_NAME FROM COUNTRY_STATES
-	 * A,COUNTRY B WHERE A.COUNTRY_ID=B.COUNTRY_ID AND B.COUNTRY_NAME='INDIA'
-	 */
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -61,29 +41,16 @@ public class CountryServiceImpl implements CountryService {
 			intList.add(country.getCountryName());
 			if (!isCountryExist(country)) {
 				int result = jdbcTemplate.update(INSERT_COUNTRY, intList.toArray());
-				// GORU TODO Need to explain why using
-				// jdbcTemplate.update(query, intList)
-				/*
-				 * GORU in place of jdbcTemplate.update(query, intList) we
-				 * should use jdbcTemplate.update(query,
-				 * country.getCountryName());
-				 */
 				if (result > 0) {
-					response = country + " " + "Country Is Added";
+					response = "Country " + country.getCountryName() + " " + "is Added";
 				} else {
 					response = "Sorry , Can not add " + country;
 				}
 			} else {
-
-				if (country.getStatus().equalsIgnoreCase("D")) {
-					activateDeactivateCountryByCountryName(MysqlOperations.ACTIVATE, country.getCountryName());
-					response = country + " " + "Country Is Activated";
-				}
-
-				response = country + " " + "Country Is already exists";
+				response = "Country " + country.getCountryName() + " " + "is already exists";
 			}
 		} else {
-			response = "Please Check your Country Name";
+			response = "Please Check your Country Name, either it is empty or unknown country";
 		}
 
 		return response;
@@ -155,14 +122,15 @@ public class CountryServiceImpl implements CountryService {
 
 	private boolean isCountryExist(Country country) {
 
-		String query = "select * from country where country_name = ? ";
+		String query = "SELECT * FROM country WHERE countryName = ? ";
 		List<String> intList = new ArrayList<String>();
 		intList.add(country.getCountryName());
 		Country tempCountry = null;
 		boolean status = false;
 		try {
 			tempCountry = (Country) jdbcTemplate.query(query, intList.toArray(), new CountryExtractor());
-			if (!StringUtils.isEmpty(tempCountry) && !StringUtils.isEmpty(tempCountry.getStatus())) {
+			System.out.println(tempCountry);
+			if (!StringUtils.isEmpty(tempCountry)) {
 				status = true;
 			} else {
 				status = false;
