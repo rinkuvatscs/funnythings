@@ -62,42 +62,60 @@ public class StateServiceImpl implements StateService {
 
 	
 
-/*	@Override
+	@Override
 	public int getStateCodeByStateNameAndCountryId(int countryId,
 			String stateName) {
+		List<State> stateList = null;
 		String query = "select * from state where country_id= ? AND state_name= ?";
 		List<String> intList = new ArrayList<String>();
 		intList.add(String.valueOf(countryId));
 		intList.add(stateName);
-		int list = new ArrayList<>();
-		list = jdbcTemplate.update(query, intList.toArray(), new StateExtractor());
-		return 0;
+		stateList  = jdbcTemplate.query(query, intList.toArray(), new StateExtractor());
+		State state = stateList.get(0);
+		int stateid = state.getState_id();
+		return stateid;
 	}
 
 	@Override
 	public String getStateNmaeByStateIdAndCountryId(int countryId, int stateId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<State> stateList = null;
+		String query = "select * from state where country_id= ? AND state_id = ?";
+		List<Integer> intList = new ArrayList<Integer>();
+		intList.add(countryId);
+		intList.add(stateId);
+		stateList  = jdbcTemplate.query(query, intList.toArray(), new StateExtractor());
+		State state = stateList.get(0);
+		String statename= state.getState_name();
+		return statename;
 	}
 
 	@Override
 	public String modifyStateName(int countryId, String oldStateName,
 			String newStateName) {
-		
+		String responce = null;
+	
 		String updateQuery = "update state set state_name = ? where state_name=? AND country_id=?";
 		List<String> intList = new ArrayList<String>();
 		intList.add(newStateName);
 		intList.add(oldStateName);
 		intList.add(String.valueOf(countryId));
-		jdbcTemplate.update(updateQuery, intList.toArray());
-		int stateId = getStateCodeByStateNameAndCountryId(countryId,newStateName);
-		return getStateNmaeByStateIdAndCountryId(countryId,stateId);
+	
+			int result = jdbcTemplate.update(updateQuery, intList.toArray());
+
+			if (result > 0) {
+				int stateId = getStateCodeByStateNameAndCountryId(countryId,newStateName);
+				responce = getStateNmaeByStateIdAndCountryId(countryId,stateId) + " " + "state Is modified";
+			} else {
+				responce = "Sorry , Can not modified" + oldStateName;
+			}
+		
+		return responce;
 	}
 
-	*/
+	
 
-	@Override
-	public boolean isStateExist(State state , int countryId) {
+
+	private boolean isStateExist(State state , int countryId) {
 
 		boolean response = false;
 		List<String> args = new ArrayList<>();
