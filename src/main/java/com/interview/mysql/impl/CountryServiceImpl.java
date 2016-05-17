@@ -46,7 +46,13 @@ public class CountryServiceImpl implements CountryService {
 					response = "Sorry , Can not add " + country;
 				}
 			} else {
-				response = "Country " + country.getCountryName() + " " + "is already exists";
+				if (!country.getStatus().equals("A")) {
+					activateDeactivateCountryByCountryName(MysqlOperations.ACTIVATE, country.getCountryName());
+					response = "Country " + country.getCountryName() + " "
+							+ "is already exists therefore making active";
+				} else {
+					response = "Country " + country.getCountryName() + " " + "is already exists and Active";
+				}
 			}
 		} else {
 			response = "Please Check your Country Name, either it is empty or unknown country";
@@ -106,12 +112,11 @@ public class CountryServiceImpl implements CountryService {
 			query = QueryConstants.UPDATE_TO_ACTIVATE;
 		} else if (mysqlOperations.toString().equalsIgnoreCase(MysqlOperations.DEACTIVATE.toString())) {
 			query = QueryConstants.UPDATE_TO_DEACTIVATE;
-			;
 		}
 		List<String> intList = new ArrayList<String>();
 		intList.add(countryName);
-		jdbcTemplate.update(query, intList);
-		return "Country is modified";
+		jdbcTemplate.update(query, intList.toArray());
+		return "Modifed";
 	}
 
 	@Override
@@ -121,7 +126,8 @@ public class CountryServiceImpl implements CountryService {
 		return countryList;
 	}
 
-	private boolean isCountryExist(Country country) {
+	@Override
+	public boolean isCountryExist(Country country) {
 
 		List<String> intList = new ArrayList<String>();
 		intList.add(country.getCountryName());
@@ -131,6 +137,7 @@ public class CountryServiceImpl implements CountryService {
 			tempCountry = (Country) jdbcTemplate.query(QueryConstants.ISCOUNTRYEXIST, intList.toArray(),
 					new CountryExtractor());
 			if (!StringUtils.isEmpty(tempCountry)) {
+				country.setStatus(tempCountry.getStatus());
 				status = true;
 			} else {
 				status = false;
@@ -140,5 +147,4 @@ public class CountryServiceImpl implements CountryService {
 		}
 		return status;
 	}
-
 }

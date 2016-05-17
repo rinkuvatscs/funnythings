@@ -144,12 +144,10 @@ public class UiController {
 			country = new Country();
 			country.setCountryName(countryName);
 			cntry = countryServiceImpl.addCountry(country);
-			System.out.println(cntry);
 		}
 		if (StringUtils.isNullOrEmpty(cntry)) {
 			return new ModelAndView("addCountry").addObject("countryName", "Country not added, please try again.");
 		}
-
 		return new ModelAndView("addCountry").addObject("msg", cntry).addObject("countryName", getCountryList());
 	}
 

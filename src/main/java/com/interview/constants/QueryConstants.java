@@ -31,7 +31,6 @@ public class QueryConstants {
 	public static final String SELECT_COUNTRY = "SELECT * FROM country WHERE countryCode = ?";
 	public static final String INSERT_COUNTRY = " INSERT INTO Country (countryCode,countryName) VALUES (0, ?) ";
 	
-	
 
 	/* SELECT * from (sabha.interview_detail as intd Inner Join sabha.user_details usrd on intd.userid = usrd.userid ) 
 	inner join sabha.topics as top on top.topic_id =  intd.topic_id inner join sabha.country as cnt 

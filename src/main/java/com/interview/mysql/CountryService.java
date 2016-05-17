@@ -18,5 +18,7 @@ public interface CountryService {
 	public String activateDeactivateCountryByCountryName(MysqlOperations mysqlOperations, String countryName);
 
 	public List<Country> getCountry();
+	
+	public boolean isCountryExist(Country country);
 
 }
