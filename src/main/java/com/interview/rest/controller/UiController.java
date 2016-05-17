@@ -129,15 +129,18 @@ public class UiController {
 		return countryList;
 	}
 
-	@RequestMapping(value = "/addCountry")
+	@RequestMapping(value = "/viewCountry")
 	public ModelAndView addCountry() {
 
 		return new ModelAndView("addCountry").addObject("countryName", getCountryList());
 	}
 
-	@RequestMapping(value = "/addCountryAction")
-	public ModelAndView addCountryAction(@RequestParam String countryName) {
+	@RequestMapping(value = "/CountryAction")
+	public ModelAndView CountryAction(@RequestParam String countryName, @RequestParam("radiobtn") String operation) {
 
+		if(operation.equals("Add")){
+			
+		}
 		Country country = null;
 		String cntry = null;
 		if (!StringUtils.isNullOrEmpty(countryName)) {
@@ -150,5 +153,4 @@ public class UiController {
 		}
 		return new ModelAndView("addCountry").addObject("msg", cntry).addObject("countryName", getCountryList());
 	}
-
 }

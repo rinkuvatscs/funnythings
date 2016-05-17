@@ -9,11 +9,9 @@
 <title>Add Country</title>
 </head>
 <body>
-	<center>
-		<h1>Add Country Service</h1>
-	</center>
-	<form action="/interviewservice/UiController/addCountryAction"
+	<form action="/interviewservice/UiController/CountryAction"
 		method="post">
+		<h1>Add Country Service</h1>
 		<table border="1">
 			<tr>
 				<td><label>List of countries already added : </label></td>
@@ -30,6 +28,12 @@
 				<td><input type="text" name="countryName"></td>
 			</tr>
 			<tr>
+				<td><label>Add or Delete</</label></td>
+				<td><input type="radio" name="radiobtn" value="Add" /><label>Add</label>
+					<input type="radio" name="radiobtn" value="Delete" /><label>Delete</label>
+				</td>
+			</tr>
+			<tr>
 				<td><label>Click to submit</label></td>
 				<td><center>
 						<input type="submit" name="submit" value="Submit">
@@ -38,5 +42,7 @@
 		</table>
 	</form>
 	${msg}
+
+
 </body>
 </html>
