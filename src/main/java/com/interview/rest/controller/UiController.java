@@ -2,6 +2,7 @@ package com.interview.rest.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +26,8 @@ import com.interview.mysql.TopicService;
 import com.interview.pojo.Country;
 import com.interview.pojo.Topic;
 import com.interview.pojo.UserDetail;
+import com.interview.util.ExceptionCodes;
+import com.interview.util.MysqlOperations;
 import com.mysql.jdbc.StringUtils;
 
 @RestController
@@ -132,25 +137,49 @@ public class UiController {
 	@RequestMapping(value = "/viewCountry")
 	public ModelAndView addCountry() {
 
-		return new ModelAndView("addCountry").addObject("countryName", getCountryList());
+		return new ModelAndView("countryServiceOperation").addObject("countryName", getCountryList());
 	}
 
 	@RequestMapping(value = "/CountryAction")
 	public ModelAndView CountryAction(@RequestParam String countryName, @RequestParam("radiobtn") String operation) {
 
-		if(operation.equals("Add")){
-			
-		}
 		Country country = null;
 		String cntry = null;
-		if (!StringUtils.isNullOrEmpty(countryName)) {
-			country = new Country();
-			country.setCountryName(countryName);
-			cntry = countryServiceImpl.addCountry(country);
+		if (operation.equals("Add")) {
+			if (!StringUtils.isNullOrEmpty(countryName)) {
+				country = new Country();
+				country.setCountryName(countryName);
+				cntry = countryServiceImpl.addCountry(country);
+			}
+		} else if (operation.equals("Delete")) {
+			cntry = countryServiceImpl.activateDeactivateCountryByCountryName(MysqlOperations.DEACTIVATE, countryName);
+		} else {
+			cntry = "Please provide operation name.";
 		}
+
 		if (StringUtils.isNullOrEmpty(cntry)) {
-			return new ModelAndView("addCountry").addObject("countryName", "Country not added, please try again.");
+			return new ModelAndView("countryServiceOperation").addObject("countryName",
+					"Country not added, please try again.");
 		}
-		return new ModelAndView("addCountry").addObject("msg", cntry).addObject("countryName", getCountryList());
+		return new ModelAndView("countryServiceOperation").addObject("msg", cntry).addObject("countryName",
+				getCountryList());
+	}
+
+	@ExceptionHandler(Exception.class)
+	@RequestMapping(value = "/error")
+	public ModelAndView error(@RequestParam Exception exception) {
+
+		ModelAndView mav = new ModelAndView();
+		if (exception instanceof SQLException) {
+			mav.addObject("exception", ExceptionCodes.INTERVIEWSERVICE_SQL);
+		} else if (exception instanceof NullPointerException) {
+			mav.addObject("exception", ExceptionCodes.INTERVIEWSERVICE_NULL);
+		} else if (exception instanceof MissingServletRequestParameterException) {
+			mav.addObject("exception", ExceptionCodes.INTERVIEWSERVICE_MISSING_PARAMETER);
+		} else if (exception instanceof FileNotFoundException) {
+			mav.addObject("exception", ExceptionCodes.INTERVIEWSERVICE_FILEMISSING);
+		}
+		mav.setViewName("errorPage");
+		return mav;
 	}
 }
