@@ -116,7 +116,7 @@ public class CountryServiceImpl implements CountryService {
 		List<String> intList = new ArrayList<String>();
 		intList.add(countryName);
 		jdbcTemplate.update(query, intList.toArray());
-		return "Modifed";
+		return countryName +" has been deleted ";
 	}
 
 	@Override
