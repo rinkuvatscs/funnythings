@@ -11,7 +11,7 @@
 <body>
 	<form action="/interviewservice/UiController/CountryAction"
 		method="post">
-		<h1>Add Country Service</h1>
+		<h1>Country Service</h1>
 		<table border="1">
 			<tr>
 				<td><label>List of countries already added : </label></td>
