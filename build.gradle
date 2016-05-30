@@ -46,6 +46,12 @@ dependencies {
     compile("jstl:jstl:1.2")
     providedRuntime("org.apache.tomcat.embed:tomcat-embed-jasper")
 	//testCompile("org.springframework.boot:spring-boot-starter-test") 
+	// http://mvnrepository.com/artifact/org.springframework/spring-aspects
+	compile group: 'org.springframework', name: 'spring-aspects', version: '4.2.6.RELEASE'
+	// http://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '1.3.5.RELEASE'
+	
+	
 }
 
 

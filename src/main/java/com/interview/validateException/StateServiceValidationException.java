@@ -2,7 +2,7 @@ package com.interview.validateException;
 
 import org.springframework.http.HttpStatus;
 
-public class ValidationException extends Exception{
+public class StateServiceValidationException extends Exception{
 
 	/**
 	 * 
@@ -27,10 +27,10 @@ public class ValidationException extends Exception{
 	
 	
 	
-	public ValidationException(){
+	public StateServiceValidationException(){
 		
 	}
-	public ValidationException(String message, HttpStatus httpStatus) {
+	public StateServiceValidationException(String message, HttpStatus httpStatus) {
 		super();
 		this.message = message;
 		this.httpStatus = httpStatus;

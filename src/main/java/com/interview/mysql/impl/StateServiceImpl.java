@@ -24,53 +24,34 @@ public class StateServiceImpl implements StateService {
 	@Override
 	public String addState(int countryId, String stateName) {
 		String response = null;
-		
+
 		State state = new State();
 		state.setState_name(stateName);
-		
+
 		List<String> intList = new ArrayList<String>();
 		intList.add(String.valueOf(countryId));
 		intList.add(stateName);
 		intList.add("A");
-		if(!StringUtils.isEmpty(stateName)){
-			if(!isStateExist(state,countryId)){
-				int result = jdbcTemplate.update(ADD_STATE, intList.toArray());
-				
-				if (result > 0) {
-					response = state + " " + "state Is Added";
-				} else {
-					response = "Sorry , Can not add " + state;
-				}
-				
-			}
-		
-		else{
-			if (state.getStatus().equalsIgnoreCase("D")) {
-				activateDeactivateStateByStateNameAndCountry_Id(
-						MysqlOperations.ACTIVATE, state.getState_name(),countryId);
-				response = state + " " + "state Is Activated";
-			}
-			
-			response = state + " " + "state Is already exists";
+
+		int result =  0;//jdbcTemplate.update(ADD_STATE, intList.toArray());
+
+		if (result > 0) {
+			response = state + " " + "state Is Added";
+		} else {
+			response = "Sorry , Can not add " + state;
 		}
-		}else {
-			response = "Please Check your state Name";
-		}
-		
+
 		return response;
 	}
 
-	
-
 	@Override
-	public int getStateCodeByStateNameAndCountryId(int countryId,
-			String stateName) {
+	public int getStateCodeByStateNameAndCountryId(int countryId, String stateName) {
 		List<State> stateList = null;
 		String query = "select * from state where country_id= ? AND state_name= ?";
 		List<String> intList = new ArrayList<String>();
 		intList.add(String.valueOf(countryId));
 		intList.add(stateName);
-		stateList  = jdbcTemplate.query(query, intList.toArray(), new StateExtractor());
+		stateList = jdbcTemplate.query(query, intList.toArray(), new StateExtractor());
 		State state = stateList.get(0);
 		int stateid = state.getState_id();
 		return stateid;
@@ -83,74 +64,45 @@ public class StateServiceImpl implements StateService {
 		List<Integer> intList = new ArrayList<Integer>();
 		intList.add(countryId);
 		intList.add(stateId);
-		stateList  = jdbcTemplate.query(query, intList.toArray(), new StateExtractor());
+		stateList = jdbcTemplate.query(query, intList.toArray(), new StateExtractor());
 		State state = stateList.get(0);
-		String statename= state.getState_name();
+		String statename = state.getState_name();
 		return statename;
 	}
 
 	@Override
-	public String modifyStateName(int countryId, String oldStateName,
-			String newStateName) {
+	public String modifyStateName(int countryId, String oldStateName, String newStateName) {
 		String responce = null;
-	
+
 		String updateQuery = "update state set state_name = ? where state_name=? AND country_id=?";
 		List<String> intList = new ArrayList<String>();
 		intList.add(newStateName);
 		intList.add(oldStateName);
 		intList.add(String.valueOf(countryId));
-	
-			int result = jdbcTemplate.update(updateQuery, intList.toArray());
 
-			if (result > 0) {
-				int stateId = getStateCodeByStateNameAndCountryId(countryId,newStateName);
-				responce = getStateNmaeByStateIdAndCountryId(countryId,stateId) + " " + "state Is modified";
-			} else {
-				responce = "Sorry , Can not modified" + oldStateName;
-			}
-		
+		int result = jdbcTemplate.update(updateQuery, intList.toArray());
+
+		if (result > 0) {
+			int stateId = getStateCodeByStateNameAndCountryId(countryId, newStateName);
+			responce = getStateNmaeByStateIdAndCountryId(countryId, stateId) + " " + "state Is modified";
+		} else {
+			responce = "Sorry , Can not modified" + oldStateName;
+		}
+
 		return responce;
 	}
 
-	
-
-
-	private boolean isStateExist(State state , int countryId) {
-
-		boolean response = false;
-		List<String> args = new ArrayList<>();
-		args.add(String.valueOf(countryId));
-		args.add(state.getState_name().toLowerCase());
-		try {
-			List<State> stateList = jdbcTemplate.query(STATE_EXIST,
-					args.toArray(), new StateExtractor());
-			if (!StringUtils.isEmpty(stateList) && stateList.size() < 0) {
-				state.setState_id(stateList.get(0).getState_id());
-				state.setStatus(stateList.get(0).getStatus());
-				response = true;
-			} else {
-				response = false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			response = false;
-		}
-
-		return response;
-	}
-
 	@Override
-	public String activateDeactivateStateByStateNameAndCountry_Id(MysqlOperations mysqlOperations, String stateName ,int countryId) {
+	public String activateDeactivateStateByStateNameAndCountry_Id(MysqlOperations mysqlOperations, String stateName,
+			int countryId) {
 		String query = null;
 		/* String query ="DELETE FROM state WHERE state_name = ?"; */
 		/*
 		 * At THe Time of deletion we will not delete state we will disable it
 		 */
-		if (mysqlOperations.toString().equalsIgnoreCase(
-				MysqlOperations.ACTIVATE.toString())) {
+		if (mysqlOperations.toString().equalsIgnoreCase(MysqlOperations.ACTIVATE.toString())) {
 			query = "UPDATE state set status = 'A' WHERE country_id = ? AND state_name = ?";
-		} else if (mysqlOperations.toString().equalsIgnoreCase(
-				MysqlOperations.DEACTIVATE.toString())) {
+		} else if (mysqlOperations.toString().equalsIgnoreCase(MysqlOperations.DEACTIVATE.toString())) {
 			query = "UPDATE state set status = 'D' WHERE country_id = ? AND state_name = ?";
 		}
 		List<String> args = new ArrayList<>();
@@ -160,18 +112,13 @@ public class StateServiceImpl implements StateService {
 		return "state is modified";
 	}
 
-
-
 	@Override
 	public List<State> getStateListByCountryId(int countryId) {
 		List<String> intList = new ArrayList<String>();
 		intList.add(String.valueOf(countryId));
 		String query = "select * from state where status = 'A' AND country_id = ? ";
-		List<State> stateList = jdbcTemplate.query(query,intList.toArray(),
-				new StateExtractor());
+		List<State> stateList = jdbcTemplate.query(query, intList.toArray(), new StateExtractor());
 		return stateList;
 	}
-	
-	
 
 }
