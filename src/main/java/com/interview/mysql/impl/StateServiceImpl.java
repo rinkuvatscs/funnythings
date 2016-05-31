@@ -12,6 +12,7 @@ import com.interview.extractor.StateExtractor;
 import com.interview.mysql.StateService;
 import com.interview.pojo.State;
 import com.interview.util.MysqlOperations;
+import com.interview.validator.LogDuration;
 
 @Repository
 public class StateServiceImpl implements StateService {
@@ -22,6 +23,7 @@ public class StateServiceImpl implements StateService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
+	@LogDuration("Add State API")
 	public String addState(int countryId, String stateName) {
 		String response = null;
 
@@ -71,6 +73,7 @@ public class StateServiceImpl implements StateService {
 	}
 
 	@Override
+	@LogDuration("Modify State API")
 	public String modifyStateName(int countryId, String oldStateName, String newStateName) {
 		String responce = null;
 
