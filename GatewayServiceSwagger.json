@@ -1,0 +1,1162 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Provisioning Gateway Service is the entry point for the fulfillment of Voice work orders.",
+        "version": "1.0",
+        "title": "ProvisioningGatewayService",
+        "termsOfService": "ProvisioningGatewayService"
+    },
+    "tags": [
+        {
+            "name": "ps-gateway-maintenance-controller",
+            "description": "PS Gateway Maintenance Controller"
+        },
+        {
+            "name": "provisioning-gateway-rest-controller",
+            "description": "Provisioning Gateway Rest Controller"
+        }
+    ],
+    "paths": {
+        "/provisioningGatewayService/application.wadl": {
+            "get": {
+                "tags": [
+                    "ps-gateway-maintenance-controller"
+                ],
+                "summary": "generateWadl",
+                "operationId": "generateWadlUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/xml"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Application"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/provisioningGatewayService/json/submitProvRequest": {
+            "post": {
+                "tags": [
+                    "provisioning-gateway-rest-controller"
+                ],
+                "summary": "Submit Provisioning Request",
+                "description": "SubmitProvisioning performs all the validations on the incoming request. If validation is success proceeds to switch provisioning,else send error message to consumer ",
+                "operationId": "SubmitProvisioningJsonUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "submitProvisioningReq",
+                        "description": "submitProvisioningReq",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SubmitProvisioning"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SubmitProvisioningResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Error processing request",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ComponentAddress": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "CM",
+                        "MTA",
+                        "STB",
+                        "DCM",
+                        "STBUA"
+                    ]
+                }
+            }
+        },
+        "ErrorSummary": {
+            "type": "object",
+            "properties": {
+                "attribute": {
+                    "type": "string"
+                },
+                "errorCode": {
+                    "type": "string"
+                },
+                "errorMessage": {
+                    "type": "string"
+                }
+            }
+        },
+        "Address": {
+            "type": "object",
+            "properties": {
+                "careOfLine": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string",
+                    "enum": [
+                        "US",
+                        "CAN"
+                    ]
+                },
+                "county": {
+                    "type": "string"
+                },
+                "locationID": {
+                    "type": "string"
+                },
+                "poBoxNumber": {
+                    "type": "string"
+                },
+                "province": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "streetAddress": {
+                    "type": "string"
+                },
+                "streetAddress2": {
+                    "type": "string"
+                },
+                "unitNumber": {
+                    "type": "string"
+                },
+                "unitType": {
+                    "type": "string"
+                },
+                "zip4Code": {
+                    "type": "string"
+                },
+                "zipCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "SubmitProvisioningResponse": {
+            "type": "object",
+            "properties": {
+                "submitProvisioningResponseType": {
+                    "$ref": "#/definitions/ArrayOfSubmitProvisioningResponseType"
+                },
+                "submitProvisioningReturn": {
+                    "$ref": "#/definitions/SubmitProvisioningResponse"
+                }
+            }
+        },
+        "ArrayOfServiceConfigurations": {
+            "type": "object",
+            "properties": {
+                "serviceConfigurations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ServiceConfiguration"
+                    }
+                }
+            }
+        },
+        "ArrayOfSubmitProvisioningResponseType": {
+            "type": "object",
+            "properties": {
+                "submitProvisioningResponseTypes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SubmitProvisioningResponseType"
+                    }
+                }
+            }
+        },
+        "ArrayOfResourceConfigurations": {
+            "type": "object",
+            "properties": {
+                "resourceConfigurations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceConfiguration"
+                    }
+                }
+            }
+        },
+        "Include": {
+            "type": "object",
+            "properties": {
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "href": {
+                    "type": "string"
+                },
+                "otherAttributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "SubmitProvisioningResponseType": {
+            "type": "object",
+            "properties": {
+                "errorSummaryList": {
+                    "$ref": "#/definitions/ArrayOfErrorSummary"
+                },
+                "lineOfBusiness": {
+                    "type": "string",
+                    "enum": [
+                        "VO_IP"
+                    ]
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tnStatusList": {
+                    "$ref": "#/definitions/ArrayOfTnStatus"
+                }
+            }
+        },
+        "SubmitProvisioning": {
+            "type": "object",
+            "properties": {
+                "provisioningReqType": {
+                    "$ref": "#/definitions/SubmitProvisioningType"
+                }
+            }
+        },
+        "ResourceConfiguration": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DELETE",
+                        "MODIFY",
+                        "NO_CHANGE"
+                    ]
+                },
+                "configName": {
+                    "type": "string"
+                },
+                "configValue": {
+                    "type": "string"
+                }
+            }
+        },
+        "ServiceRequestEquipment": {
+            "type": "object",
+            "properties": {
+                "componentAddress": {
+                    "$ref": "#/definitions/ArrayOfComponentAddress"
+                },
+                "customerOwned": {
+                    "type": "boolean"
+                },
+                "make": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "serialNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "ArrayOfService": {
+            "type": "object",
+            "properties": {
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Service"
+                    }
+                }
+            }
+        },
+        "ArrayOfErrorSummary": {
+            "type": "object",
+            "properties": {
+                "errorSummaries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ErrorSummary"
+                    }
+                }
+            }
+        },
+        "ServiceConfiguration": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DELETE",
+                        "MODIFY",
+                        "NO_CHANGE"
+                    ]
+                },
+                "configName": {
+                    "type": "string"
+                },
+                "configValue": {
+                    "type": "string"
+                }
+            }
+        },
+        "SubmitProvisioningType": {
+            "type": "object",
+            "properties": {
+                "addressContact": {
+                    "$ref": "#/definitions/AddressContact"
+                },
+                "customerName": {
+                    "$ref": "#/definitions/PersonName"
+                },
+                "equipmentList": {
+                    "$ref": "#/definitions/ArrayOfEquipment"
+                },
+                "provisioningAttributes": {
+                    "$ref": "#/definitions/ProvisioningAttributes"
+                },
+                "serviceList": {
+                    "$ref": "#/definitions/ArrayOfService"
+                }
+            }
+        },
+        "ArrayOfFeatureConfigurations": {
+            "type": "object",
+            "properties": {
+                "featConfigurations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FeatureConfiguration"
+                    }
+                }
+            }
+        },
+        "ServiceRequestCustomerFeature": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DISCONNECT",
+                        "SEASONAL_RESUME",
+                        "CHANGE",
+                        "NOCHANGE",
+                        "SEASONAL_SUSPEND",
+                        "NONPAY_SUSPEND",
+                        "NONPAY_RESUME",
+                        "ADD_CANCEL",
+                        "DISCONNECT_CANCEL",
+                        "DISABLE",
+                        "RESTORE"
+                    ]
+                },
+                "featConfigurationList": {
+                    "$ref": "#/definitions/ArrayOfFeatureConfigurations"
+                },
+                "featName": {
+                    "type": "string"
+                }
+            }
+        },
+        "Doc": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "lang": {
+                    "type": "string"
+                },
+                "otherAttributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "ArrayOfServiceResource": {
+            "type": "object",
+            "properties": {
+                "serviceResources": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ServiceResource"
+                    }
+                }
+            }
+        },
+        "ServiceResource": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DISCONNECT",
+                        "SEASONAL_RESUME",
+                        "CHANGE",
+                        "NOCHANGE",
+                        "SEASONAL_SUSPEND",
+                        "NONPAY_SUSPEND",
+                        "NONPAY_RESUME",
+                        "ADD_CANCEL",
+                        "DISCONNECT_CANCEL",
+                        "DISABLE",
+                        "RESTORE"
+                    ]
+                },
+                "locationID": {
+                    "type": "string"
+                },
+                "portOutRequired": {
+                    "type": "boolean"
+                },
+                "portingRequired": {
+                    "type": "boolean"
+                },
+                "productID": {
+                    "type": "string"
+                },
+                "rateCenterTransferFlag": {
+                    "type": "boolean"
+                },
+                "resourceConfigurationList": {
+                    "$ref": "#/definitions/ArrayOfResourceConfigurations"
+                }
+            }
+        },
+        "ProvisioningAttributes": {
+            "type": "object",
+            "properties": {
+                "cancelFlag": {
+                    "type": "boolean"
+                },
+                "cosID": {
+                    "type": "string"
+                },
+                "createDate": {
+                    "$ref": "#/definitions/XMLGregorianCalendar"
+                },
+                "customerID": {
+                    "type": "string"
+                },
+                "dwellingType": {
+                    "type": "string",
+                    "enum": [
+                        "RESI",
+                        "BUS",
+                        "MDU",
+                        "TOPDOWN",
+                        "VIDEO"
+                    ]
+                },
+                "housekey": {
+                    "type": "string"
+                },
+                "lastUpdatedTime": {
+                    "$ref": "#/definitions/XMLGregorianCalendar"
+                },
+                "locationID": {
+                    "type": "string"
+                },
+                "marketID": {
+                    "type": "string"
+                },
+                "noTruckFlag": {
+                    "type": "string"
+                },
+                "orderType": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DISCONNECT",
+                        "CHANGE"
+                    ]
+                },
+                "partnerId": {
+                    "type": "string"
+                },
+                "serviceLob": {
+                    "type": "string",
+                    "enum": [
+                        "CDV"
+                    ]
+                },
+                "transActionType": {
+                    "type": "string"
+                },
+                "transferCustomerId": {
+                    "type": "string"
+                }
+            }
+        },
+        "ArrayOfComponentAddress": {
+            "type": "object",
+            "properties": {
+                "componentAddresses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ComponentAddress"
+                    }
+                }
+            }
+        },
+        "PersonName": {
+            "type": "object",
+            "properties": {
+                "displayName": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "middleName": {
+                    "type": "string"
+                },
+                "suffix": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "AddressContact": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/Address"
+                },
+                "addressType": {
+                    "type": "string",
+                    "enum": [
+                        "HOME",
+                        "WORK",
+                        "RENTAL_UNIT",
+                        "VACATION_HOME"
+                    ]
+                },
+                "businessContactType": {
+                    "type": "string",
+                    "enum": [
+                        "TECHNICAL",
+                        "BUSINESS"
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "QName": {
+            "type": "object",
+            "properties": {
+                "localPart": {
+                    "type": "string"
+                },
+                "namespaceURI": {
+                    "type": "string"
+                },
+                "prefix": {
+                    "type": "string"
+                }
+            }
+        },
+        "Resource": {
+            "type": "object",
+            "properties": {
+                "any": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "methodOrResource": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "otherAttributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "param": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Param"
+                    }
+                },
+                "path": {
+                    "type": "string"
+                },
+                "queryType": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "Service": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DISCONNECT",
+                        "SEASONAL_RESUME",
+                        "CHANGE",
+                        "NOCHANGE",
+                        "SEASONAL_SUSPEND",
+                        "NONPAY_SUSPEND",
+                        "NONPAY_RESUME",
+                        "ADD_CANCEL",
+                        "DISCONNECT_CANCEL",
+                        "DISABLE",
+                        "RESTORE"
+                    ]
+                },
+                "deliveryPlatform": {
+                    "type": "string"
+                },
+                "desiredServiceDate": {
+                    "$ref": "#/definitions/XMLGregorianCalendar"
+                },
+                "earliestPossibleDate": {
+                    "$ref": "#/definitions/XMLGregorianCalendar"
+                },
+                "lineOfBusiness": {
+                    "type": "string",
+                    "enum": [
+                        "VO_IP"
+                    ]
+                },
+                "primaryIndicator": {
+                    "type": "boolean"
+                },
+                "productID": {
+                    "type": "string"
+                },
+                "serviceConfigurationList": {
+                    "$ref": "#/definitions/ArrayOfServiceConfigurations"
+                },
+                "serviceFeatureList": {
+                    "$ref": "#/definitions/ArrayOfServiceFeature"
+                },
+                "serviceResourceList": {
+                    "$ref": "#/definitions/ArrayOfServiceResource"
+                }
+            }
+        },
+        "FeatureConfiguration": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DELETE",
+                        "MODIFY",
+                        "NO_CHANGE"
+                    ]
+                },
+                "configName": {
+                    "type": "string"
+                },
+                "configValue": {
+                    "type": "string"
+                }
+            }
+        },
+        "TnStatus": {
+            "type": "object",
+            "properties": {
+                "tn": {
+                    "type": "string"
+                },
+                "tnStatus": {
+                    "type": "string"
+                }
+            }
+        },
+        "ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "detailMap": {
+                    "type": "object"
+                },
+                "details": {
+                    "type": "object"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "validationMessages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "ArrayOfEquipment": {
+            "type": "object",
+            "properties": {
+                "equipments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Equipment"
+                    }
+                }
+            }
+        },
+        "XMLGregorianCalendar": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "fractionalSecond": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "hour": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "millisecond": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minute": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "month": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "second": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "timezone": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "Equipment": {
+            "type": "object",
+            "properties": {
+                "acquisitionMethod": {
+                    "type": "string",
+                    "enum": [
+                        "CUSTOMER_PICKUP",
+                        "PROFESSIONAL_INSTALL",
+                        "SHIPPED",
+                        "RETAINED",
+                        "RMA",
+                        "RMA_CM_EMTA_KIT",
+                        "RMA_SMALL_KIT",
+                        "RMA_LARGE_KIT",
+                        "RMA_LABEL_KIT"
+                    ]
+                },
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "ADD",
+                        "DISCONNECT",
+                        "SEASONAL_RESUME",
+                        "CHANGE",
+                        "NOCHANGE",
+                        "SEASONAL_SUSPEND",
+                        "NONPAY_SUSPEND",
+                        "NONPAY_RESUME",
+                        "ADD_CANCEL",
+                        "DISCONNECT_CANCEL",
+                        "DISABLE",
+                        "RESTORE"
+                    ]
+                },
+                "actionReason": {
+                    "type": "string",
+                    "enum": [
+                        "LOST",
+                        "DEFECTIVE",
+                        "DISCONNECT",
+                        "STOLEN",
+                        "NEW",
+                        "REPLACEMENT"
+                    ]
+                },
+                "deliveryPlatform": {
+                    "type": "string"
+                },
+                "lineOfBusiness": {
+                    "type": "string",
+                    "enum": [
+                        "VO_IP"
+                    ]
+                },
+                "locationID": {
+                    "type": "string"
+                },
+                "serviceRequestEquipment": {
+                    "$ref": "#/definitions/ServiceRequestEquipment"
+                }
+            }
+        },
+        "ArrayOfTnStatus": {
+            "type": "object",
+            "properties": {
+                "tnStatuses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TnStatus"
+                    }
+                }
+            }
+        },
+        "Param": {
+            "type": "object",
+            "properties": {
+                "any": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "default": {
+                    "type": "string"
+                },
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "fixed": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "link": {
+                    "$ref": "#/definitions/Link"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "option": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Option"
+                    }
+                },
+                "otherAttributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "path": {
+                    "type": "string"
+                },
+                "repeating": {
+                    "type": "boolean"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "style": {
+                    "type": "string",
+                    "enum": [
+                        "PLAIN",
+                        "QUERY",
+                        "MATRIX",
+                        "HEADER",
+                        "TEMPLATE"
+                    ]
+                },
+                "type": {
+                    "$ref": "#/definitions/QName"
+                }
+            }
+        },
+        "Option": {
+            "type": "object",
+            "properties": {
+                "any": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "mediaType": {
+                    "type": "string"
+                },
+                "otherAttributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "Resources": {
+            "type": "object",
+            "properties": {
+                "any": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "base": {
+                    "type": "string"
+                },
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "otherAttributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "resource": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Resource"
+                    }
+                }
+            }
+        },
+        "Application": {
+            "type": "object",
+            "properties": {
+                "any": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "grammars": {
+                    "$ref": "#/definitions/Grammars"
+                },
+                "resourceTypeOrMethodOrRepresentation": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Resources"
+                    }
+                }
+            }
+        },
+        "ArrayOfServiceFeature": {
+            "type": "object",
+            "properties": {
+                "serviceFeatures": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ServiceRequestCustomerFeature"
+                    }
+                }
+            }
+        },
+        "Grammars": {
+            "type": "object",
+            "properties": {
+                "any": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "include": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Include"
+                    }
+                }
+            }
+        },
+        "Link": {
+            "type": "object",
+            "properties": {
+                "any": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "doc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Doc"
+                    }
+                },
+                "otherAttributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "rel": {
+                    "type": "string"
+                },
+                "resourceType": {
+                    "type": "string"
+                },
+                "rev": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
